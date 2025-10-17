@@ -305,7 +305,6 @@
             border: 1px solid #93c5fd;
         }
 
-        /* Logo at top */
         .auth-logo {
             text-align: center;
             margin-bottom: 24px;
@@ -316,7 +315,6 @@
             animation: fadeInUp 0.8s ease-out;
         }
 
-        /* Loading spinner */
         .spinner {
             display: inline-block;
             width: 16px;
@@ -331,7 +329,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Password strength indicator */
         .password-strength {
             height: 4px;
             margin-top: 8px;
@@ -553,8 +550,8 @@
 
         console.log('Sending data:', userData);
 
-        // Send to backend
-        fetch('http://localhost:8080/api/patients/register', {
+        // Send to backend - FIXED: Use relative URL instead of hardcoded localhost
+        fetch('/api/patients/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
