@@ -308,7 +308,6 @@
             animation: fadeInUp 0.8s ease-out;
         }
 
-        /* Loading spinner */
         .spinner {
             display: inline-block;
             width: 16px;
@@ -323,7 +322,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Password toggle */
         .password-wrapper {
             position: relative;
         }
@@ -474,8 +472,8 @@
             console.log("Session OK");
         }
 
-        // Send to backend
-        fetch('http://localhost:8080/api/patients/login', {
+        // Send to backend - FIXED: Use relative URL instead of hardcoded localhost
+        fetch('/api/patients/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
