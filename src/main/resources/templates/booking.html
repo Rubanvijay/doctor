@@ -479,6 +479,7 @@
             });
 
             console.log('Response status:', res.status);
+            console.log('Response ok:', res.ok);
 
             if (res.status === 401) {
                 errorMessage.textContent = 'Please login first to book an appointment';
@@ -491,18 +492,40 @@
                 return;
             }
 
+            // Check if response is OK (status 200-299)
             if (!res.ok) {
-                const errorData = await res.text();
+                let errorData;
+                try {
+                    errorData = await res.text();
+                } catch (e) {
+                    errorData = 'Failed to book appointment';
+                }
                 console.error('Booking failed:', errorData);
                 throw new Error(errorData || 'Failed to book appointment');
             }
 
-            const result = await res.json();
-            console.log('Booking successful:', result);
+            // If we get here, the booking was successful
+            console.log('Booking successful! Status:', res.status);
+
+            // Try to parse JSON response, but don't fail if it's not JSON
+            let result;
+            try {
+                const contentType = res.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    result = await res.json();
+                    console.log('JSON Response:', result);
+                } else {
+                    result = await res.text();
+                    console.log('Text Response:', result);
+                }
+            } catch (parseError) {
+                console.log('Could not parse response, but booking was successful');
+            }
 
             // Show success message
             successMessage.style.display = 'block';
             submitBtn.innerHTML = '✓ Booked Successfully!';
+            submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
 
             // Scroll to success message
             successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
