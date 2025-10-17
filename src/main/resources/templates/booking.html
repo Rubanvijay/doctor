@@ -406,14 +406,22 @@
         if (!date || !branch) return renderTimeSlots();
 
         try {
-            const res = await fetch(`http://localhost:8080/api/bookings/timeslots?date=${date}&branch=${branch}`, {
+            // FIXED: Changed from http://localhost:8080 to relative URL
+            const res = await fetch(`/api/bookings/timeslots?date=${date}&branch=${encodeURIComponent(branch)}`, {
                 credentials: 'include'
             });
+
+            if (!res.ok) {
+                console.error('Failed to fetch time slots:', res.status);
+                renderTimeSlots(); // Show all slots if fetch fails
+                return;
+            }
+
             const bookedSlots = await res.json();
             renderTimeSlots(bookedSlots);
         } catch(err) {
-            console.error('Error fetching slots', err);
-            renderTimeSlots();
+            console.error('Error fetching slots:', err);
+            renderTimeSlots(); // Show all slots if fetch fails
         }
     }
 
@@ -456,6 +464,8 @@
             if (res.status === 401) {
                 errorMessage.textContent = 'Please login first to book an appointment';
                 errorMessage.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Book Appointment';
                 setTimeout(() => {
                     window.location.href = '/login';
                 }, 2000);
@@ -463,13 +473,19 @@
             }
 
             if (!res.ok) {
-                const errorText = await res.text();
-                throw new Error(errorText);
+                const errorData = await res.text();
+                throw new Error(errorData || 'Failed to book appointment');
             }
 
             // Show success message
             successMessage.style.display = 'block';
             submitBtn.innerHTML = '✓ Booked Successfully!';
+
+            // Reset form
+            document.getElementById('bookingForm').reset();
+            timeSlotsContainer.innerHTML = '';
+            selectedTimeInput.value = '';
+            selectedTimeDisplay.value = '';
 
             // Redirect to dashboard after 3 seconds
             setTimeout(() => {
@@ -477,7 +493,7 @@
             }, 3000);
 
         } catch(err) {
-            console.error(err);
+            console.error('Booking error:', err);
             errorMessage.textContent = err.message || 'Error booking appointment. Please try again.';
             errorMessage.style.display = 'block';
             submitBtn.disabled = false;
