@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: doctor-app
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: SPRING_DATA_MONGODB_URI
+        value: mongodb+srv://ruban:ruban123@cluster0.abcde.mongodb.net/doctor?retryWrites=true&w=majority
+      - key: SPRING_MAIL_USERNAME
+        value: rubanvijay1000@gmail.com
+      - key: SPRING_MAIL_PASSWORD
+        value: jjgb ktqi kmvw iefp
