@@ -1,10 +1,10 @@
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:21-jdk-alpine
 
 WORKDIR /app
 
 COPY . .
 
-# Make mvnw executable
+# Give execute permission to mvnw
 RUN chmod +x mvnw
 
 # Build the project
