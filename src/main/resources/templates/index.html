@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Dr. P.R. Durai - Homeopathic Consultant</title>
+    <meta name="description" content="Dr. P.R. Durai, B.H.M.S., (DELHI), M.D.(ACU) is a dedicated Homeopathic Consultant with years of experience in treating various ailments using natural remedies."/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="logo/logo3.png" type="image/x-icon"/>
+    <link rel="apple-touch-icon" href="logo/logo3.png"/>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kfw3z+0bVt1BciSknZ+jWq5TUmDqklyifkgYwYevwME0uq6vDqcmGSGXx4VGHfZ1pA7iZsbJqP0OjNF3JZC2nQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Dialogflow Messenger script -->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* Apply fonts globally */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        /* Headings with Poppins */
+        h1, h2, h3, h4, h5, h6, .title, .subtitle {
+            font-family: 'Poppins', 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Body text with Inter */
+        body, p, .paragraph, .paragraph-small, .nav-link {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Buttons */
+        .button-primary, .button-secondary {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        /* Enhanced Animation Keyframes */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeInRight {
+          from {
+            opacity: 0;
+            transform: translateX(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+          100% {
+            transform: translateY(0px);
+          }
+        }
+
+        @keyframes slideInFromLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slideInFromRight {
+          from {
+            opacity: 0;
+            transform: translateX(100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        /* NEW ANIMATIONS */
+        @keyframes bounceIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.3);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.05);
+          }
+          70% {
+            transform: scale(0.9);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes shake {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          10%, 30%, 50%, 70%, 90% {
+            transform: translateX(-5px);
+          }
+          20%, 40%, 60%, 80% {
+            transform: translateX(5px);
+          }
+        }
+
+        @keyframes rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes typewriter {
+          from {
+            width: 0;
+          }
+          to {
+            width: 100%;
+          }
+        }
+
+        @keyframes blink {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0;
+          }
+        }
+
+        @keyframes gradientShift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        /* Floating Chat Button - BLUE */
+        #chatButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #2c5aa0, #1e4178);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(44, 90, 160, 0.4);
+            transition: all 0.3s ease;
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #chatButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 90, 160, 0.5);
+            background: linear-gradient(135deg, #1e4178, #2c5aa0);
+        }
+
+        #chatButton:active {
+            transform: translateY(0);
+        }
+
+        /* Chatbot container */
+        #chatContainer {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            z-index: 9997;
+            display: none; /* Hidden by default */
+            background: white;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        #chatContainer.show {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Dialogflow Messenger custom styling */
+        df-messenger {
+            --df-messenger-bot-message: #f0f4f8;
+            --df-messenger-button-titlebar-color: #2c5aa0;
+            --df-messenger-chat-background-color: #ffffff;
+            --df-messenger-font-color: #333333;
+            --df-messenger-send-icon: #2c5aa0;
+            --df-messenger-user-message: #2c5aa0;
+            --df-messenger-input-box-color: #ffffff;
+            --df-messenger-input-font-color: #333333;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            #chatContainer {
+                width: calc(100vw - 40px);
+                height: calc(100vh - 150px);
+                bottom: 80px;
+                right: 20px;
+                left: 20px;
+            }
+
+            #chatButton {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* Close button for mobile */
+        #closeChat {
+            position: fixed;
+            bottom: 600px;
+            right: 30px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        #closeChat:hover {
+            background: #d32f2f;
+            transform: rotate(90deg);
+        }
+
+        #closeChat.show {
+            display: flex;
+        }
+
+        @keyframes wave {
+          0% {
+            transform: translateX(0);
+          }
+          50% {
+            transform: translateX(-10px);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+
+        /* Animation Classes */
+        .animate-fadeInUp {
+          animation: fadeInUp 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-fadeInLeft {
+          animation: fadeInLeft 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-fadeInRight {
+          animation: fadeInRight 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-pulse {
+          animation: pulse 2s infinite;
+        }
+
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-slideInLeft {
+          animation: slideInFromLeft 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-slideInRight {
+          animation: slideInFromRight 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        /* NEW ANIMATION CLASSES */
+        .animate-bounceIn {
+          animation: bounceIn 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-shake {
+          animation: shake 0.5s ease-in-out;
+        }
+
+        .animate-rotate {
+          animation: rotate 8s linear infinite;
+        }
+
+        .animate-typewriter {
+          overflow: hidden;
+          white-space: nowrap;
+          animation: typewriter 2s steps(40, end) forwards;
+          width: 0;
+        }
+
+        .animate-wave {
+          display: inline-block;
+          animation: wave 1.5s ease-in-out infinite;
+        }
+
+        /* Staggered Animations */
+        .home-hero-left > * {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .home-hero-left .subtitle {
+          animation-delay: 0.2s;
+        }
+
+        .home-hero-left h1 {
+          animation-delay: 0.4s;
+        }
+
+        .home-hero-left p {
+          animation-delay: 0.6s;
+        }
+
+        .home-hero-left .button-primary {
+          animation-delay: 0.8s;
+        }
+
+        .home-features-grid .card {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .home-features-grid .card:nth-child(1) {
+          animation-delay: 0.2s;
+        }
+
+        .home-features-grid .card:nth-child(2) {
+          animation-delay: 0.4s;
+        }
+
+        .home-features-grid .card:nth-child(3) {
+          animation-delay: 0.6s;
+        }
+
+        .home-services-grid .card {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .home-services-grid .card:nth-child(1) {
+          animation-delay: 0.2s;
+        }
+
+        .home-services-grid .card:nth-child(2) {
+          animation-delay: 0.4s;
+        }
+
+        .home-services-grid .card:nth-child(3) {
+          animation-delay: 0.6s;
+        }
+
+        .subtitle.animate-bounceIn {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c5aa0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            margin-left:30px;
+        }
+
+        .testimonials-grid .card {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .testimonials-grid .card:nth-child(1) {
+          animation-delay: 0.2s;
+        }
+
+        .testimonials-grid .card:nth-child(2) {
+          animation-delay: 0.4s;
+        }
+
+        .testimonials-grid .card:nth-child(3) {
+          animation-delay: 0.6s;
+        }
+
+        /* Enhanced Hover Effects */
+        .card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+          transition: left 0.5s;
+        }
+
+        .card:hover::before {
+          left: 100%;
+        }
+
+        .card:hover {
+          transform: translateY(-5px) scale(1.02);
+          box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .button-primary, .button-secondary {
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .button-primary::after, .button-secondary::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 5px;
+          height: 5px;
+          background: rgba(255, 255, 255, 0.5);
+          opacity: 0;
+          border-radius: 100%;
+          transform: scale(1, 1) translate(-50%);
+          transform-origin: 50% 50%;
+        }
+
+        .button-primary:hover::after, .button-secondary:hover::after {
+          animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+          0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+          }
+          100% {
+            transform: scale(20, 20);
+            opacity: 0;
+          }
+        }
+
+        .button-primary:hover, .button-secondary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Navigation Font Styles */
+        .header-navigation {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 32px;
+            font-family: 'Inter', 'DM Sans', Arial, sans-serif;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+            padding: 8px 0;
+            margin-left: 75px;
+            font-family: 'Inter', 'DM Sans', Arial, sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background: linear-gradient(90deg, #ffffff, #a8c5e8);
+          transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+          width: 100%;
+        }
+
+        /* Enhanced Image Animations */
+        .image.home-hero {
+          animation: slideInFromRight 1s ease-out forwards, float 6s ease-in-out infinite 1s;
+          opacity: 0;
+          animation-delay: 0.5s;
+        }
+
+        .image.home-about {
+          animation: slideInFromLeft 1s ease-out forwards;
+          opacity: 0;
+          animation-delay: 0.3s;
+        }
+
+        .image.cta {
+          animation: fadeInRight 1s ease-out forwards;
+          opacity: 0;
+          animation-delay: 0.3s;
+        }
+
+        /* Background Animation */
+        .bg.home-hero-right {
+          animation: float 6s ease-in-out infinite, rotate 30s linear infinite;
+        }
+
+        .bg.cta {
+          animation: float 8s ease-in-out infinite;
+        }
+
+        /* NEW: Animated gradient background for hero */
+        .home-hero {
+          background: linear-gradient(-45deg, #f5f7fa, #e4e8f0, #f0f4f8, #e8ecf2);
+          background-size: 400% 400%;
+          animation: gradientShift 10s ease infinite;
+        }
+
+        /* Scroll Animations */
+        .scroll-animate {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .scroll-animate.animated {
+          opacity: 1;
+          transform: translateY(0);
+          margin-left:75px;
+        }
+
+        /* NEW: Animated icons */
+        .image.card-home-feature, .image.card-service {
+          transition: transform 0.5s ease;
+        }
+
+        .card:hover .image.card-home-feature,
+        .card:hover .image.card-service {
+          transform: scale(1.2) rotate(5deg);
+        }
+
+        /* NEW: Loading animation for page */
+        .page-loader {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+          transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .page-loader.hidden {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .loader {
+          width: 50px;
+          height: 50px;
+          border: 5px solid #f3f3f3;
+          border-top: 5px solid #2c5aa0;
+          border-radius: 50%;
+          animation: rotate 1s linear infinite;
+        }
+
+        /* NEW: Animated statistics */
+        .stat-number {
+          font-size: 2.5rem;
+          font-weight: bold;
+          color: #2c5aa0;
+        }
+
+        /* NEW: Parallax effect for sections */
+        .parallax {
+          background-attachment: fixed;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+
+        /* NEW: Text highlight animation */
+        .highlight-text {
+          position: relative;
+          display: inline-block;
+        }
+
+        .highlight-text::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 30%;
+          background-color: rgba(44, 90, 160, 0.2);
+          z-index: -1;
+          transform: scaleX(0);
+          transform-origin: bottom left;
+          transition: transform 0.3s ease;
+        }
+
+        .highlight-text:hover::after {
+          transform: scaleX(1);
+        }
+
+        /* NEW: Animated testimonials */
+        .card-testimonial-about img {
+          transition: transform 0.5s ease;
+        }
+
+        .card-testimonial-about:hover img {
+          transform: scale(1.1);
+        }
+
+        /* NEW: Animated footer links */
+        .footer-nav-link {
+          position: relative;
+          transition: color 0.3s ease;
+          display: inline-block;
+        }
+
+        .footer-nav-link::before {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 0;
+          height: 1px;
+          background-color: white;
+          transition: width 0.3s ease;
+        }
+
+        .footer-nav-link:hover::before {
+          width: 100%;
+        }
+
+        /* HEADER STYLING - BLUE */
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            box-shadow: 0 2px 10px rgba(30, 60, 114, 0.15);
+            position: relative;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-contact-wrapper {
+            display: flex;
+            gap: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-contact-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .header-contact-link:hover {
+            color: #a8c5e8;
+        }
+
+        .header-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .header .nav-link {
+            color: white;
+        }
+
+        .header .nav-link:hover {
+            color: #a8c5e8;
+        }
+
+        /* FIXED: Login button text color */
+        .header-button {
+            background: white !important;
+            color: #2c5aa0 !important;
+        }
+
+        .header-button:hover {
+            background: #f0f4f8 !important;
+            color: #2c5aa0 !important;
+        }
+
+        /* FOOTER STYLING - BLUE */
+        .footer {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-title {
+            color: white;
+        }
+
+        .footer-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .footer-nav-link:hover {
+            color: white;
+        }
+
+        .footer-address {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .divider.footer-divider-1,
+        .divider.footer-divider-2 {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .small-print {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* BUTTON STYLING - BLUE */
+        .button-primary {
+            background: linear-gradient(135deg, #2c5aa0, #1e4178);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .button-primary:hover {
+            background: linear-gradient(135deg, #1e4178, #2c5aa0);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 90, 160, 0.3);
+            color: white;
+        }
+
+        .button-secondary {
+            background: transparent;
+            color: #2c5aa0;
+            border: 2px solid #2c5aa0;
+            border-radius: 8px;
+            padding: 10px 22px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .button-secondary:hover {
+            background: #2c5aa0;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 90, 160, 0.2);
+        }
+
+        .button-secondary.light {
+            color: white;
+            border-color: white;
+        }
+
+        .button-secondary.light:hover {
+            background: white;
+            color: #2c5aa0;
+        }
+
+        /* COLOR UTILITY CLASSES - BLUE */
+        .color-primary-1 {
+            color: #2c5aa0 !important;
+        }
+
+        .bg-secondary-1 {
+            background: #2c5aa0 !important;
+        }
+
+        .bg-neutral-200 {
+            background-color: #f8f9fa;
+        }
+
+        /* MOBILE RESPONSIVE STYLES */
+        @media (max-width: 991px) {
+            .header-contact-wrapper {
+                flex-direction: column;
+                gap: 8px;
+                padding: 12px 0;
+                text-align: center;
+            }
+
+            .header-contact-link {
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .header-wrapper {
+                padding: 12px 0;
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+
+            .split-content.header-right {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .header-logo {
+                height: 40px;
+                width: auto;
+                max-width: 120px;
+            }
+
+            /* Improved Mobile Navigation */
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 280px;
+                height: 100vh;
+                background: linear-gradient(180deg, #1e3c72, #2a5298);
+                padding: 80px 30px 30px;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+                z-index: 1001;
+            }
+
+            .nav-menu.w--open {
+                left: 0;
+            }
+
+            .header-navigation {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+            }
+
+            .header-navigation li {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                width: 100%;
+            }
+
+            .nav-link {
+                display: block;
+                padding: 18px 0;
+                font-size: 18px;
+                margin-left: 0 !important;
+                width: 100%;
+                text-align: left;
+                color: white;
+            }
+
+            .nav-link:hover {
+                color: #a8c5e8;
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            /* Improved Menu Button */
+            .menu-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 8px;
+                z-index: 1002;
+                order: 2;
+            }
+
+            .menu-button-icon-wrapper {
+                width: 30px;
+                height: 24px;
+                position: relative;
+            }
+
+            .menu-line-top,
+            .menu-line-middle,
+            .menu-line-bottom {
+                width: 100%;
+                height: 3px;
+                background: white;
+                position: absolute;
+                left: 0;
+                transition: all 0.3s ease;
+                border-radius: 2px;
+            }
+
+            .menu-line-top {
+                top: 0;
+            }
+
+            .menu-line-middle {
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .menu-line-bottom {
+                bottom: 0;
+            }
+
+            .menu-button.w--open .menu-line-top {
+                top: 50%;
+                transform: translateY(-50%) rotate(45deg);
+            }
+
+            .menu-button.w--open .menu-line-middle {
+                opacity: 0;
+            }
+
+            .menu-button.w--open .menu-line-bottom {
+                bottom: 50%;
+                transform: translateY(50%) rotate(-45deg);
+            }
+
+            /* Improved Login Button for Mobile */
+            .header-button {
+                order: 1;
+                padding: 10px 16px !important;
+                font-size: 14px !important;
+                margin: 0 !important;
+                white-space: nowrap;
+                background: white !important;
+                color: #2c5aa0 !important;
+                border-radius: 6px;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+            /* Brand/Logo Positioning */
+            .brand {
+                order: 0;
+                margin-right: auto;
+            }
+
+            /* Mobile Overlay */
+            .mobile-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1000;
+            }
+
+            .mobile-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            /* Hero Section Mobile Adjustments */
+            .home-hero-wrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .home-hero-left {
+                margin-bottom: 2rem;
+            }
+
+            .subtitle.animate-bounceIn {
+                margin-left: 0;
+                font-size: 1.8rem;
+            }
+
+            .scroll-animate.animated {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 479px) {
+            .header-contact-link {
+                font-size: 12px;
+            }
+
+            .header-logo {
+                height: 35px;
+                max-width: 100px;
+            }
+
+            .nav-menu {
+                width: 260px;
+                padding: 70px 25px 25px;
+            }
+
+            .nav-link {
+                padding: 15px 0;
+                font-size: 16px;
+            }
+
+            .header-button {
+                padding: 8px 12px !important;
+                font-size: 13px !important;
+            }
+
+            .menu-button {
+                padding: 6px;
+            }
+
+            .menu-button-icon-wrapper {
+                width: 25px;
+                height: 20px;
+            }
+        }
+
+        /* Extra Small Devices */
+        @media (max-width: 360px) {
+            .split-content.header-right {
+                gap: 10px;
+            }
+
+            .header-logo {
+                height: 30px;
+                max-width: 90px;
+            }
+
+            .header-button {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Mobile Overlay -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="page-loader">
+    <div class="loader"></div>
+</div>
+
+<div class="page-wrapper">
+    <!-- Header -->
+    <header class="header w-nav" role="banner">
+        <div class="container-default w-container">
+            <div class="header-contact-wrapper">
+                <a class="header-contact-link" href="tel:+919940379979">
+                    <i class="fa-solid fa-phone"></i> +91 9940379979
+                </a>
+                <a class="header-contact-link last" href="mailto:contact@doctor.com">
+                    <i class="fa-solid fa-envelope"></i> contact@doctor.com
+                </a>
+            </div>
+            <div class="divider header-divider"></div>
+            <div class="header-wrapper">
+                <div class="split-content header-right">
+                    <a class="brand w-nav-brand" href="/" aria-label="Home">
+                        <img class="header-logo" src="logo/logo3.png" alt="Sakthi Homeo Clinic Logo" height="50px" width="120px"/>
+                    </a>
+                    <nav class="nav-menu w-nav-menu" role="navigation">
+                        <ul class="header-navigation" role="list">
+                            <li><a class="nav-link" href="/">Home</a></li>
+                            <li><a class="nav-link" href="/about">About</a></li>
+                            <li><a class="nav-link" href="/service">Services</a></li>
+                            <li><a class="nav-link" href="/contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- FIXED: Login button with white text on blue background -->
+                <a class="button-primary header-button w-button" href="login">Login</a>
+                <div class="menu-button w-nav-button">
+                    <div class="menu-button-icon-wrapper">
+                        <div class="menu-button-icon">
+                            <div class="menu-line-top"></div>
+                            <div class="menu-line-middle"></div>
+                            <div class="menu-line-bottom"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="section home-hero">
+        <div class="container-default w-container">
+            <div class="home-hero-wrapper">
+                <div class="split-content home-hero-left">
+                    <div class="subtitle animate-bounceIn">Dr. P.R. Durai</div>
+                    <h1 class="title home-hero highlight-text">A dedicated Homeopathic Consultant you can trust</h1>
+                    <p class="paragraph home-hero">B.H.M.S. (Delhi), M.D. (ACU) with years of experience in treating various ailments using natural homeopathic remedies. Committed to providing personalized care for your health and wellness.</p>
+                    <a class="button-primary bg-secondary-1 w-button" href="/login">Book an Appointment</a>
+                </div>
+                <div class="split-content home-hero-right">
+                    <div class="image-wrapper home-hero">
+                        <img class="image home-hero" src="logo/doctor1.png" alt="Dr. P.R. Durai"/>
+                        <div class="image-solid-cover"></div>
+                    </div>
+                    <img class="bg home-hero-right" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd823cb06be4a1_bg-home-hero-doctor-template.svg" alt="Background"/>
+                </div>
+            </div>
+        </div>
+        <div class="bg home-hero"></div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section home-features">
+        <div class="container-default w-container">
+            <div class="w-layout-grid home-features-grid">
+                <div class="card home-feature">
+                    <img class="image card-home-feature" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd82099a6be49e_icon-1-home-feature-doctor-template.svg" alt="Consultation Hours"/>
+                    <div class="card-home-feature-content">
+                        <h2 class="title card-home-feature">Consultation Hours</h2>
+                        <p class="paragraph-small">Monday to Saturday: 3:00 PM to 7:00 PM<br>Sunday: Holiday</p>
+                    </div>
+                </div>
+                <div class="card home-feature">
+                    <img class="image card-home-feature" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd82f0c86be49f_icon-2-home-feature-doctor-template.svg" alt="Years of experience"/>
+                    <div class="card-home-feature-content">
+                        <h2 class="title card-home-feature">More than 4 Decade of experience</h2>
+                        <p class="paragraph-small">Extensive experience in homeopathic medicine with proven results in treating chronic and acute conditions</p>
+                    </div>
+                </div>
+                <div class="card home-feature">
+                    <img class="image card-home-feature" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd8216636be49d_icon-3-home-feature-doctor-template.svg" alt="Natural treatment"/>
+                    <div class="card-home-feature-content">
+                        <h2 class="title card-home-feature">Natural Treatment</h2>
+                        <p class="paragraph-small">Safe, gentle, and effective homeopathic remedies with no side effects for lasting wellness</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section home-about">
+        <div class="container-default w-container">
+            <div class="home-about-wrapper">
+                <div class="split-content home-about-left">
+                    <div class="image-wrapper home-about">
+                        <img class="image home-about" src="logo/doctor2.png" alt="About Dr. P.R. Durai"/>
+                        <div class="image-solid-cover"></div>
+                    </div>
+                </div>
+                <div class="split-content home-about-right scroll-animate">
+                    <div class="subtitle">About Me</div>
+                    <h2 class="highlight-text">A dedicated homeopathic doctor with the mission to heal naturally</h2>
+                    <p class="paragraph home-about">Dr. P.R. Durai is a qualified Homeopathic Consultant with a B.H.M.S. from Delhi and M.D. in Acupuncture. With years of dedicated practice, Dr. Durai specializes in treating various chronic and acute conditions using natural homeopathic remedies that work in harmony with your body's healing mechanisms.</p>
+                    <div class="_2-buttons home-about">
+                        <a class="button-primary home-about w-button" href="/login">Book an Appointment</a>
+                        <a class="button-secondary home-about w-button" href="/about">About Me</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section home-services">
+        <div class="container-default w-container">
+            <div class="top-content home-services">
+                <div class="split-content home-services-left scroll-animate">
+                    <div class="subtitle color-primary-1">Services</div>
+                    <h2 class="title home-services highlight-text">Expert homeopathic treatment for various conditions</h2>
+                </div>
+            </div>
+            <!-- Service Cards (Slider removed for simplicity) -->
+            <div class="w-layout-grid home-services-grid">
+                <div class="card service">
+                    <img class="image card-service" src="https://cdn.prod.website-files.com/60e4a22b84dd82d9696be40e/60e4a22b84dd824d9c6be480_icon-1-service-doctor-template.svg" alt="Chronic Diseases"/>
+                    <h3 class="title card-service">Chronic Diseases</h3>
+                    <p class="paragraph card-service">Effective homeopathic treatment for arthritis, asthma, allergies, migraines, and other chronic conditions.</p>
+                    <a class="button-secondary home-services w-button" href="/service/chronic-diseases">Learn More</a>
+                </div>
+                <div class="card service">
+                    <img class="image card-service" src="https://cdn.prod.website-files.com/60e4a22b84dd82d9696be40e/60e4a22b84dd8264ec6be47d_icon-2-service-doctor-template.svg" alt="Skin Conditions"/>
+                    <h3 class="title card-service">Skin Conditions</h3>
+                    <p class="paragraph card-service">Treatment for eczema, psoriasis, acne, warts, and various dermatological issues using natural remedies.</p>
+                    <a class="button-secondary home-services w-button" href="/service/skin-conditions">Learn More</a>
+                </div>
+                <div class="card service">
+                    <img class="image card-service" src="https://cdn.prod.website-files.com/60e4a22b84dd82d9696be40e/60e4a22b84dd822fc76be47c_icon-3-service-doctor-template.svg" alt="Respiratory Issues"/>
+                    <h3 class="title card-service">Respiratory Issues</h3>
+                    <p class="paragraph card-service">Natural solutions for asthma, bronchitis, sinusitis, allergic rhinitis and other respiratory problems.</p>
+                    <a class="button-secondary home-services w-button" href="/service/respiratory">Learn More</a>
+                </div>
+                <div class="card service">
+                    <img class="image card-service" src="https://cdn.prod.website-files.com/60e4a22b84dd82d9696be40e/60e4a22b84dd824d9c6be480_icon-1-service-doctor-template.svg" alt="Digestive Disorders"/>
+                    <h3 class="title card-service">Digestive Disorders</h3>
+                    <p class="paragraph card-service">Treatment for acidity, IBS, constipation, gastritis and other gastrointestinal issues without side effects.</p>
+                    <a class="button-secondary home-services w-button" href="/service/digestive">Learn More</a>
+                </div>
+            </div>
+            <br>
+            <div class="_2-buttons scroll-animate">
+                <a class="button-primary home-services w-button" href="/login">Book an Appointment</a>
+                <a class="button-secondary home-services w-button" href="/service">Browse Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta">
+        <div class="container-default w-container">
+            <div class="split-content cta-left scroll-animate">
+                <div class="subtitle">Book an appointment</div>
+                <h2 class="title cta highlight-text">Schedule your consultation for natural healing</h2>
+                <p class="paragraph cta">Experience the benefits of homeopathic treatment with Dr. P.R. Durai. Get personalized care and natural remedies tailored to your specific health needs.</p>
+                <div class="_2-buttons">
+                    <a class="button-primary bg-secondary-1 cta w-button" href="/login">Book an Appointment</a>
+                    <a class="button-secondary light cta w-button" href="/about">About Me</a>
+                </div>
+            </div>
+        </div>
+        <img class="bg cta" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd82269c6be4a2_bg-cta-doctor-template.svg" alt="Background"/>
+        <div class="image-wrapper cta">
+            <img class="image cta" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd820c626be4a6_image-cta-doctor-template.jpg" alt="Dr. P.R. Durai CTA"/>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section bg-neutral-200">
+        <div class="container-default w-container">
+            <div class="top-content testimonials">
+                <div class="split-content testimonials-left scroll-animate">
+                    <div class="subtitle color-primary-1">Testimonials</div>
+                    <h2 class="title testimonials highlight-text">What our patients say about Dr. P.R. Durai</h2>
+                </div>
+                <div class="split-content testimonials-right scroll-animate">
+                    <p>Our patients' health and satisfaction are our top priorities. Read what they have to say about their experience with homeopathic treatment.</p>
+                </div>
+            </div>
+            <div class="w-layout-grid testimonials-grid">
+                <div class="card testimonial">
+                    <h3 class="title card-testimonial">"Effective treatment for my arthritis"</h3>
+                    <p class="paragraph card-testimonial">After years of suffering from arthritis pain, Dr. Durai's homeopathic treatment has given me significant relief. I can now move freely without constant pain.</p>
+                    <div class="card-testimonial-about-wrapper">
+                        <img class="image card-testimonial-about" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd8262306be4a9_image-1-testimonial-doctor-template.jpg" alt="Ramesh Kumar"/>
+                        <h4 class="title card-testimonial-about-name">Ramesh Kumar</h4>
+                    </div>
+                </div>
+                <div class="card testimonial">
+                    <h3 class="title card-testimonial">"My child's allergies are under control"</h3>
+                    <p class="paragraph card-testimonial">Dr. Durai's gentle homeopathic remedies have worked wonders for my son's seasonal allergies. No more side effects from conventional medicines.</p>
+                    <div class="card-testimonial-about-wrapper">
+                        <img class="image card-testimonial-about" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd82d5736be4ab_image-2-testimonial-doctor-template.jpg" alt="Priya S"/>
+                        <h4 class="title card-testimonial-about-name">Priya S</h4>
+                    </div>
+                </div>
+                <div class="card testimonial">
+                    <h3 class="title card-testimonial">"Finally found relief from migraines"</h3>
+                    <p class="paragraph card-testimonial">After trying various treatments for my chronic migraines, Dr. Durai's homeopathic approach has been the most effective with no side effects.</p>
+                    <div class="card-testimonial-about-wrapper">
+                        <img class="image card-testimonial-about" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd823c9b6be4aa_image-3-testimonial-doctor-template.jpg" alt="Anita R"/>
+                        <h4 class="title card-testimonial-about-name">Anita R</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-vc scroll-animate">
+                <a class="button-primary w-button" href="/login">Book an Appointment</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container-default w-container">
+            <div class="top-content footer-top-content">
+                <a class="footer-logo-container w-inline-block" href="/">
+                    <img class="footer-logo" src="logo/logo3.png" alt="Sakthi Homeo Clinic Logo" height="50px" width="120px"/>
+                </a>
+                <p class="paragraph-small footer-top-content">Sakthi Homeo Clinic provides expert homeopathic treatment for various ailments using natural remedies with proven results.</p>
+            </div>
+            <div class="divider footer-divider-1"></div>
+            <div class="w-layout-grid footer-grid">
+                <div class="footer-nav-wrapper">
+                    <div class="footer-nav-box">
+                        <h2 class="title footer-title">Menu</h2>
+                        <div class="footer-nav-content">
+                            <ul class="footer-nav-links w-list-unstyled" role="list">
+                                <li><a class="footer-nav-link" href="/">Home</a></li>
+                                <li><a class="footer-nav-link" href="/about">About</a></li>
+                                <li><a class="footer-nav-link" href="/service">Services</a></li>
+                                <li><a class="footer-nav-link" href="/contact">Contact</a></li>
+                                <li><a class="footer-nav-link" href="/login">Appointment</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-nav-box">
+                        <h2 class="title footer-title">Clinic Hours</h2>
+                        <div class="footer-nav-content">
+                            <ul class="footer-nav-links last w-list-unstyled" role="list">
+                                <li><p class="paragraph-small footer-address">Monday - Saturday: 3:00 PM - 7:00 PM</p></li>
+                                <li><p class="paragraph-small footer-address">Sunday: Holiday</p></li>
+                                <li><p class="paragraph-small footer-address">Emergency: Available on call</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-nav-box last">
+                        <h2 class="title footer-title">Contact</h2>
+                        <div class="footer-nav-content">
+                            <ul class="footer-nav-links last w-list-unstyled" role="list">
+                                <li><p class="paragraph-small footer-address">Dhandapani St, T. Nagar, Chennai, Tamil Nadu 600017</p></li>
+                                <li><a class="footer-nav-link" href="mailto:contact@doctor.com">contact@doctor.com</a></li>
+                                <li><a class="footer-nav-link" href="tel:+919940379979">+91 9940379979</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divider footer-divider-2"></div>
+            <div class="container-default w-container">
+                <div class="small-print-wrapper">
+                    <div class="paragraph-small small-print">
+                        Copyright © Sakthi Homeo Clinic | All Rights Reserved
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- Chatbot Integration -->
+<div id="chatContainer" class="chat-container">
+    <df-messenger
+            intent="WELCOME"
+            chat-title="SakthiHomeoClinic"
+            agent-id="8af2a7e6-0e77-4555-84bd-bc7f79b48929"
+            language-code="en"
+            chat-icon="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd8216636be49d_icon-3-home-feature-doctor-template.svg"
+            expand="true">
+    </df-messenger>
+</div>
+
+<button id="chatButton">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="white"/>
+    </svg>
+    Chat with Us
+</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Page loader
+        window.addEventListener('load', function() {
+            const loader = document.querySelector('.page-loader');
+            if (loader) {
+                loader.classList.add('hidden');
+            }
+        });
+
+        // Mobile Navigation
+        const menuButton = document.querySelector(".menu-button");
+        const navMenu = document.querySelector(".nav-menu");
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        function openMenu() {
+            menuButton.classList.add("w--open");
+            navMenu.classList.add("w--open");
+            mobileOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            menuButton.classList.remove("w--open");
+            navMenu.classList.remove("w--open");
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        menuButton.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (menuButton.classList.contains("w--open")) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+
+        // Close menu when clicking on overlay
+        mobileOverlay.addEventListener('click', closeMenu);
+
+        // Close menu when clicking on nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!navMenu.contains(event.target) && !menuButton.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeMenu();
+            }
+        });
+
+        // Close menu on window resize (if resizing to desktop)
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 991) {
+                closeMenu();
+            }
+        });
+
+        // Enhanced scroll animation implementation
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <=
+                (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('animated');
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.2)) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        // Initial check
+        handleScrollAnimation();
+
+        // Listen for scroll events
+        window.addEventListener('scroll', () => {
+            handleScrollAnimation();
+        });
+
+        // Add ripple effect to buttons
+        const buttons = document.querySelectorAll('.button-primary, .button-secondary');
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Create ripple element
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+
+                // Get click position
+                const x = e.clientX - e.target.offsetLeft;
+                const y = e.clientY - e.target.offsetTop;
+
+                // Position the ripple
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+
+                // Remove ripple after animation
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add shake animation to CTA button on hover
+        const ctaButton = document.querySelector('.cta .button-primary');
+        if (ctaButton) {
+            ctaButton.addEventListener('mouseenter', function() {
+                this.classList.add('animate-shake');
+            });
+
+            ctaButton.addEventListener('animationend', function() {
+                this.classList.remove('animate-shake');
+            });
+        }
+
+        // Chatbot functionality
+        const chatButton = document.getElementById('chatButton');
+        const chatContainer = document.getElementById('chatContainer');
+        let isChatOpen = false;
+
+        if (chatButton && chatContainer) {
+            chatButton.addEventListener('click', function() {
+                if (isChatOpen) {
+                    chatContainer.classList.remove('show');
+                    isChatOpen = false;
+                } else {
+                    chatContainer.classList.add('show');
+                    isChatOpen = true;
+                }
+            });
+
+            // Close chatbot when clicking outside
+            document.addEventListener('click', function(event) {
+                if (isChatOpen &&
+                    !chatContainer.contains(event.target) &&
+                    !chatButton.contains(event.target)) {
+                    chatContainer.classList.remove('show');
+                    isChatOpen = false;
+                }
+            });
+
+            // Close chatbot on escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && isChatOpen) {
+                    chatContainer.classList.remove('show');
+                    isChatOpen = false;
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

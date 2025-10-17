@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Dr. P.R. Durai - Homeopathic Consultant</title>
+    <meta name="description" content="Dr. P.R. Durai, B.H.M.S., (DELHI), M.D.(ACU) is a dedicated Homeopathic Consultant with years of experience in treating various ailments using natural remedies."/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="logo/logo3.png" type="image/x-icon"/>
+    <link rel="apple-touch-icon" href="logo/logo3.png"/>
+
+    <!-- Dialogflow Messenger script -->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* Apply fonts globally */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        /* Headings with Poppins */
+        h1, h2, h3, h4, h5, h6, .title, .subtitle {
+            font-family: 'Poppins', 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Body text with Inter */
+        body, p, .paragraph, .paragraph-small, .nav-link {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Buttons */
+        .button-primary, .button-secondary {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        /* Enhanced Animation Keyframes */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeInRight {
+          from {
+            opacity: 0;
+            transform: translateX(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+          100% {
+            transform: translateY(0px);
+          }
+        }
+
+        @keyframes slideInFromLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slideInFromRight {
+          from {
+            opacity: 0;
+            transform: translateX(100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        /* NEW ANIMATIONS */
+        @keyframes bounceIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.3);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.05);
+          }
+          70% {
+            transform: scale(0.9);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes shake {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          10%, 30%, 50%, 70%, 90% {
+            transform: translateX(-5px);
+          }
+          20%, 40%, 60%, 80% {
+            transform: translateX(5px);
+          }
+        }
+
+        @keyframes rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes typewriter {
+          from {
+            width: 0;
+          }
+          to {
+            width: 100%;
+          }
+        }
+
+        @keyframes blink {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0;
+          }
+        }
+
+        @keyframes gradientShift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        /* Floating Chat Button - CHANGED TO BLUE */
+        #chatButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #2c5aa0, #1e4178);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(44, 90, 160, 0.4);
+            transition: all 0.3s ease;
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #chatButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 90, 160, 0.5);
+            background: linear-gradient(135deg, #1e4178, #2c5aa0);
+        }
+
+        #chatButton:active {
+            transform: translateY(0);
+        }
+
+        /* Chatbot container */
+        #chatContainer {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            z-index: 9997;
+            display: none;
+            background: white;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        #chatContainer.show {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Dialogflow Messenger custom styling */
+        df-messenger {
+            --df-messenger-bot-message: #f0f4f8;
+            --df-messenger-button-titlebar-color: #2c5aa0;
+            --df-messenger-chat-background-color: #ffffff;
+            --df-messenger-font-color: #333333;
+            --df-messenger-send-icon: #2c5aa0;
+            --df-messenger-user-message: #2c5aa0;
+            --df-messenger-input-box-color: #ffffff;
+            --df-messenger-input-font-color: #333333;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            #chatContainer {
+                width: calc(100vw - 40px);
+                height: calc(100vh - 150px);
+                bottom: 80px;
+                right: 20px;
+                left: 20px;
+            }
+
+            #chatButton {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* Close button for mobile */
+        #closeChat {
+            position: fixed;
+            bottom: 600px;
+            right: 30px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        #closeChat:hover {
+            background: #d32f2f;
+            transform: rotate(90deg);
+        }
+
+        #closeChat.show {
+            display: flex;
+        }
+
+        @keyframes wave {
+          0% {
+            transform: translateX(0);
+          }
+          50% {
+            transform: translateX(-10px);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+
+        /* Animation Classes */
+        .animate-fadeInUp {
+          animation: fadeInUp 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-fadeInLeft {
+          animation: fadeInLeft 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-fadeInRight {
+          animation: fadeInRight 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-pulse {
+          animation: pulse 2s infinite;
+        }
+
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-slideInLeft {
+          animation: slideInFromLeft 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-slideInRight {
+          animation: slideInFromRight 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        /* NEW ANIMATION CLASSES */
+        .animate-bounceIn {
+          animation: bounceIn 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-shake {
+          animation: shake 0.5s ease-in-out;
+        }
+
+        .animate-rotate {
+          animation: rotate 8s linear infinite;
+        }
+
+        .animate-typewriter {
+          overflow: hidden;
+          white-space: nowrap;
+          animation: typewriter 2s steps(40, end) forwards;
+          width: 0;
+        }
+
+        .animate-wave {
+          display: inline-block;
+          animation: wave 1.5s ease-in-out infinite;
+        }
+
+        /* Staggered Animations */
+        .home-hero-left > * {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .home-hero-left .subtitle {
+          animation-delay: 0.2s;
+        }
+
+        .home-hero-left h1 {
+          animation-delay: 0.4s;
+        }
+
+        .home-hero-left p {
+          animation-delay: 0.6s;
+        }
+
+        .home-hero-left .button-primary {
+          animation-delay: 0.8s;
+        }
+
+        .home-features-grid .card {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .home-features-grid .card:nth-child(1) {
+          animation-delay: 0.2s;
+        }
+
+        .home-features-grid .card:nth-child(2) {
+          animation-delay: 0.4s;
+        }
+
+        .home-features-grid .card:nth-child(3) {
+          animation-delay: 0.6s;
+        }
+
+        .home-services-grid .card {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .home-services-grid .card:nth-child(1) {
+          animation-delay: 0.2s;
+        }
+
+        .home-services-grid .card:nth-child(2) {
+          animation-delay: 0.4s;
+        }
+
+        .home-services-grid .card:nth-child(3) {
+          animation-delay: 0.6s;
+        }
+
+        .subtitle.animate-bounceIn {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c5aa0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            margin-left:30px;
+        }
+
+        .testimonials-grid .card {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .testimonials-grid .card:nth-child(1) {
+          animation-delay: 0.2s;
+        }
+
+        .testimonials-grid .card:nth-child(2) {
+          animation-delay: 0.4s;
+        }
+
+        .testimonials-grid .card:nth-child(3) {
+          animation-delay: 0.6s;
+        }
+
+        /* Enhanced Hover Effects */
+        .card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+          transition: left 0.5s;
+        }
+
+        .card:hover::before {
+          left: 100%;
+        }
+
+        .card:hover {
+          transform: translateY(-5px) scale(1.02);
+          box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .button-primary, .button-secondary {
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .button-primary::after, .button-secondary::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 5px;
+          height: 5px;
+          background: rgba(255, 255, 255, 0.5);
+          opacity: 0;
+          border-radius: 100%;
+          transform: scale(1, 1) translate(-50%);
+          transform-origin: 50% 50%;
+        }
+
+        .button-primary:hover::after, .button-secondary:hover::after {
+          animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+          0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+          }
+          100% {
+            transform: scale(20, 20);
+            opacity: 0;
+          }
+        }
+
+        .button-primary:hover, .button-secondary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Navigation Font Styles */
+        .header-navigation {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 32px;
+            font-family: 'Inter', 'DM Sans', Arial, sans-serif;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+            padding: 8px 0;
+            margin-left: 75px;
+            font-family: 'Inter', 'DM Sans', Arial, sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background: linear-gradient(90deg, #ffffff, #a8c5e8);
+          transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+          width: 100%;
+        }
+
+        /* Enhanced Image Animations */
+        .image.home-hero {
+          animation: slideInFromRight 1s ease-out forwards, float 6s ease-in-out infinite 1s;
+          opacity: 0;
+          animation-delay: 0.5s;
+        }
+
+        .image.home-about {
+          animation: slideInFromLeft 1s ease-out forwards;
+          opacity: 0;
+          animation-delay: 0.3s;
+        }
+
+        .image.cta {
+          animation: fadeInRight 1s ease-out forwards;
+          opacity: 0;
+          animation-delay: 0.3s;
+        }
+
+        /* Background Animation */
+        .bg.home-hero-right {
+          animation: float 6s ease-in-out infinite, rotate 30s linear infinite;
+        }
+
+        .bg.cta {
+          animation: float 8s ease-in-out infinite;
+        }
+
+        /* NEW: Animated gradient background for hero */
+        .home-hero {
+          background: linear-gradient(-45deg, #f5f7fa, #e4e8f0, #f0f4f8, #e8ecf2);
+          background-size: 400% 400%;
+          animation: gradientShift 10s ease infinite;
+        }
+
+        /* WHITE BACKGROUND FOR ABOUT HERO SECTION */
+        .section.about-hero {
+            background: #ffffff !important;
+            background-size: initial !important;
+            animation: none !important;
+        }
+
+        /* Scroll Animations */
+        .scroll-animate {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .scroll-animate.animated {
+          opacity: 1;
+          transform: translateY(0);
+          margin-left:75px;
+        }
+
+        /* NEW: Animated icons */
+        .image.card-home-feature, .image.card-service {
+          transition: transform 0.5s ease;
+        }
+
+        .card:hover .image.card-home-feature,
+        .card:hover .image.card-service {
+          transform: scale(1.2) rotate(5deg);
+        }
+
+        /* NEW: Loading animation for page */
+        .page-loader {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+          transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .page-loader.hidden {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .loader {
+          width: 50px;
+          height: 50px;
+          border: 5px solid #f3f3f3;
+          border-top: 5px solid #2c5aa0;
+          border-radius: 50%;
+          animation: rotate 1s linear infinite;
+        }
+
+        /* NEW: Animated statistics */
+        .stat-number {
+          font-size: 2.5rem;
+          font-weight: bold;
+          color: #2c5aa0;
+        }
+
+        /* NEW: Parallax effect for sections */
+        .parallax {
+          background-attachment: fixed;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+
+        /* NEW: Text highlight animation */
+        .highlight-text {
+          position: relative;
+          display: inline-block;
+        }
+
+        .highlight-text::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 30%;
+          background-color: rgba(44, 90, 160, 0.2);
+          z-index: -1;
+          transform: scaleX(0);
+          transform-origin: bottom left;
+          transition: transform 0.3s ease;
+        }
+
+        .highlight-text:hover::after {
+          transform: scaleX(1);
+        }
+
+        /* NEW: Animated testimonials */
+        .card-testimonial-about img {
+          transition: transform 0.5s ease;
+        }
+
+        .card-testimonial-about:hover img {
+          transform: scale(1.1);
+        }
+
+        /* NEW: Animated footer links */
+        .footer-nav-link {
+          position: relative;
+          transition: color 0.3s ease;
+          display: inline-block;
+        }
+
+        .footer-nav-link::before {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 0;
+          height: 1px;
+          background-color: white;
+          transition: width 0.3s ease;
+        }
+
+        .footer-nav-link:hover::before {
+          width: 100%;
+        }
+
+        /* HEADER STYLING - CHANGED TO BLUE */
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            box-shadow: 0 2px 10px rgba(30, 60, 114, 0.15);
+            position: relative;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-contact-wrapper {
+            display: flex;
+            gap: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-contact-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .header-contact-link:hover {
+            color: #a8c5e8;
+        }
+
+        .header-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .header .nav-link {
+            color: white;
+        }
+
+        .header .nav-link:hover {
+            color: #a8c5e8;
+        }
+
+        .header-button {
+            background: white !important;
+            color: #2c5aa0 !important;
+        }
+
+        .header-button:hover {
+            background: #f0f4f8 !important;
+        }
+
+        /* FOOTER STYLING - CHANGED TO BLUE */
+        .footer {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-title {
+            color: white;
+        }
+
+        .footer-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .footer-nav-link:hover {
+            color: white;
+        }
+
+        .footer-address {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .divider.footer-divider-1,
+        .divider.footer-divider-2 {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .small-print {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* MOBILE OVERLAY */
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1002;
+        }
+
+        .split-content.header-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-button {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .menu-button-icon-wrapper {
+            width: 30px;
+            height: 24px;
+            position: relative;
+        }
+
+        .menu-line-top,
+        .menu-line-middle,
+        .menu-line-bottom {
+            width: 100%;
+            height: 3px;
+            background: white;
+            position: absolute;
+            left: 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .menu-line-top {
+            top: 0;
+        }
+
+        .menu-line-middle {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .menu-line-bottom {
+            bottom: 0;
+        }
+
+        .menu-button.active .menu-line-top {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .menu-button.active .menu-line-middle {
+            opacity: 0;
+        }
+
+        .menu-button.active .menu-line-bottom {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+        }
+
+        /* MOBILE RESPONSIVE STYLES */
+        @media (max-width: 991px) {
+            .header-contact-wrapper {
+                flex-direction: column;
+                gap: 8px;
+                padding: 12px 0;
+            }
+
+            .header-contact-link {
+                font-size: 13px;
+            }
+
+            .header-wrapper {
+                padding: 12px 0;
+            }
+
+            .split-content.header-right {
+                gap: 20px;
+                flex: 1;
+            }
+
+            .header-logo {
+                height: 40px;
+                width: auto;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 280px;
+                height: 100vh;
+                background: linear-gradient(180deg, #1e3c72, #2a5298);
+                padding: 80px 30px 30px;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+                z-index: 1001;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .header-navigation {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .header-navigation li {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-link {
+                display: block;
+                padding: 18px 0;
+                font-size: 18px;
+                margin-left: 0 !important;
+            }
+
+            .menu-button {
+                display: block;
+                z-index: 1002;
+            }
+
+            .header-button {
+                padding: 10px 18px;
+                font-size: 14px;
+                white-space: nowrap;
+            }
+
+            .mobile-close {
+                display: flex;
+            }
+
+            .subtitle.animate-bounceIn {
+                margin-left: 0;
+            }
+
+            .scroll-animate.animated {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 479px) {
+            .header-contact-link {
+                font-size: 12px;
+            }
+
+            .header-logo {
+                height: 35px;
+            }
+
+            .header-button {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            .nav-menu {
+                width: 260px;
+                padding: 70px 25px 25px;
+            }
+
+            .nav-link {
+                padding: 15px 0;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Mobile Overlay -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="page-loader">
+    <div class="loader"></div>
+</div>
+
+<div class="page-wrapper">
+    <!-- Header -->
+    <header class="header w-nav" role="banner">
+        <div class="container-default w-container">
+            <div class="header-contact-wrapper">
+                <a class="header-contact-link" href="tel:+91 9940379979">+91 9940379979</a>
+                <a class="header-contact-link last" href="mailto:contact@doctor.com">contact@doctor.com</a>
+            </div>
+            <div class="divider header-divider"></div>
+            <div class="header-wrapper">
+                <div class="split-content header-right">
+                    <a class="brand w-nav-brand" href="/" aria-label="Home">
+                        <img class="header-logo" src="logo/logo3.png" alt="Sakthi Homeo Clinic Logo" height="50px" width="120px"/>
+                    </a>
+                    <nav class="nav-menu" role="navigation" id="navMenu">
+                        <button class="mobile-close" id="mobileClose" aria-label="Close menu">&times;</button>
+                        <ul class="header-navigation" role="list">
+                            <li><a class="nav-link" href="/">Home</a></li>
+                            <li><a class="nav-link" href="/about">About</a></li>
+                            <li><a class="nav-link" href="/service">Services</a></li>
+                            <li><a class="nav-link" href="/contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <a class="button-primary bg-secondary-1 header-button w-button" href="login">Book Now</a>
+                <div class="menu-button w-nav-button" id="menuButton">
+                    <div class="menu-button-icon-wrapper">
+                        <div class="menu-button-icon">
+                            <div class="menu-line-top"></div>
+                            <div class="menu-line-middle"></div>
+                            <div class="menu-line-bottom"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- About Hero Section -->
+    <section class="section about-hero">
+        <div class="container-default w-container">
+            <div class="about-hero-wrapper">
+                <div class="split-content about-hero-left">
+                    <div class="subtitle">About Dr. P.R. Durai</div>
+                    <h1 class="title about-hero highlight-text">The mission behind Sakthi Homeo Clinic</h1>
+                    <p class="paragraph about-hero">Dr. P.R. Durai, B.H.M.S. (Delhi), M.D. (ACU) is a dedicated homeopathic consultant with years of experience in treating various ailments using natural remedies. Our mission is to provide holistic healing through homeopathy, addressing the root cause of diseases rather than just suppressing symptoms.</p>
+                    <a class="button-primary bg-secondary-1 w-button" href="/login">Book an Appointment</a>
+                </div>
+                <div class="split-content about-hero-right">
+                    <div class="image-wrapper about-hero">
+                        <img alt="Dr. P.R. Durai" class="image about-hero" src="logo/doctor1.png"/>
+                        <div class="image-solid-cover"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg about-hero-1"></div>
+    </section>
+    <!-- Story Section -->
+    <section class="section bg-neutral-200">
+        <div class="container-default w-container">
+            <div class="story-wrapper">
+                <div class="w-layout-grid story-grid">
+                    <div class="image-wrapper story-1">
+                        <img alt="Sakthi Homeo Clinic" class="image story-1" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd826ace6be4ad_image-1-story-doctor-template.jpg"/>
+                        <div class="image-solid-cover show"></div>
+                    </div>
+                    <div class="story-content-1">
+                        <div class="subtitle color-primary-1">My Story</div>
+                        <h2 class="title story highlight-text">Every great homeopath has a passion for healing</h2>
+                        <p>Dr. P.R. Durai's journey in homeopathy began with a deep desire to help people heal naturally. After completing his B.H.M.S. from Delhi and M.D. in Acupuncture, he established Sakthi Homeo Clinic with the vision of providing accessible, effective homeopathic treatment to the community. His dedication to the principles of homeopathy and patient-centered care has helped thousands find relief from chronic and acute conditions.</p>
+                    </div>
+                    <div class="story-content-2">
+                        <div class="subtitle color-primary-1">About Me</div>
+                        <h2 class="title story highlight-text">Years of experience in homeopathic medicine</h2>
+                        <p>With extensive experience in homeopathic practice, Dr. Durai specializes in treating various chronic conditions, skin diseases, respiratory issues, and digestive disorders. His approach combines traditional homeopathic principles with modern understanding of disease pathology, ensuring comprehensive treatment that addresses both symptoms and underlying causes. He believes in the body's innate ability to heal itself when given the right stimulus.</p>
+                    </div>
+                    <div class="image-wrapper story-2">
+                        <img alt="Homeopathic Treatment" class="image story-2" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd82023b6be4b3_image-2-story-doctor-template.jpg"/>
+                        <div class="image-solid-cover show"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Values Section -->
+    <section class="section">
+        <div class="container-small-586px values scroll-animate">
+            <div class="subtitle">My Values</div>
+            <h2 class="highlight-text">My practice is guided by core homeopathic principles</h2>
+        </div>
+        <div class="container-default w-container">
+            <div class="w-layout-grid values-grid">
+                <div class="card bg-neutral-200 value">
+                    <img alt="Holistic Approach" class="image card-value-icon" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd8253626be4ae_icon-1-value-doctor-template.svg"/>
+                    <div>
+                        <h3 class="title card-value">Holistic Healing</h3>
+                        <p>Treating the whole person, not just the disease. Understanding the physical, mental, and emotional aspects of each patient to provide comprehensive care.</p>
+                    </div>
+                </div>
+                <div class="card bg-neutral-200 value">
+                    <img alt="Natural Treatment" class="image card-value-icon" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd82bbde6be4b0_icon-2-value-doctor-template.svg"/>
+                    <div>
+                        <h3 class="title card-value">Natural Treatment</h3>
+                        <p>Using gentle, natural remedies that work in harmony with the body's healing mechanisms, without side effects or dependency.</p>
+                    </div>
+                </div>
+                <div class="card bg-neutral-200 value">
+                    <img alt="Individualized Care" class="image card-value-icon" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd8253b46be4af_icon-3-value-doctor-template.svg"/>
+                    <div>
+                        <h3 class="title card-value">Individualized Care</h3>
+                        <p>Every patient is unique. Treatment plans are tailored to individual symptoms, constitution, and response to remedies.</p>
+                    </div>
+                </div>
+                <div class="card bg-neutral-200 value">
+                    <img alt="Preventive Approach" class="image card-value-icon" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd8228966be4b1_icon-4-value-doctor-template.svg"/>
+                    <div>
+                        <h3 class="title card-value">Preventive Approach</h3>
+                        <p>Focusing on strengthening the immune system and overall health to prevent recurrence of diseases and maintain wellness.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-vc scroll-animate">
+                <a class="button-primary w-button" href="/login">Book an Appointment</a>
+            </div>
+        </div>
+    </section>
+    <!-- Experience Section -->
+    <section class="section bg-neutral-200">
+        <div class="container-default w-container">
+            <div class="experience-wrapper">
+                <div class="split-content experience-left scroll-animate">
+                    <div class="subtitle color-primary-1">My Experience and Education</div>
+                    <h2 class="highlight-text">The education and experience that shaped my practice</h2>
+                    <p class="paragraph experience-left">Dr. P.R. Durai's extensive training in homeopathy and years of clinical practice have equipped him with the knowledge and skills to effectively treat a wide range of health conditions using natural remedies.</p>
+                    <a class="button-primary w-button" href="/login">Book an Appointment</a>
+                </div>
+                <div class="split-content experience-right">
+                    <div class="w-layout-grid experience-grid">
+                        <div class="card experience">
+                            <div class="card-experience-date">B.H.M.S. Degree</div>
+                            <h3 class="title card-experience">Bachelor of Homeopathic Medicine & Surgery</h3>
+                            <p>Completed comprehensive medical education in homeopathy from Delhi, covering all aspects of homeopathic philosophy, materia medica, and clinical practice.</p>
+                        </div>
+                        <div class="card experience">
+                            <div class="card-experience-date">M.D. (ACU)</div>
+                            <h3 class="title card-experience">Doctor of Medicine in Acupuncture</h3>
+                            <p>Advanced specialization in acupuncture, integrating this complementary therapy with homeopathic treatment for enhanced healing outcomes.</p>
+                        </div>
+                        <div class="card experience">
+                            <div class="card-experience-date">Clinical Experience</div>
+                            <h3 class="title card-experience">Years of Clinical Practice</h3>
+                            <p>Extensive hands-on experience treating thousands of patients with various chronic and acute conditions, developing expertise in case management and remedy selection.</p>
+                        </div>
+                        <div class="card experience">
+                            <div class="card-experience-date">Continuous Learning</div>
+                            <h3 class="title card-experience">Ongoing Education & Research</h3>
+                            <p>Regular participation in workshops, seminars, and research to stay updated with the latest developments in homeopathy and integrative medicine.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Specialities Section -->
+    <section class="section">
+        <div class="container-default w-container">
+            <div class="top-content about-services scroll-animate">
+                <div class="split-content about-services-left">
+                    <div class="subtitle">My Specialities</div>
+                    <h2 class="title about-services highlight-text">Expert homeopathic treatment for various conditions</h2>
+                </div>
+                <div class="split-content about-services-right">
+                    <a class="button-secondary w-button" href="/service">All Services</a>
+                </div>
+            </div>
+            <div class="about-services-grid" role="list">
+                <div class="about-card-service-item" role="listitem">
+                    <a class="card about-service w-inline-block" href="/service/chronic-diseases">
+                        <img alt="Chronic Diseases" class="image about-card-service" src="https://cdn.prod.website-files.com/60e4a22b84dd82d9696be40e/60e4a22b84dd824d9c6be480_icon-1-service-doctor-template.svg"/>
+                        <div class="about-card-service-content">
+                            <h3 class="title about-card-service">Chronic Diseases</h3>
+                            <p class="paragraph about-card-service">Effective treatment for arthritis, asthma, allergies, migraines, and other long-standing health conditions using constitutional remedies.</p>
+                            <div class="link-wrapper"><div>Learn More</div><div class="link-underline"></div></div>
+                        </div>
+                    </a>
+                </div>
+                <div class="about-card-service-item" role="listitem">
+                    <a class="card about-service w-inline-block" href="/service/skin-conditions">
+                        <img alt="Skin Conditions" class="image about-card-service" src="https://cdn.prod.website-files.com/60e4a22b84dd82d9696be40e/60e4a22b84dd8264ec6be47d_icon-2-service-doctor-template.svg"/>
+                        <div class="about-card-service-content">
+                            <h3 class="title about-card-service">Skin Conditions</h3>
+                            <p class="paragraph about-card-service">Natural solutions for eczema, psoriasis, acne, warts, and various dermatological issues without steroid side effects.</p>
+                            <div class="link-wrapper"><div>Learn More</div><div class="link-underline"></div></div>
+                        </div>
+                    </a>
+                </div>
+                <div class="about-card-service-item" role="listitem">
+                    <a class="card about-service w-inline-block" href="/service/respiratory">
+                        <img alt="Respiratory Issues" class="image about-card-service" src="https://cdn.prod.website-files.com/60e4a22b84dd82d9696be40e/60e4a22b84dd822fc76be47c_icon-3-service-doctor-template.svg"/>
+                        <div class="about-card-service-content">
+                            <h3 class="title about-card-service">Respiratory Issues</h3>
+                            <p class="paragraph about-card-service">Treatment for asthma, bronchitis, sinusitis, allergic rhinitis and other respiratory problems with gentle remedies.</p>
+                            <div class="link-wrapper"><div>Learn More</div><div class="link-underline"></div></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container-default w-container">
+            <div class="top-content footer-top-content">
+                <a class="footer-logo-container w-inline-block" href="/"><img alt="Sakthi Homeo Clinic Logo" class="footer-logo" src="logo/logo3.png" height="50px" width="120px"/></a>
+                <p class="paragraph-small footer-top-content">Sakthi Homeo Clinic provides expert homeopathic treatment for various ailments using natural remedies with proven results.</p>
+            </div>
+            <div class="divider footer-divider-1"></div>
+            <div class="w-layout-grid footer-grid">
+                <div class="footer-nav-wrapper">
+                    <div class="footer-nav-box">
+                        <h2 class="title footer-title">Menu</h2>
+                        <div class="footer-nav-content">
+                            <ul class="footer-nav-links w-list-unstyled" role="list">
+                                <li><a class="footer-nav-link" href="/">Home</a></li>
+                                <li><a class="footer-nav-link w--current" href="/about">About</a></li>
+                                <li><a class="footer-nav-link" href="/services">Services</a></li>
+                                <li><a class="footer-nav-link" href="/contact">Contact</a></li>
+                                <li><a class="footer-nav-link" href="/appointment">Appointment</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-nav-box">
+                        <h2 class="title footer-title">Clinic Hours</h2>
+                        <div class="footer-nav-content">
+                            <ul class="footer-nav-links last w-list-unstyled" role="list">
+                                <li><p class="paragraph-small footer-address">Monday - Saturday: 3:00 PM - 7:00 PM</p></li>
+                                <li><p class="paragraph-small footer-address">Sunday: Holiday</p></li>
+                                <li><p class="paragraph-small footer-address">Emergency: Available on call</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-nav-box last">
+                        <h2 class="title footer-title">Contact</h2>
+                        <div class="footer-nav-content">
+                            <ul class="footer-nav-links last w-list-unstyled" role="list">
+                                <li><p class="paragraph-small footer-address">Dhandapani St, T. Nagar, Chennai, Tamil Nadu 600017</p></li>
+                                <li><a class="footer-nav-link" href="mailto:contact@doctor.com">contact@doctor.com</a></li>
+                                <li><a class="footer-nav-link" href="tel:+919940379979">+91 9940379979</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divider footer-divider-2"></div>
+            <div class="container-default w-container">
+                <div class="small-print-wrapper">
+                    <div class="paragraph-small small-print">
+                        Copyright © Sakthi Homeo Clinic | All Rights Reserved
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // Page loader
+    window.addEventListener('load', function() {
+        const loader = document.querySelector('.page-loader');
+        loader.classList.add('hidden');
+    });
+
+    // Mobile Navigation Toggle
+    const menuButton = document.getElementById('menuButton');
+    const mobileClose = document.getElementById('mobileClose');
+    const navMenu = document.getElementById('navMenu');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    function openMenu() {
+        navMenu.classList.add('active');
+        mobileOverlay.classList.add('active');
+        menuButton.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        navMenu.classList.remove('active');
+        mobileOverlay.classList.remove('active');
+        menuButton.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    menuButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (navMenu.classList.contains('active')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+
+    mobileClose.addEventListener('click', closeMenu);
+    mobileOverlay.addEventListener('click', closeMenu);
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 991 && navMenu.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+
+    // Enhanced scroll animation implementation
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <=
+                (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('animated');
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.2)) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        handleScrollAnimation();
+
+        window.addEventListener('scroll', () => {
+            handleScrollAnimation();
+        });
+
+        // Add ripple effect to buttons
+        const buttons = document.querySelectorAll('.button-primary, .button-secondary');
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+
+                const x = e.clientX - e.target.offsetLeft;
+                const y = e.clientY - e.target.offsetTop;
+
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add shake animation to buttons on hover
+        const primaryButtons = document.querySelectorAll('.button-primary');
+        primaryButtons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.classList.add('animate-shake');
+            });
+
+            button.addEventListener('animationend', function() {
+                this.classList.remove('animate-shake');
+            });
+        });
+    });
+</script>
+</body>
+</html>

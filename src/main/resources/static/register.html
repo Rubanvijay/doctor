@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Patient Registration - Doctor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <link rel="shortcut icon" href="logo/logo3.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .auth-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #3a5ca8);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-20px) translateX(20px);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(30, 60, 114, 0.3);
+            max-width: 480px;
+            width: 100%;
+            padding: 48px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .auth-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 70px rgba(30, 60, 114, 0.4);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-header h1 {
+            font-size: 32px;
+            color: #2c5aa0;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .auth-header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .form-group:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .form-group:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .form-group:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .form-group:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2c5aa0;
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+        }
+
+        .form-group input.error {
+            border-color: #ff4444;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            10%, 30%, 50%, 70%, 90% {
+                transform: translateX(-5px);
+            }
+            20%, 40%, 60%, 80% {
+                transform: translateX(5px);
+            }
+        }
+
+        .error-message {
+            color: #ff4444;
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .g-recaptcha {
+            margin-bottom: 16px;
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            animation-delay: 0.6s;
+        }
+
+        #captchaerror {
+            display: block;
+            color: #ff4444;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #2c5aa0, #1e4178);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            animation-delay: 0.7s;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 90, 160, 0.4);
+            background: linear-gradient(135deg, #1e4178, #2c5aa0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 24px;
+            color: #666;
+            font-size: 14px;
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            animation-delay: 0.8s;
+        }
+
+        .auth-footer a {
+            color: #2c5aa0;
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .auth-footer a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, #2c5aa0, #4a90e2);
+            transition: width 0.3s ease;
+        }
+
+        .auth-footer a:hover::after {
+            width: 100%;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert.error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef5350;
+        }
+
+        .alert.success {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+
+        /* Logo at top */
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .auth-logo img {
+            height: 50px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            height: 4px;
+            margin-top: 8px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            transition: all 0.3s ease;
+            width: 0%;
+        }
+
+        .password-strength.weak .password-strength-bar {
+            width: 33%;
+            background: #ff4444;
+        }
+
+        .password-strength.medium .password-strength-bar {
+            width: 66%;
+            background: #ffa500;
+        }
+
+        .password-strength.strong .password-strength-bar {
+            width: 100%;
+            background: #2c5aa0;
+        }
+    </style>
+</head>
+<body>
+<div class="auth-section">
+    <div class="auth-container">
+        <div class="auth-logo">
+            <img src="logo/logo3.png" alt="Doctor Logo"/>
+        </div>
+
+        <div class="auth-header">
+            <h1>Create Account</h1>
+            <p>Register to book appointments and manage your health</p>
+        </div>
+
+        <div class="alert" id="alertMessage"></div>
+
+        <form id="registerForm" onsubmit="handleRegister(event)">
+            <div class="form-group">
+                <label for="patientName">Patient Name *</label>
+                <input
+                        type="text"
+                        id="patientName"
+                        name="patientName"
+                        placeholder="Enter your full name"
+                        required
+                />
+                <div class="error-message" id="nameError">Please enter a valid name</div>
+            </div>
+
+            <div class="form-group">
+                <label for="mobileNumber">Mobile Number *</label>
+                <input
+                        type="tel"
+                        id="mobileNumber"
+                        name="mobileNumber"
+                        placeholder="Enter 10-digit mobile number"
+                        required
+                />
+                <div class="error-message" id="mobileError">Please enter a valid 10-digit mobile number</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        required
+                />
+                <div class="error-message" id="emailError">Please enter a valid email address</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password *</label>
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password (min 6 characters)"
+                        required
+                        oninput="checkPasswordStrength()"
+                />
+                <div class="password-strength" id="passwordStrength">
+                    <div class="password-strength-bar"></div>
+                </div>
+                <div class="error-message" id="passwordError">Password must be at least 6 characters</div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password *</label>
+                <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Re-enter password"
+                        required
+                />
+                <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+            </div>
+
+            <div class="g-recaptcha" data-sitekey="6LdI8uMrAAAAAAQvCtS-PVTRByEwLEuEi05-zi9t"></div>
+            <span id="captchaerror"></span>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Register
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="login">Login here</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function checkPasswordStrength() {
+        const password = document.getElementById('password').value;
+        const strengthIndicator = document.getElementById('passwordStrength');
+
+        if (password.length === 0) {
+            strengthIndicator.style.display = 'none';
+            return;
+        }
+
+        strengthIndicator.style.display = 'block';
+        strengthIndicator.className = 'password-strength';
+
+        if (password.length < 6) {
+            strengthIndicator.classList.add('weak');
+        } else if (password.length < 10) {
+            strengthIndicator.classList.add('medium');
+        } else {
+            strengthIndicator.classList.add('strong');
+        }
+    }
+
+    function handleRegister(event) {
+        event.preventDefault();
+
+        // Clear previous errors
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+        document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+        document.getElementById('alertMessage').classList.remove('show');
+
+        // Get form values
+        const patientName = document.getElementById('patientName').value.trim();
+        const mobileNumber = document.getElementById('mobileNumber').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        let isValid = true;
+
+        // Validate name
+        if (patientName.length < 2) {
+            showError('patientName', 'nameError');
+            isValid = false;
+        }
+
+        // Validate mobile number (10 digits)
+        const mobileRegex = /^[6-9]\d{9}$/;
+        if (!mobileRegex.test(mobileNumber)) {
+            showError('mobileNumber', 'mobileError');
+            isValid = false;
+        }
+
+        // Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showError('email', 'emailError');
+            isValid = false;
+        }
+
+        // Validate password
+        if (password.length < 6) {
+            showError('password', 'passwordError');
+            isValid = false;
+        }
+
+        // Validate confirm password
+        if (password !== confirmPassword) {
+            showError('confirmPassword', 'confirmPasswordError');
+            isValid = false;
+        }
+
+        // Validate reCAPTCHA
+        var response = grecaptcha.getResponse();
+        if (response.length === 0) {
+            document.getElementById("captchaerror").textContent = "Please verify that you are not a robot";
+            isValid = false;
+        } else {
+            document.getElementById("captchaerror").textContent = "";
+        }
+
+        if (!isValid) return;
+
+        // Disable submit button
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner"></span> Registering...';
+
+        // Prepare data
+        const userData = {
+            patientName: patientName,
+            mobileNumber: mobileNumber,
+            email: email,
+            password: password
+        };
+
+        console.log('Sending data:', userData);
+
+        // Send to backend
+        fetch('http://localhost:8080/api/patients/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        })
+        .then(response => {
+            console.log('Response status:', response.status);
+            if (!response.ok) {
+                return response.text().then(text => {
+                    console.log('Error response:', text);
+                    throw new Error(text || 'Registration failed');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success response:', data);
+            // Show success message
+            showAlert('Registration successful! Redirecting to login...', 'success');
+
+            // Redirect to login after 2 seconds
+            setTimeout(() => {
+                window.location.href = 'login';
+            }, 2000);
+        })
+        .catch(error => {
+            console.error('Registration error:', error);
+            showAlert('Registration failed: ' + error.message, 'error');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Register';
+        });
+    }
+
+    function showError(inputId, errorId) {
+        document.getElementById(inputId).classList.add('error');
+        document.getElementById(errorId).classList.add('show');
+    }
+
+    function showAlert(message, type) {
+        const alertEl = document.getElementById('alertMessage');
+        alertEl.textContent = message;
+        alertEl.className = 'alert show ' + type;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Dashboard - Dr. P.R. Durai | Homeopathic Consultant</title>
+    <meta name="description" content="Patient Dashboard - Manage your homeopathic treatment appointments and health records"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="logo/logo3.png" type="image/x-icon"/>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* Apply fonts globally */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        /* Headings with Poppins */
+        h1, h2, h3, h4, h5, h6, .title, .subtitle {
+            font-family: 'Poppins', 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Body text with Inter */
+        body, p, .paragraph, .paragraph-small, .nav-link {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Buttons */
+        .button-primary, .button-secondary {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        /* Enhanced Animation Keyframes */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeInRight {
+          from {
+            opacity: 0;
+            transform: translateX(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+          100% {
+            transform: translateY(0px);
+          }
+        }
+
+        @keyframes slideInFromLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slideInFromRight {
+          from {
+            opacity: 0;
+            transform: translateX(100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        /* NEW ANIMATIONS */
+        @keyframes bounceIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.3);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.05);
+          }
+          70% {
+            transform: scale(0.9);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes shake {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          10%, 30%, 50%, 70%, 90% {
+            transform: translateX(-5px);
+          }
+          20%, 40%, 60%, 80% {
+            transform: translateX(5px);
+          }
+        }
+
+        @keyframes rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes typewriter {
+          from {
+            width: 0;
+          }
+          to {
+            width: 100%;
+          }
+        }
+
+        @keyframes blink {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0;
+          }
+        }
+
+        @keyframes gradientShift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        @keyframes wave {
+          0% {
+            transform: translateX(0);
+          }
+          50% {
+            transform: translateX(-10px);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes ripple {
+          0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+          }
+          100% {
+            transform: scale(20, 20);
+            opacity: 0;
+          }
+        }
+
+        @keyframes dropdownFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* Animation Classes */
+        .animate-fadeInUp {
+          animation: fadeInUp 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-fadeInLeft {
+          animation: fadeInLeft 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-fadeInRight {
+          animation: fadeInRight 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-pulse {
+          animation: pulse 2s infinite;
+        }
+
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-slideInLeft {
+          animation: slideInFromLeft 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-slideInRight {
+          animation: slideInFromRight 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        /* NEW ANIMATION CLASSES */
+        .animate-bounceIn {
+          animation: bounceIn 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-shake {
+          animation: shake 0.5s ease-in-out;
+        }
+
+        .animate-rotate {
+          animation: rotate 8s linear infinite;
+        }
+
+        .animate-typewriter {
+          overflow: hidden;
+          white-space: nowrap;
+          animation: typewriter 2s steps(40, end) forwards;
+          width: 0;
+        }
+
+        .animate-wave {
+          display: inline-block;
+          animation: wave 1.5s ease-in-out infinite;
+        }
+
+        .animate-dropdown {
+          animation: dropdownFadeIn 0.3s ease-out forwards;
+        }
+
+        /* Staggered Animations for Dashboard */
+        .dashboard-welcome > * {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .dashboard-welcome h1 {
+          animation-delay: 0.2s;
+        }
+
+        .dashboard-welcome p {
+          animation-delay: 0.4s;
+        }
+
+        .dashboard-cards .dashboard-card {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .dashboard-cards .dashboard-card:nth-child(1) {
+          animation-delay: 0.2s;
+        }
+
+        .dashboard-cards .dashboard-card:nth-child(2) {
+          animation-delay: 0.4s;
+        }
+
+        .dashboard-cards .dashboard-card:nth-child(3) {
+          animation-delay: 0.6s;
+        }
+
+        /* Quick Stats Animation */
+        .dashboard-content > div:last-child > div > div {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .dashboard-content > div:last-child > div > div:nth-child(1) {
+          animation-delay: 0.8s;
+        }
+
+        .dashboard-content > div:last-child > div > div:nth-child(2) {
+          animation-delay: 1.0s;
+        }
+
+        .dashboard-content > div:last-child > div > div:nth-child(3) {
+          animation-delay: 1.2s;
+        }
+
+        /* Navigation Spacing Styles */
+        .header-navigation {
+          display: flex;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          gap: 32px;
+        }
+
+        .nav-link {
+          position: relative;
+          transition: color 0.3s ease;
+          padding: 8px 0;
+          margin-left:75px;
+        }
+
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background: linear-gradient(90deg, #ffffff, #a8c5e8);
+          transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+          width: 100%;
+        }
+
+        /* Enhanced Hover Effects */
+        .card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+          transition: left 0.5s;
+        }
+
+        .card:hover::before {
+          left: 100%;
+        }
+
+        .card:hover {
+          transform: translateY(-5px) scale(1.02);
+          box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .button-primary, .button-secondary {
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .button-primary::after, .button-secondary::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 5px;
+          height: 5px;
+          background: rgba(255, 255, 255, 0.5);
+          opacity: 0;
+          border-radius: 100%;
+          transform: scale(1, 1) translate(-50%);
+          transform-origin: 50% 50%;
+        }
+
+        .button-primary:hover::after, .button-secondary:hover::after {
+          animation: ripple 1s ease-out;
+        }
+
+        .button-primary:hover, .button-secondary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Background Animation */
+        .bg.home-hero-right {
+          animation: float 6s ease-in-out infinite, rotate 30s linear infinite;
+        }
+
+        .bg.cta {
+          animation: float 8s ease-in-out infinite;
+        }
+
+        /* Welcome Section with Blue Gradient */
+        .dashboard-welcome {
+          background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #1a3461);
+          background-size: 400% 400%;
+          animation: gradientShift 10s ease infinite;
+          position: relative;
+          overflow: hidden;
+          color: white;
+          padding: 3rem 2rem;
+          border-radius: 12px;
+          margin-bottom: 2rem;
+        }
+
+        .dashboard-welcome::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          right: -50%;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+          animation: float 8s ease-in-out infinite;
+        }
+
+        .dashboard-welcome h1 {
+          margin: 0 0 0.5rem 0;
+          font-size: 2rem;
+          position: relative;
+          z-index: 1;
+        }
+
+        .dashboard-welcome p {
+          margin: 0;
+          opacity: 0.9;
+          position: relative;
+          z-index: 1;
+        }
+
+        /* Scroll Animations */
+        .scroll-animate {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .scroll-animate.animated {
+          opacity: 1;
+          transform: translateY(0);
+          margin-left:75px;
+        }
+
+        /* NEW: Animated icons */
+        .image.card-home-feature, .image.card-service {
+          transition: transform 0.5s ease;
+        }
+
+        .card:hover .image.card-home-feature,
+        .card:hover .image.card-service {
+          transform: scale(1.2) rotate(5deg);
+        }
+
+        /* NEW: Loading animation for page */
+        .page-loader {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+          transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .page-loader.hidden {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .loader {
+          width: 50px;
+          height: 50px;
+          border: 5px solid #f3f3f3;
+          border-top: 5px solid #2c5aa0;
+          border-radius: 50%;
+          animation: rotate 1s linear infinite;
+        }
+
+        /* NEW: Text highlight animation */
+        .highlight-text {
+          position: relative;
+          display: inline-block;
+        }
+
+        .highlight-text::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 30%;
+          background-color: rgba(44, 90, 160, 0.2);
+          z-index: -1;
+          transform: scaleX(0);
+          transform-origin: bottom left;
+          transition: transform 0.3s ease;
+        }
+
+        .highlight-text:hover::after {
+          transform: scaleX(1);
+        }
+
+        /* NEW: Animated footer links */
+        .footer-nav-link {
+          position: relative;
+          transition: color 0.3s ease;
+          display: inline-block;
+        }
+
+        .footer-nav-link::before {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 0;
+          height: 1px;
+          background-color: white;
+          transition: width 0.3s ease;
+        }
+
+        .footer-nav-link:hover::before {
+          width: 100%;
+        }
+
+        /* HEADER STYLING - BLUE */
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            box-shadow: 0 2px 10px rgba(30, 60, 114, 0.15);
+            position: relative;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-contact-wrapper {
+            display: flex;
+            gap: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-contact-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .header-contact-link:hover {
+            color: #a8c5e8;
+        }
+
+        .header-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header .nav-link {
+            color: white;
+        }
+
+        .header .nav-link:hover {
+            color: #a8c5e8;
+        }
+
+        .header-button {
+            background: white !important;
+            color: #2c5aa0 !important;
+        }
+
+        .header-button:hover {
+            background: #f0f4f8 !important;
+        }
+
+        /* FOOTER STYLING - BLUE */
+        .footer {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-title {
+            color: white;
+        }
+
+        .footer-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .footer-nav-link:hover {
+            color: white;
+        }
+
+        .footer-address {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .divider.footer-divider-1,
+        .divider.footer-divider-2 {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .small-print {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Dashboard Specific Styles */
+        .dashboard-nav {
+          background: #fff;
+          border-bottom: 1px solid #e5e7eb;
+          padding: 1rem 0;
+          margin-bottom: 2rem;
+        }
+
+        .dashboard-nav-wrapper {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .dashboard-nav-links {
+          display: flex;
+          gap: 2rem;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        .dashboard-nav-link {
+          color: #1e293b;
+          text-decoration: none;
+          font-weight: 500;
+          padding: 0.5rem 1rem;
+          border-radius: 6px;
+          transition: all 0.3s ease;
+          position: relative;
+        }
+
+        .dashboard-nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: -5px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 0;
+          height: 2px;
+          background: linear-gradient(90deg, #2c5aa0, #1e4178);
+          transition: width 0.3s ease;
+        }
+
+        .dashboard-nav-link:hover::after {
+          width: 80%;
+        }
+
+        .dashboard-nav-link:hover,
+        .dashboard-nav-link.active {
+          background: #e8f0fa;
+          color: #2c5aa0;
+        }
+
+        .dashboard-content {
+          min-height: 60vh;
+        }
+
+        .dashboard-cards {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          margin-top: 2rem;
+        }
+
+        .dashboard-card {
+          background: white;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          padding: 2rem;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-card h3 {
+          margin: 0 0 1rem 0;
+          color: #1e293b;
+        }
+
+        .dashboard-card p {
+          margin: 0 0 1.5rem 0;
+          color: #64748b;
+        }
+
+        /* User Profile Dropdown Styles - BLUE */
+        .user-info {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          position: relative;
+          cursor: pointer;
+        }
+
+        .user-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #2c5aa0, #1e4178);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: 600;
+          transition: transform 0.3s ease;
+          animation: pulse 2s infinite;
+        }
+
+        .user-info:hover .user-avatar {
+          transform: scale(1.1);
+          animation: none;
+        }
+
+        .user-name {
+          font-weight: 500;
+          color: #fff;
+          font-size: 16px;
+          transition: color 0.3s ease;
+        }
+
+        .user-info:hover .user-name {
+          color: #fff;
+        }
+
+        .user-dropdown {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+          min-width: 200px;
+          padding: 0.5rem 0;
+          z-index: 1000;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-10px);
+          transition: all 0.3s ease;
+        }
+
+        .user-dropdown.active {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+          animation: dropdownFadeIn 0.3s ease-out;
+        }
+
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.75rem 1rem;
+          color: #1e293b;
+          text-decoration: none;
+          transition: background 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+          background: #e8f0fa;
+          color: #2c5aa0;
+        }
+
+        .dropdown-item i {
+          width: 20px;
+          text-align: center;
+          color: #2c5aa0;
+        }
+
+        .dropdown-divider {
+          height: 1px;
+          background: #e5e7eb;
+          margin: 0.5rem 0;
+        }
+
+        /* Quick Stats - BLUE */
+        .quick-stats {
+          margin-top: 3rem;
+        }
+
+        .quick-stats h2 {
+          margin-bottom: 1.5rem;
+          color: #2c5aa0;
+        }
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1.5rem;
+        }
+
+        .stat-card {
+          background: #e8f0fa;
+          padding: 1.5rem;
+          border-radius: 8px;
+          text-align: center;
+          border: 2px solid #d4e3f5;
+          transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+          transform: translateY(-3px);
+        }
+
+        .stat-number {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #2c5aa0;
+          margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+          color: #64748b;
+        }
+
+        /* MOBILE OVERLAY */
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1002;
+        }
+
+        .split-content.header-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-button {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .menu-button-icon-wrapper {
+            width: 30px;
+            height: 24px;
+            position: relative;
+        }
+
+        .menu-line-top,
+        .menu-line-middle,
+        .menu-line-bottom {
+            width: 100%;
+            height: 3px;
+            background: white;
+            position: absolute;
+            left: 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .menu-line-top {
+            top: 0;
+        }
+
+        .menu-line-middle {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .menu-line-bottom {
+            bottom: 0;
+        }
+
+        .menu-button.active .menu-line-top {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .menu-button.active .menu-line-middle {
+            opacity: 0;
+        }
+
+        .menu-button.active .menu-line-bottom {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+        }
+
+        /* MOBILE RESPONSIVE STYLES */
+        @media (max-width: 991px) {
+
+    .header-wrapper {
+        position: relative;
+    }
+
+    .user-info {
+        position: absolute;
+        right: 70px; /* Position to the left of the menu button */
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .split-content.header-right {
+        flex: 1;
+        justify-content: space-between;
+    }
+
+    .brand {
+        margin-left: 0;
+    }
+
+    /* Ensure proper spacing */
+    .header-actions {
+        gap: 10px;
+    }
+
+            .header-contact-wrapper {
+                flex-direction: column;
+                gap: 8px;
+                padding: 12px 0;
+            }
+
+            .header-contact-link {
+                font-size: 13px;
+            }
+
+            .header-wrapper {
+                padding: 12px 0;
+            }
+
+            .split-content.header-right {
+                gap: 20px;
+                flex: 1;
+            }
+
+            .header-logo {
+                height: 40px;
+                width: auto;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 280px;
+                height: 100vh;
+                background: linear-gradient(180deg, #1e3c72, #2a5298);
+                padding: 80px 30px 30px;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+                z-index: 1001;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .header-navigation {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .header-navigation li {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-link {
+                display: block;
+                padding: 18px 0;
+                font-size: 18px;
+                margin-left: 0 !important;
+            }
+
+            .menu-button {
+                display: block;
+                z-index: 1002;
+            }
+
+            .mobile-close {
+                display: flex;
+            }
+
+            .user-info {
+                order: -1;
+            }
+
+            .user-name {
+                display: none;
+            }
+
+            .dashboard-nav-links {
+                gap: 1rem;
+            }
+
+            .dashboard-nav-link {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .dashboard-welcome h1 {
+                font-size: 1.5rem;
+            }
+
+            .scroll-animate.animated {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 479px) {
+    .user-info {
+        right: 60px;
+    }
+
+    .user-avatar {
+        width: 35px;
+        height: 35px;
+
+}
+            .header-contact-link {
+                font-size: 12px;
+            }
+
+            .header-logo {
+                height: 35px;
+            }
+
+            .nav-menu {
+                width: 260px;
+                padding: 70px 25px 25px;
+            }
+
+            .nav-link {
+                padding: 15px 0;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Mobile Overlay -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="page-loader">
+    <div class="loader"></div>
+</div>
+
+<div class="page-wrapper">
+    <!-- Header -->
+    <header class="header w-nav" role="banner">
+        <div class="container-default w-container">
+            <div class="header-contact-wrapper">
+                <a class="header-contact-link" href="tel:+91 9940379979">+91 9940379979</a>
+                <a class="header-contact-link last" href="mailto:contact@doctor.com">contact@doctor.com</a>
+            </div>
+            <div class="divider header-divider"></div>
+            <div class="header-wrapper">
+                <div class="split-content header-right">
+                    <a class="brand w-nav-brand" href="/" aria-label="Home">
+                        <img class="header-logo" src="logo/logo3.png" alt="Sakthi Homeo Clinic Logo" height="50px" width="120px"/>
+                    </a>
+                    <nav class="nav-menu" role="navigation" id="navMenu">
+                        <button class="mobile-close" id="mobileClose" aria-label="Close menu">&times;</button>
+                        <ul class="header-navigation" role="list">
+                            <li><a class="nav-link" href="/">Home</a></li>
+                            <li><a class="nav-link" href="/about">About</a></li>
+                            <li><a class="nav-link" href="/service">Services</a></li>
+                            <li><a class="nav-link" href="/contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="user-info" id="userProfile">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name" id="username">Vijay</span>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user-circle"></i>
+                            <span>My Profile</span>
+                        </a>
+                        <a href="/ChangePassword" class="dropdown-item">
+                            <i class="fas fa-key"></i>
+                            <span>Change Password</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="logout" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-button w-nav-button" id="menuButton">
+                    <div class="menu-button-icon-wrapper">
+                        <div class="menu-button-icon">
+                            <div class="menu-line-top"></div>
+                            <div class="menu-line-middle"></div>
+                            <div class="menu-line-bottom"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Navigation -->
+    <section class="dashboard-nav">
+        <div class="container-default w-container">
+            <div class="dashboard-nav-wrapper">
+                <ul class="dashboard-nav-links" role="list">
+                    <li><a class="dashboard-nav-link active" href="history">My Appointments</a></li>
+                    <li><a class="dashboard-nav-link" href="booking">Book an Appointment</a></li>
+                    <li><a class="dashboard-nav-link" href="/about">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <section class="section dashboard-content">
+        <div class="container-default w-container">
+            <!-- Welcome Section with Blue Gradient -->
+            <div class="dashboard-welcome">
+                <h1>Welcome back, <span id="patientName">Vijay</span></h1>
+                <p>Manage your homeopathic treatment appointments and track your health journey with Dr. P.R. Durai</p>
+            </div>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <img class="image card-home-feature" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd82099a6be49e_icon-1-home-feature-doctor-template.svg" alt="History" style="width: 60px; margin-bottom: 1rem;"/>
+                    <h3>Treatment History</h3>
+                    <p>View your past homeopathic consultations, prescriptions, and treatment progress</p>
+                    <a class="button-primary w-button" href="#history">View History</a>
+                </div>
+
+                <div class="dashboard-card">
+                    <img class="image card-home-feature" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd82f0c86be49f_icon-2-home-feature-doctor-template.svg" alt="Book" style="width: 60px; margin-bottom: 1rem;"/>
+                    <h3>Book Consultation</h3>
+                    <p>Schedule a new homeopathic consultation with Dr. P.R. Durai for personalized treatment</p>
+                    <a class="button-primary bg-secondary-1 w-button" href="booking">Book Now</a>
+                </div>
+
+                <div class="dashboard-card">
+                    <img class="image card-home-feature" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd8216636be49d_icon-3-home-feature-doctor-template.svg" alt="About" style="width: 60px; margin-bottom: 1rem;"/>
+                    <h3>About Dr. Durai</h3>
+                    <p>Learn more about Dr. P.R. Durai's expertise in homeopathic medicine and available treatments</p>
+                    <a class="button-secondary w-button" href="#about">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <h2>Your Health Journey</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Total Consultations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">Upcoming Visits</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Completed Treatments</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container-default w-container">
+            <div class="top-content footer-top-content">
+                <a class="footer-logo-container w-inline-block" href="/">
+                    <img class="footer-logo" src="logo/logo3.png" alt="Sakthi Homeo Clinic Logo" height="50px" width="120px"/>
+                </a>
+                <p class="paragraph-small footer-top-content">Sakthi Homeo Clinic provides expert homeopathic treatment for various ailments using natural remedies with proven results.</p>
+            </div>
+            <div class="divider footer-divider-1"></div>
+            <div class="w-layout-grid footer-grid">
+                <div class="footer-nav-wrapper">
+                    <div class="footer-nav-box">
+                        <h2 class="title footer-title">Menu</h2>
+                        <div class="footer-nav-content">
+                            <ul class="footer-nav-links w-list-unstyled" role="list">
+                                <li><a class="footer-nav-link" href="/">Home</a></li>
+                                <li><a class="footer-nav-link" href="/about">About</a></li>
+                                <li><a class="footer-nav-link" href="/service">Services</a></li>
+                                <li><a class="footer-nav-link" href="/contact">Contact</a></li>
+                                <li><a class="footer-nav-link" href="/login">Appointment</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-nav-box">
+                        <h2 class="title footer-title">Clinic Hours</h2>
+                        <div class="footer-nav-content">
+                            <ul class="footer-nav-links last w-list-unstyled" role="list">
+                                <li><p class="paragraph-small footer-address">Monday - Saturday: 3:00 PM - 7:00 PM</p></li>
+                                <li><p class="paragraph-small footer-address">Sunday: Holiday</p></li>
+                                <li><p class="paragraph-small footer-address">Emergency: Available on call</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-nav-box last">
+                        <h2 class="title footer-title">Contact</h2>
+                        <div class="footer-nav-content">
+                            <ul class="footer-nav-links last w-list-unstyled" role="list">
+                                <li><p class="paragraph-small footer-address">Dhandapani St, T. Nagar, Chennai, Tamil Nadu 600017</p></li>
+                                <li><a class="footer-nav-link" href="mailto:contact@doctor.com">contact@doctor.com</a></li>
+                                <li><a class="footer-nav-link" href="tel:+919940379979">+91 9940379979</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divider footer-divider-2"></div>
+            <div class="container-default w-container">
+                <div class="small-print-wrapper">
+                    <div class="paragraph-small small-print">
+                        Copyright © Sakthi Homeo Clinic | All Rights Reserved
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // Page loader
+    window.addEventListener('load', function() {
+        const loader = document.querySelector('.page-loader');
+        loader.classList.add('hidden');
+    });
+
+    // Mobile Navigation Toggle - FROM ABOUT.HTML
+    const menuButton = document.getElementById('menuButton');
+    const mobileClose = document.getElementById('mobileClose');
+    const navMenu = document.getElementById('navMenu');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    function openMenu() {
+        navMenu.classList.add('active');
+        mobileOverlay.classList.add('active');
+        menuButton.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        navMenu.classList.remove('active');
+        mobileOverlay.classList.remove('active');
+        menuButton.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    menuButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (navMenu.classList.contains('active')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+
+    mobileClose.addEventListener('click', closeMenu);
+    mobileOverlay.addEventListener('click', closeMenu);
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 991 && navMenu.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+
+    // Enhanced scroll animation implementation
+    document.addEventListener('DOMContentLoaded', function() {
+      const scrollElements = document.querySelectorAll('.scroll-animate');
+
+      const elementInView = (el, dividend = 1) => {
+        const elementTop = el.getBoundingClientRect().top;
+        return (
+          elementTop <=
+          (window.innerHeight || document.documentElement.clientHeight) / dividend
+        );
+      };
+
+      const displayScrollElement = (element) => {
+        element.classList.add('animated');
+      };
+
+      const handleScrollAnimation = () => {
+        scrollElements.forEach((el) => {
+          if (elementInView(el, 1.2)) {
+            displayScrollElement(el);
+          }
+        });
+      };
+
+      // Initial check
+      handleScrollAnimation();
+
+      // Listen for scroll events
+      window.addEventListener('scroll', () => {
+        handleScrollAnimation();
+      });
+
+      // Add ripple effect to buttons
+      const buttons = document.querySelectorAll('.button-primary, .button-secondary');
+      buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          // Create ripple element
+          const ripple = document.createElement('span');
+          ripple.classList.add('ripple');
+          this.appendChild(ripple);
+
+          // Get click position
+          const x = e.clientX - e.target.offsetLeft;
+          const y = e.clientY - e.target.offsetTop;
+
+          // Position the ripple
+          ripple.style.left = `${x}px`;
+          ripple.style.top = `${y}px`;
+
+          // Remove ripple after animation
+          setTimeout(() => {
+            ripple.remove();
+          }, 600);
+        });
+      });
+
+      // Add shake animation to CTA button on hover
+      const ctaButton = document.querySelector('.dashboard-card .button-primary');
+      if (ctaButton) {
+        ctaButton.addEventListener('mouseenter', function() {
+          this.classList.add('animate-shake');
+        });
+
+        ctaButton.addEventListener('animationend', function() {
+          this.classList.remove('animate-shake');
+        });
+      }
+
+      // Simple navigation handling
+      document.querySelectorAll('.dashboard-nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          document.querySelectorAll('.dashboard-nav-link').forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // User profile dropdown functionality
+      const userProfile = document.getElementById('userProfile');
+      const userDropdown = document.getElementById('userDropdown');
+
+      userProfile.addEventListener('click', function(e) {
+        e.stopPropagation();
+        userDropdown.classList.toggle('active');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function() {
+        userDropdown.classList.remove('active');
+      });
+
+      // Set patient name
+      const patientName = sessionStorage.getItem('patientName') || 'Vijay';
+      document.getElementById('patientName').textContent = patientName;
+      document.getElementById('username').textContent = patientName;
+    });
+</script>
+</body>
+</html>
