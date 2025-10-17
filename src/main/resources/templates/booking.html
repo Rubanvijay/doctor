@@ -137,13 +137,16 @@
 
         .success-message {
             display: none;
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 1rem;
-            border-radius: 6px;
-            margin-top: 1rem;
+            background: #d1fae5;
+            color: #065f46;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
             text-align: center;
-            border: 1px solid #93c5fd;
+            border: 2px solid #34d399;
+            font-weight: 600;
+            font-size: 1.1rem;
+            animation: slideIn 0.3s ease;
         }
 
         .error-message {
@@ -155,6 +158,18 @@
             margin-top: 1rem;
             text-align: center;
             border: 1px solid #fecaca;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .required::after {
@@ -196,6 +211,7 @@
             border-radius: 50%;
             border-top-color: white;
             animation: spin 0.6s linear infinite;
+            margin-right: 8px;
         }
 
         .submit-btn:disabled {
@@ -302,7 +318,7 @@
             <button type="submit" class="submit-btn" id="submitBtn">Book Appointment</button>
 
             <div id="successMessage" class="success-message">
-                Appointment booked successfully! Confirmation email has been sent to your registered email address.
+                ✓ Appointment booked successfully! Redirecting to dashboard...
             </div>
 
             <div id="errorMessage" class="error-message"></div>
@@ -406,14 +422,13 @@
         if (!date || !branch) return renderTimeSlots();
 
         try {
-            // FIXED: Changed from http://localhost:8080 to relative URL
             const res = await fetch(`/api/bookings/timeslots?date=${date}&branch=${encodeURIComponent(branch)}`, {
                 credentials: 'include'
             });
 
             if (!res.ok) {
                 console.error('Failed to fetch time slots:', res.status);
-                renderTimeSlots(); // Show all slots if fetch fails
+                renderTimeSlots();
                 return;
             }
 
@@ -421,7 +436,7 @@
             renderTimeSlots(bookedSlots);
         } catch(err) {
             console.error('Error fetching slots:', err);
-            renderTimeSlots(); // Show all slots if fetch fails
+            renderTimeSlots();
         }
     }
 
@@ -441,7 +456,7 @@
 
         // Disable button and show loading
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="loading"></span> Booking...';
+        submitBtn.innerHTML = '<span class="loading"></span>Booking...';
 
         const data = {
             patientName: document.getElementById('patientName').value,
@@ -454,12 +469,16 @@
         };
 
         try {
+            console.log('Submitting booking...', data);
+
             const res = await fetch('/api/bookings', {
                 method: 'POST',
                 headers: {'Content-Type':'application/json'},
-                credentials: 'include', // Important: This sends session cookies
+                credentials: 'include',
                 body: JSON.stringify(data)
             });
+
+            console.log('Response status:', res.status);
 
             if (res.status === 401) {
                 errorMessage.textContent = 'Please login first to book an appointment';
@@ -474,23 +493,24 @@
 
             if (!res.ok) {
                 const errorData = await res.text();
+                console.error('Booking failed:', errorData);
                 throw new Error(errorData || 'Failed to book appointment');
             }
+
+            const result = await res.json();
+            console.log('Booking successful:', result);
 
             // Show success message
             successMessage.style.display = 'block';
             submitBtn.innerHTML = '✓ Booked Successfully!';
 
-            // Reset form
-            document.getElementById('bookingForm').reset();
-            timeSlotsContainer.innerHTML = '';
-            selectedTimeInput.value = '';
-            selectedTimeDisplay.value = '';
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-            // Redirect to dashboard after 3 seconds
+            // Redirect to dashboard after 2 seconds
             setTimeout(() => {
                 window.location.href = '/dashboard';
-            }, 3000);
+            }, 2000);
 
         } catch(err) {
             console.error('Booking error:', err);
@@ -498,6 +518,9 @@
             errorMessage.style.display = 'block';
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Book Appointment';
+
+            // Scroll to error message
+            errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     });
 
