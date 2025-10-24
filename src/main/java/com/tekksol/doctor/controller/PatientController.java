@@ -144,6 +144,7 @@ public class PatientController {
         }
     }
 
+
     @DeleteMapping("/bookings/{id}")
     public ResponseEntity<?> deleteBooking(@PathVariable String id, HttpServletRequest request) {
         try {
