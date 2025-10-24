@@ -504,31 +504,30 @@
                 throw new Error(errorData || 'Failed to book appointment');
             }
 
-            // If we get here, the booking was successful
+            // If we get here, the booking was successful (status 200-299)
             console.log('Booking successful! Status:', res.status);
 
-            // Try to parse JSON response, but don't fail if it's not JSON
-            let result;
-            try {
-                const contentType = res.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    result = await res.json();
-                    console.log('JSON Response:', result);
-                } else {
-                    result = await res.text();
-                    console.log('Text Response:', result);
-                }
-            } catch (parseError) {
-                console.log('Could not parse response, but booking was successful');
-            }
-
-            // Show success message
+            // Show success message immediately - don't wait for response parsing
             successMessage.style.display = 'block';
             submitBtn.innerHTML = '✓ Booked Successfully!';
             submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
 
             // Scroll to success message
             successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Try to parse response in background (optional)
+            try {
+                const contentType = res.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const result = await res.json();
+                    console.log('JSON Response:', result);
+                } else {
+                    const result = await res.text();
+                    console.log('Text Response:', result);
+                }
+            } catch (parseError) {
+                console.log('Could not parse response, but booking was successful');
+            }
 
             // Redirect to dashboard after 2 seconds
             setTimeout(() => {
