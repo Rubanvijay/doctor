@@ -1,1475 +1,1217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
-    <title>Dashboard - Doctor Appointment</title>
-    <meta name="description" content="Doctor Dashboard - Manage your appointments and health records"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="shortcut icon" href="logo/logo3.png" type="image/x-icon"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor History</title>
+
+    <!-- Authentication Check - MUST be first script -->
     <script>
-        // Authentication Check
-        function checkAuthentication() {
+        (function() {
             const doctorLoggedIn = sessionStorage.getItem('doctorLoggedIn');
 
             if (doctorLoggedIn !== 'true') {
-                window.location.href = 'login';
-                return false;
+                window.location.replace('/login');
+                throw new Error('Unauthorized access');
             }
-            return true;
-        }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const phoneParam = urlParams.get('phone');
+            const storedPhone = sessionStorage.getItem('phone');
+
+            if (!phoneParam && storedPhone) {
+                window.location.replace('/DoctorHistory?phone=' + encodeURIComponent(storedPhone));
+                throw new Error('Redirecting with phone parameter');
+            }
+        })();
     </script>
+
     <style>
-        /* Import Google Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
-
-        /* Apply fonts globally */
         * {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        h1, h2, h3, h4, h5, h6, .title, .subtitle {
-            font-family: 'Poppins', 'Inter', sans-serif;
-            font-weight: 600;
+        body {
+            display: none;
+            font-family: "Poppins", Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            flex-direction: column;
         }
 
-        body, p, .paragraph, .paragraph-small, .nav-link {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .button-primary, .button-secondary {
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-        }
-
-        /* Enhanced Animation Keyframes */
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fadeInLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes fadeInRight {
-          from {
-            opacity: 0;
-            transform: translateX(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes pulse {
-          0% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(1.05);
-          }
-          100% {
-            transform: scale(1);
-          }
-        }
-
-        @keyframes float {
-          0% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-          100% {
-            transform: translateY(0px);
-          }
-        }
-
-        @keyframes slideInFromLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-100px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes slideInFromRight {
-          from {
-            opacity: 0;
-            transform: translateX(100px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes bounceIn {
-          0% {
-            opacity: 0;
-            transform: scale(0.3);
-          }
-          50% {
-            opacity: 1;
-            transform: scale(1.05);
-          }
-          70% {
-            transform: scale(0.9);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        @keyframes shake {
-          0%, 100% {
-            transform: translateX(0);
-          }
-          10%, 30%, 50%, 70%, 90% {
-            transform: translateX(-5px);
-          }
-          20%, 40%, 60%, 80% {
-            transform: translateX(5px);
-          }
-        }
-
-        @keyframes rotate {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        @keyframes gradientShift {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-
-        @keyframes wave {
-          0% {
-            transform: translateX(0);
-          }
-          50% {
-            transform: translateX(-10px);
-          }
-          100% {
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes ripple {
-          0% {
-            transform: scale(0, 0);
-            opacity: 0.5;
-          }
-          100% {
-            transform: scale(20, 20);
-            opacity: 0;
-          }
-        }
-
-        @keyframes dropdownFadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        /* Animation Classes */
-        .animate-fadeInUp {
-          animation: fadeInUp 0.8s ease-out forwards;
-          opacity: 0;
-        }
-
-        .animate-fadeInLeft {
-          animation: fadeInLeft 0.8s ease-out forwards;
-          opacity: 0;
-        }
-
-        .animate-fadeInRight {
-          animation: fadeInRight 0.8s ease-out forwards;
-          opacity: 0;
-        }
-
-        .animate-pulse {
-          animation: pulse 2s infinite;
-        }
-
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-
-        .animate-slideInLeft {
-          animation: slideInFromLeft 0.8s ease-out forwards;
-          opacity: 0;
-        }
-
-        .animate-slideInRight {
-          animation: slideInFromRight 0.8s ease-out forwards;
-          opacity: 0;
-        }
-
-        .animate-bounceIn {
-          animation: bounceIn 0.8s ease-out forwards;
-          opacity: 0;
-        }
-
-        .animate-shake {
-          animation: shake 0.5s ease-in-out;
-        }
-
-        .animate-rotate {
-          animation: rotate 8s linear infinite;
-        }
-
-        .animate-dropdown {
-          animation: dropdownFadeIn 0.3s ease-out forwards;
-        }
-
-        /* Staggered Animations for Dashboard */
-        .dashboard-welcome > * {
-          opacity: 0;
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .dashboard-welcome h1 {
-          animation-delay: 0.2s;
-        }
-
-        .dashboard-welcome p {
-          animation-delay: 0.4s;
-        }
-
-        .dashboard-cards .dashboard-card {
-          opacity: 0;
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .dashboard-cards .dashboard-card:nth-child(1) {
-          animation-delay: 0.2s;
-        }
-
-        .dashboard-cards .dashboard-card:nth-child(2) {
-          animation-delay: 0.4s;
-        }
-
-        .dashboard-cards .dashboard-card:nth-child(3) {
-          animation-delay: 0.6s;
-        }
-
-        /* Quick Stats Animation */
-        .stats-container > div {
-          opacity: 0;
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .stats-container > div:nth-child(1) {
-          animation-delay: 0.8s;
-        }
-
-        .stats-container > div:nth-child(2) {
-          animation-delay: 1.0s;
-        }
-
-        .stats-container > div:nth-child(3) {
-          animation-delay: 1.2s;
-        }
-
-        /* Navigation Spacing Styles */
-        .header-navigation {
-          display: flex;
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          gap: 32px;
-        }
-
-        .nav-link {
-          position: relative;
-          transition: color 0.3s ease;
-          padding: 8px 0;
-          margin-left: 75px;
-        }
-
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          width: 0;
-          height: 2px;
-          bottom: 0;
-          left: 0;
-          background: linear-gradient(90deg, #ffffff, #a8c5e8);
-          transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-          width: 100%;
-        }
-
-        /* Enhanced Hover Effects */
-        .card, .dashboard-card {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .card::before, .dashboard-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-          transition: left 0.5s;
-        }
-
-        .card:hover::before, .dashboard-card:hover::before {
-          left: 100%;
-        }
-
-        .card:hover, .dashboard-card:hover {
-          transform: translateY(-5px) scale(1.02);
-          box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-
-        .button-primary, .button-secondary {
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .button-primary::after, .button-secondary::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 5px;
-          height: 5px;
-          background: rgba(255, 255, 255, 0.5);
-          opacity: 0;
-          border-radius: 100%;
-          transform: scale(1, 1) translate(-50%);
-          transform-origin: 50% 50%;
-        }
-
-        .button-primary:hover::after, .button-secondary:hover::after {
-          animation: ripple 1s ease-out;
-        }
-
-        .button-primary:hover, .button-secondary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-
-        /* Background Animation */
-        .bg.home-hero-right {
-          animation: float 6s ease-in-out infinite, rotate 30s linear infinite;
-        }
-
-        .bg.cta {
-          animation: float 8s ease-in-out infinite;
-        }
-
-        /* Animated gradient background for welcome section - BLUE */
-        .dashboard-welcome {
-          background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #1a3461);
-          background-size: 400% 400%;
-          animation: gradientShift 10s ease infinite;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .dashboard-welcome::before {
-          content: '';
-          position: absolute;
-          top: -50%;
-          right: -50%;
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-          animation: float 8s ease-in-out infinite;
-        }
-
-        /* Scroll Animations */
-        .scroll-animate {
-          opacity: 0;
-          transform: translateY(30px);
-          transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .scroll-animate.animated {
-          opacity: 1;
-          transform: translateY(0);
-          margin-left: 75px;
-        }
-
-        /* Animated icons */
-        .image.card-home-feature, .image.card-service {
-          transition: transform 0.5s ease;
-        }
-
-        .card:hover .image.card-home-feature,
-        .card:hover .image.card-service,
-        .dashboard-card:hover .image.card-home-feature {
-          transform: scale(1.2) rotate(5deg);
-        }
-
-        /* Loading animation for page */
-        .page-loader {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: white;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 9999;
-          transition: opacity 0.5s, visibility 0.5s;
-        }
-
-        .page-loader.hidden {
-          opacity: 0;
-          visibility: hidden;
-        }
-
-        .loader {
-          width: 50px;
-          height: 50px;
-          border: 5px solid #f3f3f3;
-          border-top: 5px solid #2c5aa0;
-          border-radius: 50%;
-          animation: rotate 1s linear infinite;
-        }
-
-        /* Text highlight animation */
-        .highlight-text {
-          position: relative;
-          display: inline-block;
-        }
-
-        .highlight-text::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 30%;
-          background-color: rgba(44, 90, 160, 0.2);
-          z-index: -1;
-          transform: scaleX(0);
-          transform-origin: bottom left;
-          transition: transform 0.3s ease;
-        }
-
-        .highlight-text:hover::after {
-          transform: scaleX(1);
-        }
-
-        /* Animated footer links */
-        .footer-nav-link {
-          position: relative;
-          transition: color 0.3s ease;
-          display: inline-block;
-        }
-
-        .footer-nav-link::before {
-          content: '';
-          position: absolute;
-          bottom: -2px;
-          left: 0;
-          width: 0;
-          height: 1px;
-          background-color: white;
-          transition: width 0.3s ease;
-        }
-
-        .footer-nav-link:hover::before {
-          width: 100%;
-        }
-
-        /* HEADER STYLING - BLUE */
+        /* IMPROVED HEADER FOR MOBILE */
         .header {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            box-shadow: 0 2px 10px rgba(30, 60, 114, 0.15);
-            position: relative;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-contact-wrapper {
-            display: flex;
-            gap: 20px;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .header-contact-link {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-
-        .header-contact-link:hover {
-            color: #a8c5e8;
-        }
-
-        .header-wrapper {
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            min-height: 70px;
         }
 
-        .header .nav-link {
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .header-nav a {
             color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+            white-space: nowrap;
         }
 
-        .header .nav-link:hover {
-            color: #a8c5e8;
+        .header-nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
 
-        /* Dashboard Specific Styles */
-        .dashboard-nav {
-          background: #fff;
-          border-bottom: 1px solid #e5e7eb;
-          padding: 1rem 0;
-          margin-bottom: 2rem;
+        .logout-btn {
+            background: #dc2626;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
         }
 
-        .dashboard-nav-wrapper {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+        .logout-btn:hover {
+            background: #b91c1c;
         }
 
-        .dashboard-nav-links {
-          display: flex;
-          gap: 2rem;
-          list-style: none;
-          margin: 0;
-          padding: 0;
-        }
-
-        .dashboard-nav-link {
-          color: #1e293b;
-          text-decoration: none;
-          font-weight: 500;
-          padding: 0.5rem 1rem;
-          border-radius: 6px;
-          transition: all 0.3s ease;
-          position: relative;
-        }
-
-        .dashboard-nav-link::after {
-          content: '';
-          position: absolute;
-          bottom: -5px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #2c5aa0, #1e4178);
-          transition: width 0.3s ease;
-        }
-
-        .dashboard-nav-link:hover::after {
-          width: 80%;
-        }
-
-        .dashboard-nav-link:hover,
-        .dashboard-nav-link.active {
-          background: #e8f0fa;
-          color: #2c5aa0;
-        }
-
-        .dashboard-content {
-          min-height: 60vh;
-        }
-
-        .dashboard-welcome {
-          color: white;
-          padding: 3rem 2rem;
-          border-radius: 12px;
-          margin-bottom: 2rem;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .dashboard-welcome h1 {
-          margin: 0 0 0.5rem 0;
-          font-size: 2rem;
-          position: relative;
-          z-index: 1;
-        }
-
-        .dashboard-welcome p {
-          margin: 0;
-          opacity: 0.9;
-          position: relative;
-          z-index: 1;
-        }
-
-        .dashboard-cards {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 2rem;
-          margin-top: 2rem;
-        }
-
-        .dashboard-card {
-          background: white;
-          border: 1px solid #e5e7eb;
-          border-radius: 12px;
-          padding: 2rem;
-        }
-
-        .dashboard-card h3 {
-          margin: 0 0 1rem 0;
-          color: #1e293b;
-        }
-
-        .dashboard-card p {
-          margin: 0 0 1.5rem 0;
-          color: #64748b;
-        }
-
-        /* User Info Styles - BLUE */
-        .user-info {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          position: relative;
-        }
-
-        .user-avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #2c5aa0, #1e4178);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-weight: 600;
-          font-size: 1.2rem;
-          transition: transform 0.3s ease;
-          animation: pulse 2s infinite;
-        }
-
-        .user-info:hover .user-avatar {
-          transform: scale(1.1);
-          animation: none;
-        }
-
-        #username {
-          font-weight: 500;
-          color: #fff;
-          font-size: 16px;
-          transition: color 0.3s ease;
-        }
-
-        /* FOOTER STYLING - BLUE */
-        .footer {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
             color: white;
-            padding: 60px 0 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
         }
 
-        .footer-title {
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav.active {
+            display: flex;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav a {
             color: white;
-        }
-
-        .footer-nav-link {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .footer-nav-link:hover {
-            color: white;
-        }
-
-        .footer-address {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .divider.footer-divider-1,
-        .divider.footer-divider-2 {
+            text-decoration: none;
+            font-size: 1.3rem;
+            padding: 15px 30px;
+            border-radius: 10px;
+            transition: all 0.3s;
+            text-align: center;
+            width: 200px;
             background: rgba(255, 255, 255, 0.1);
         }
 
-        .small-print {
-            color: rgba(255, 255, 255, 0.8);
+        .mobile-nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
         }
 
-        /* Quick Stats - BLUE */
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .stat-card {
-            background: #e8f0fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            border: 2px solid #d4e3f5;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .stat-number {
+        .mobile-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
             font-size: 2rem;
-            font-weight: 700;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .doctor-name {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .mobile-doctor-name {
+            position: absolute;
+            top: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            background: #fff;
+            margin: 30px auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
+            overflow: hidden;
+            padding: 30px;
+            animation: fadeInUp 0.6s ease;
+            flex: 1;
+        }
+
+        h1 {
+            text-align: center;
             color: #2c5aa0;
-            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            font-weight: 700;
         }
 
-        .stat-label {
-            color: #64748b;
+        .filter-section {
+            background: linear-gradient(135deg, #e8f0fa 0%, #d4e3f5 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(44, 90, 160, 0.1);
         }
 
-        /* Stats Loading Animation */
-        .stat-loading {
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-header h3 {
+            color: #2c5aa0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .results-count {
+            background: #2c5aa0;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            color: #2c5aa0;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 12px 15px;
+            border: 2px solid #d4e3f5;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: "Poppins", Arial, sans-serif;
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            border-color: #2c5aa0;
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+        }
+
+        .quick-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .quick-filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #2c5aa0;
+            background: white;
+            color: #2c5aa0;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .quick-filter-btn:hover {
+            background: #2c5aa0;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 90, 160, 0.3);
+        }
+
+        .quick-filter-btn.active {
+            background: #2c5aa0;
+            color: white;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: "Poppins", Arial, sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e4178 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 90, 160, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 900px;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        th {
+            padding: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            position: relative;
+        }
+
+        th:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        th::after {
+            content: '⇅';
+            margin-left: 8px;
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+
+        th.no-sort {
+            cursor: default;
+        }
+
+        th.no-sort::after {
+            content: '';
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        tbody tr {
+            transition: all 0.3s;
+            background: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        tbody tr:hover {
+            background-color: #e8f0fa;
+            transform: scale(1.01);
+            box-shadow: 0 4px 12px rgba(44, 90, 160, 0.15);
+        }
+
+        .sno-cell {
+            text-align: center;
+            font-weight: 600;
+            color: #2c5aa0;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .no-data-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        /* Toggle Switch Styles - BLUE */
+        .toggle-switch {
+            position: relative;
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(44, 90, 160, 0.3);
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 30px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
             border-radius: 50%;
-            border-top-color: #2c5aa0;
-            animation: rotate 1s ease-in-out infinite;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #2c5aa0;
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        .toggle-switch input:disabled + .toggle-slider {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .status-attended {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-pending {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .spinner {
+            display: none;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2c5aa0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* MOBILE RESPONSIVE STYLES */
-        @media (max-width: 991px) {
-            .header-contact-wrapper {
-                flex-direction: column;
-                gap: 8px;
-                padding: 12px 0;
-                text-align: center;
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 15px;
+                min-height: 60px;
             }
 
-            .header-contact-link {
-                font-size: 13px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
+            .header-title {
+                font-size: 1.1rem;
             }
 
-            .header-wrapper {
-                padding: 12px 0;
-                position: relative;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                flex-wrap: wrap;
-            }
-
-            .split-content.header-right {
-                display: flex;
-                align-items: center;
-                gap: 15px;
-                flex: 1;
-                min-width: 0;
-            }
-
-            .header-logo {
-                height: 40px;
-                width: auto;
-                max-width: 120px;
-            }
-
-            /* Improved Mobile Navigation */
-            .nav-menu {
-                position: fixed;
-                top: 0;
-                left: -100%;
-                width: 280px;
-                height: 100vh;
-                background: linear-gradient(180deg, #1e3c72, #2a5298);
-                padding: 80px 30px 30px;
-                transition: left 0.3s ease;
-                overflow-y: auto;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-                z-index: 1001;
-            }
-
-            .nav-menu.w--open {
-                left: 0;
-            }
-
-            .header-navigation {
-                flex-direction: column;
-                gap: 0;
-                width: 100%;
-            }
-
-            .header-navigation li {
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                width: 100%;
-            }
-
-            .nav-link {
-                display: block;
-                padding: 18px 0;
-                font-size: 18px;
-                margin-left: 0 !important;
-                width: 100%;
-                text-align: left;
-                color: white;
-            }
-
-            .nav-link:hover {
-                color: #a8c5e8;
-                background: rgba(255, 255, 255, 0.1);
-            }
-
-            /* Improved Menu Button */
-            .menu-button {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 8px;
-                z-index: 1002;
-                order: 2;
-            }
-
-            .menu-button-icon-wrapper {
-                width: 30px;
-                height: 24px;
-                position: relative;
-            }
-
-            .menu-line-top,
-            .menu-line-middle,
-            .menu-line-bottom {
-                width: 100%;
-                height: 3px;
-                background: white;
-                position: absolute;
-                left: 0;
-                transition: all 0.3s ease;
-                border-radius: 2px;
-            }
-
-            .menu-line-top {
-                top: 0;
-            }
-
-            .menu-line-middle {
-                top: 50%;
-                transform: translateY(-50%);
-            }
-
-            .menu-line-bottom {
-                bottom: 0;
-            }
-
-            .menu-button.w--open .menu-line-top {
-                top: 50%;
-                transform: translateY(-50%) rotate(45deg);
-            }
-
-            .menu-button.w--open .menu-line-middle {
-                opacity: 0;
-            }
-
-            .menu-button.w--open .menu-line-bottom {
-                bottom: 50%;
-                transform: translateY(50%) rotate(-45deg);
-            }
-
-            /* User Info Positioning for Mobile */
-            .user-info {
-                order: 1;
-                position: absolute;
-                right: 60px;
-                top: 50%;
-                transform: translateY(-50%);
-            }
-
-            #username {
+            .header-nav {
                 display: none;
             }
 
-            /* Brand/Logo Positioning */
-            .brand {
-                order: 0;
-                margin-right: auto;
+            .mobile-menu-btn {
+                display: block;
             }
 
-            /* Mobile Overlay */
-            .mobile-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: rgba(0, 0, 0, 0.5);
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-                z-index: 1000;
+            .doctor-name {
+                display: none;
             }
 
-            .mobile-overlay.active {
-                opacity: 1;
-                visibility: visible;
+            .container {
+                padding: 20px;
+                margin: 20px auto;
+                width: 98%;
             }
 
-            /* Dashboard Navigation Mobile Adjustments */
-            .dashboard-nav-links {
-                gap: 1rem;
-                flex-wrap: wrap;
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+
+            .filter-section {
+                padding: 20px;
+            }
+
+            .filter-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .filter-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-filters {
                 justify-content: center;
             }
 
-            .dashboard-nav-link {
-                padding: 0.5rem;
+            .quick-filter-btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+
+            .filter-actions {
+                justify-content: center;
+            }
+
+            .btn {
+                padding: 10px 20px;
                 font-size: 0.9rem;
             }
 
-            .dashboard-welcome h1 {
-                font-size: 1.5rem;
+            th, td {
+                padding: 12px 8px;
+                font-size: 0.85rem;
             }
 
-            .scroll-animate.animated {
-                margin-left: 0;
+            .toggle-switch {
+                width: 50px;
+                height: 25px;
             }
 
-            /* Dashboard Cards Mobile Adjustments */
-            .dashboard-cards {
-                grid-template-columns: 1fr;
-                gap: 1rem;
+            .toggle-slider:before {
+                height: 18px;
+                width: 18px;
+            }
+
+            .toggle-switch input:checked + .toggle-slider:before {
+                transform: translateX(25px);
             }
         }
 
-        @media (max-width: 479px) {
-            .header-contact-link {
-                font-size: 12px;
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1rem;
             }
 
-            .header-logo {
-                height: 35px;
-                max-width: 100px;
+            .container {
+                padding: 15px;
+                margin: 15px auto;
             }
 
-            .nav-menu {
-                width: 260px;
-                padding: 70px 25px 25px;
+            h1 {
+                font-size: 1.4rem;
             }
 
-            .nav-link {
-                padding: 15px 0;
-                font-size: 16px;
+            .filter-section {
+                padding: 15px;
             }
 
-            .user-info {
-                right: 50px;
+            .quick-filters {
+                gap: 5px;
             }
 
-            .user-avatar {
-                width: 35px;
-                height: 35px;
+            .quick-filter-btn {
+                padding: 6px 12px;
+                font-size: 0.75rem;
             }
 
-            .menu-button {
-                padding: 6px;
+            .filter-group label {
+                font-size: 0.85rem;
             }
 
-            .menu-button-icon-wrapper {
-                width: 25px;
-                height: 20px;
+            .filter-group input,
+            .filter-group select {
+                padding: 10px 12px;
+                font-size: 0.9rem;
             }
 
-            /* Dashboard Navigation for Extra Small Screens */
-            .dashboard-nav-links {
-                gap: 0.5rem;
-            }
-
-            .dashboard-nav-link {
-                padding: 0.4rem 0.6rem;
+            th, td {
+                padding: 10px 6px;
                 font-size: 0.8rem;
+            }
+
+            .mobile-nav a {
+                font-size: 1.1rem;
+                padding: 12px 25px;
+                width: 180px;
             }
         }
 
         /* Extra Small Devices */
         @media (max-width: 360px) {
-            .split-content.header-right {
-                gap: 10px;
+            .header {
+                padding: 10px 12px;
             }
 
-            .header-logo {
-                height: 30px;
-                max-width: 90px;
+            .header-title {
+                font-size: 0.9rem;
             }
 
-            .user-info {
-                right: 45px;
+            .container {
+                padding: 12px;
+                margin: 10px auto;
             }
 
-            .user-avatar {
-                width: 32px;
-                height: 32px;
-                font-size: 1rem;
+            h1 {
+                font-size: 1.2rem;
             }
 
-            /* Dashboard Navigation for Very Small Screens */
-            .dashboard-nav-links {
-                flex-direction: column;
-                gap: 0.5rem;
+            .quick-filter-btn {
+                padding: 5px 10px;
+                font-size: 0.7rem;
             }
 
-            .dashboard-nav-link {
-                width: 100%;
-                text-align: center;
+            .btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
             }
         }
     </style>
+
+    <script>
+        if (sessionStorage.getItem('doctorLoggedIn') === 'true') {
+            document.addEventListener('DOMContentLoaded', function() {
+                document.body.style.display = 'flex';
+
+                // Initialize mobile menu functionality
+                initializeMobileMenu();
+            });
+        }
+
+        function initializeMobileMenu() {
+            console.log('Mobile menu initialized'); // Debug log
+
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileClose = document.querySelector('.mobile-close');
+
+            if (mobileMenuBtn && mobileNav) {
+                // Toggle mobile menu
+                mobileMenuBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    console.log('Menu button clicked'); // Debug log
+                    mobileNav.classList.toggle('active');
+                    document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+                });
+
+                // Close mobile menu
+                if (mobileClose) {
+                    mobileClose.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        mobileNav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                }
+
+                // Close menu when clicking on links
+                const mobileLinks = document.querySelectorAll('.mobile-nav a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileNav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (mobileNav.classList.contains('active') &&
+                        !mobileNav.contains(e.target) &&
+                        !mobileMenuBtn.contains(e.target)) {
+                        mobileNav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+
+                // Close menu on escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+                        mobileNav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            } else {
+                console.error('Mobile menu elements not found'); // Debug log
+            }
+        }
+
+        // Simple mobile menu functions for direct onclick calls
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            if (mobileNav) {
+                mobileNav.classList.toggle('active');
+                document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            }
+        }
+
+        function closeMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            if (mobileNav) {
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+    </script>
 </head>
 <body>
-<!-- Mobile Overlay -->
-<div class="mobile-overlay" id="mobileOverlay"></div>
 
-<div class="page-loader">
-    <div class="loader"></div>
+<!-- Mobile Navigation Overlay -->
+<div class="mobile-nav" id="mobileNav">
+    <button class="mobile-close" onclick="closeMobileMenu()">×</button>
+    <div class="mobile-doctor-name">Dr P.R Durai</div>
+    <a href="/DoctorDashboard">📊 Dashboard</a>
+    <a href="/DoctorHistory">📋 History</a>
+    <a href="/logout" class="logout-btn" onclick="handleLogout(event)">🚪 Logout</a>
 </div>
 
-<div class="page-wrapper">
-    <!-- Header -->
-    <header class="header w-nav" role="banner">
-        <div class="container-default w-container">
-            <div class="header-contact-wrapper">
-                <a class="header-contact-link" href="tel:+91+91 9940379979">+91 9940379979</a>
-                <a class="header-contact-link last" href="mailto:contact@doctor.com">contact@doctor.com</a>
+<div class="header">
+    <div class="header-content">
+        <div class="header-title">
+            <span>👨‍⚕️ Doctor Portal</span>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="header-nav">
+            <span class="doctor-name">Dr P.R Durai</span>
+            <a href="/DoctorDashboard">Dashboard</a>
+            <a href="/DoctorHistory">History</a>
+            <a href="/logout" class="logout-btn" onclick="handleLogout(event)">Logout</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    </div>
+</div>
+
+<div class="container">
+    <h1>📋 Patient Appointment History</h1>
+
+    <div class="filter-section">
+        <div class="filter-header">
+            <h3>🔍 Search & Filter</h3>
+            <span class="results-count" id="resultsCount">0 Results</span>
+        </div>
+
+        <div class="quick-filters">
+            <button class="quick-filter-btn" onclick="filterByPeriod(event, 'today')">📅 Today</button>
+            <button class="quick-filter-btn" onclick="filterByPeriod(event, 'week')">📆 Last Week</button>
+            <button class="quick-filter-btn" onclick="filterByPeriod(event, 'month')">🗓️ Last Month</button>
+            <button class="quick-filter-btn active" onclick="filterByPeriod(event, 'all')">📊 All Time</button>
+        </div>
+
+        <div class="filter-controls">
+            <div class="filter-group">
+                <label for="searchPhone">🔍 Search by Phone Number</label>
+                <input type="text" id="searchPhone" placeholder="Enter phone number...">
             </div>
-            <div class="divider header-divider"></div>
-            <div class="header-wrapper">
-                <div class="split-content header-right">
-                    <a class="brand w-nav-brand" href="/" aria-label="Home">
-                        <img class="header-logo" src="logo/logo3.png" alt="Sakthi Homeo Clinic Logo" height="50px" width="120px"/>
-                    </a>
-                    <nav class="nav-menu w-nav-menu" role="navigation">
-                        <ul class="header-navigation" role="list">
-                            <li><a class="nav-link" href="/">Home</a></li>
-                            <li><a class="nav-link" href="/about">About</a></li>
-                            <li><a class="nav-link" href="/service">Services</a></li>
-                            <li><a class="nav-link" href="/contact">Contact</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="user-info">
-                    <div class="user-avatar">👨‍⚕️</div>
-                    <span id="username">Dr.P.R.Durai</span>
-                </div>
-                <div class="menu-button w-nav-button">
-                    <div class="menu-button-icon-wrapper">
-                        <div class="menu-button-icon">
-                            <div class="menu-line-top"></div>
-                            <div class="menu-line-middle"></div>
-                            <div class="menu-line-bottom"></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="filter-group">
+                <label for="searchName">👤 Search by Patient Name</label>
+                <input type="text" id="searchName" placeholder="Enter patient name...">
+            </div>
+            <div class="filter-group">
+                <label for="searchBranch">🏥 Filter by Branch</label>
+                <select id="searchBranch">
+                    <option value="">All Branches</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="dateFrom">📅 From Date</label>
+                <input type="date" id="dateFrom">
+            </div>
+            <div class="filter-group">
+                <label for="dateTo">📅 To Date</label>
+                <input type="date" id="dateTo">
+            </div>
+            <div class="filter-group">
+                <label for="sortBy">🔄 Sort By</label>
+                <select id="sortBy">
+                    <option value="date-desc">Date (Newest First)</option>
+                    <option value="date-asc">Date (Oldest First)</option>
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                </select>
             </div>
         </div>
-    </header>
 
-    <!-- Dashboard Navigation -->
-    <section class="dashboard-nav">
-        <div class="container-default w-container">
-            <div class="dashboard-nav-wrapper">
-                <ul class="dashboard-nav-links" role="list">
-                    <li><a class="dashboard-nav-link active" href="DoctorDashboard">Dashboard</a></li>
-                    <li><a class="dashboard-nav-link" href="DoctorHistory">View Appointments</a></li>
-                    <li><a class="dashboard-nav-link" href="/about">About</a></li>
-                    <li><a class="dashboard-nav-link" href="/logout" onclick="handleLogout(event)" style="color: #dc2626;">Logout</a></li>
-                </ul>
-            </div>
+        <div class="filter-actions">
+            <button class="btn btn-primary" onclick="applyFilters()">🔍 Apply Filters</button>
+            <button class="btn btn-secondary" onclick="clearFilters()">🔄 Clear All</button>
         </div>
-    </section>
+    </div>
 
-    <!-- Dashboard Content -->
-    <section class="section dashboard-content">
-        <div class="container-default w-container">
-            <!-- Welcome Section with Blue Gradient -->
-            <div class="dashboard-welcome">
-                <h1>Welcome back, <span id="patientName">Dr.P.R.Durai</span></h1>
-                <p>Manage your appointments and patient records efficiently</p>
-            </div>
+    <div class="spinner" id="loadingSpinner"></div>
 
-            <!-- Dashboard Cards -->
-            <div class="dashboard-cards">
-                <div class="dashboard-card">
-                    <img class="image card-home-feature" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd82099a6be49e_icon-1-home-feature-doctor-template.svg" alt="History" style="width: 60px; margin-bottom: 1rem;"/>
-                    <h3>Appointment History</h3>
-                    <p>View your past appointments and medical records</p>
-                    <a class="button-primary w-button" href="/DoctorHistory">View History</a>
-                </div>
-
-                <div class="dashboard-card">
-                    <img class="image card-home-feature" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd82f0c86be49f_icon-2-home-feature-doctor-template.svg" alt="Book" style="width: 60px; margin-bottom: 1rem;"/>
-                    <h3>Manage Appointments</h3>
-                    <p>View and manage patient appointments</p>
-                    <a class="button-primary bg-secondary-1 w-button" href="/DoctorHistory">Manage Now</a>
-                </div>
-
-                <div class="dashboard-card">
-                    <img class="image card-home-feature" src="https://cdn.prod.website-files.com/60e4a22b84dd82afea6be40b/60e4a22b84dd8216636be49d_icon-3-home-feature-doctor-template.svg" alt="About" style="width: 60px; margin-bottom: 1rem;"/>
-                    <h3>Patient Records</h3>
-                    <p>Access and update patient medical records</p>
-                    <a class="button-secondary w-button" href="/DoctorHistory">View Records</a>
-                </div>
-            </div>
-
-            <!-- Quick Stats -->
-            <div style="margin-top: 3rem;">
-                <h2 style="margin-bottom: 1.5rem; color: #2c5aa0;">Quick Stats</h2>
-                <div class="stats-container">
-                    <div class="stat-card">
-                        <div class="stat-number" id="totalPatients">
-                            <div class="stat-loading"></div>
-                        </div>
-                        <div class="stat-label">Total Patients</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="upcomingAppointments">
-                            <div class="stat-loading"></div>
-                        </div>
-                        <div class="stat-label">Upcoming Appointments</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="completedToday">
-                            <div class="stat-loading"></div>
-                        </div>
-                        <div class="stat-label">Completed Today</div>
-                    </div>
-                </div>
-            </div>
+    <div class="table-wrapper">
+        <div th:if="${history == null || history.isEmpty()}" class="no-data">
+            <div class="no-data-icon">📭</div>
+            <div>No booking history found</div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container-default w-container">
-            <div class="top-content footer-top-content">
-                <a class="footer-logo-container w-inline-block" href="/">
-                    <img class="footer-logo" src="logo/logo3.png" alt="Sakthi Homeo Clinic Logo" height="50px" width="120px"/>
-                </a>
-                <p class="paragraph-small footer-top-content">Sakthi Homeo Clinic provides expert homeopathic treatment for various ailments using natural remedies with proven results.</p>
-            </div>
-            <div class="divider footer-divider-1"></div>
-            <div class="w-layout-grid footer-grid">
-                <div class="footer-nav-wrapper">
-                    <div class="footer-nav-box">
-                        <h2 class="title footer-title">Menu</h2>
-                        <div class="footer-nav-content">
-                            <ul class="footer-nav-links w-list-unstyled" role="list">
-                                <li><a class="footer-nav-link" href="/">Home</a></li>
-                                <li><a class="footer-nav-link" href="/about">About</a></li>
-                                <li><a class="footer-nav-link" href="/service">Services</a></li>
-                                <li><a class="footer-nav-link" href="/contact">Contact</a></li>
-                                <li><a class="footer-nav-link" href="/login">Appointment</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="footer-nav-box">
-                        <h2 class="title footer-title">Clinic Hours</h2>
-                        <div class="footer-nav-content">
-                            <ul class="footer-nav-links last w-list-unstyled" role="list">
-                                <li><p class="paragraph-small footer-address">Monday - Saturday: 3:00 PM - 7:00 PM</p></li>
-                                <li><p class="paragraph-small footer-address">Sunday: Holiday</p></li>
-                                <li><p class="paragraph-small footer-address">Emergency: Available on call</p></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="footer-nav-box last">
-                        <h2 class="title footer-title">Contact</h2>
-                        <div class="footer-nav-content">
-                            <ul class="footer-nav-links last w-list-unstyled" role="list">
-                                <li><p class="paragraph-small footer-address">Dhandapani St, T. Nagar, Chennai, Tamil Nadu 600017</p></li>
-                                <li><a class="footer-nav-link" href="mailto:contact@doctor.com">contact@doctor.com</a></li>
-                                <li><a class="footer-nav-link" href="tel:+919940379979">+91 9940379979</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="divider footer-divider-2"></div>
-            <div class="container-default w-container">
-                <div class="small-print-wrapper">
-                    <div class="paragraph-small small-print">
-                        Copyright © Tekksol | All Rights Reserved
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+        <table th:if="${history != null && !history.isEmpty()}" id="historyTable">
+            <thead>
+            <tr>
+                <th class="no-sort">S.No</th>
+                <th onclick="sortTable(1)">Patient Name</th>
+                <th onclick="sortTable(2)">Phone Number</th>
+                <th onclick="sortTable(3)">Branch</th>
+                <th onclick="sortTable(4)">Address</th>
+                <th onclick="sortTable(5)">Appointment Date</th>
+                <th onclick="sortTable(6)">Appointment Time</th>
+                <th onclick="sortTable(7)">Message</th>
+                <th class="no-sort">Attendance Status</th>
+            </tr>
+            </thead>
+            <tbody id="historyTableBody">
+            <tr th:each="booking : ${history}"
+                th:attr="data-patient-name=${booking.patientName},
+                         data-phone=${booking.phoneNumber},
+                         data-branch=${booking.branch},
+                         data-date=${booking.appointmentDate},
+                         data-booking-id=${booking.id}">
+                <td class="sno-cell">1</td>
+                <td th:text="${booking.patientName != null ? booking.patientName : '-'}">-</td>
+                <td th:text="${booking.phoneNumber != null ? booking.phoneNumber : '-'}">-</td>
+                <td th:text="${booking.branch != null ? booking.branch : '-'}">-</td>
+                <td th:text="${booking.address != null ? booking.address : '-'}">-</td>
+                <td th:text="${booking.appointmentDate != null ? booking.appointmentDate : '-'}">-</td>
+                <td th:text="${booking.appointmentTime != null ? booking.appointmentTime : '-'}">-</td>
+                <td th:text="${booking.message != null ? booking.message : '-'}">-</td>
+                <td>
+                    <label class="toggle-switch">
+                        <input type="checkbox"
+                               th:checked="${booking.attended}"
+                               th:data-booking-id="${booking.id}"
+                               onchange="updateAttendance(this)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="status-badge"
+                          th:classappend="${booking.attended ? 'status-attended' : 'status-pending'}">
+                        <span th:text="${booking.attended ? '✓ Attended' : '⏳ Pending'}"></span>
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
-    // Check authentication immediately when page loads
-    if (!checkAuthentication()) {
-        throw new Error('Not authenticated');
+    let allRows = [];
+    let currentPeriod = 'week';
+
+    function updateSerialNumbers() {
+        const tbody = document.getElementById('historyTableBody');
+        if (!tbody) return;
+
+        const visibleRows = Array.from(tbody.querySelectorAll('tr')).filter(row => row.style.display !== 'none');
+        visibleRows.forEach((row, index) => {
+            const snoCell = row.querySelector('.sno-cell');
+            if (snoCell) {
+                snoCell.textContent = index + 1;
+            }
+        });
     }
 
-    // Enhanced page initialization
-    document.addEventListener('DOMContentLoaded', function() {
-      // Page loader
-      window.addEventListener('load', function() {
-        const loader = document.querySelector('.page-loader');
-        loader.classList.add('hidden');
-      });
+    function updateAttendance(checkbox) {
+        const bookingId = checkbox.getAttribute("data-booking-id");
+        const attended = checkbox.checked;
 
-      // Mobile Navigation
-      const menuButton = document.querySelector(".menu-button");
-      const navMenu = document.querySelector(".nav-menu");
-      const mobileOverlay = document.getElementById('mobileOverlay');
-      const navLinks = document.querySelectorAll('.nav-link');
-
-      function openMenu() {
-          menuButton.classList.add("w--open");
-          navMenu.classList.add("w--open");
-          mobileOverlay.classList.add('active');
-          document.body.style.overflow = 'hidden';
-      }
-
-      function closeMenu() {
-          menuButton.classList.remove("w--open");
-          navMenu.classList.remove("w--open");
-          mobileOverlay.classList.remove('active');
-          document.body.style.overflow = '';
-      }
-
-      menuButton.addEventListener("click", function (e) {
-          e.stopPropagation();
-          if (menuButton.classList.contains("w--open")) {
-              closeMenu();
-          } else {
-              openMenu();
-          }
-      });
-
-      // Close menu when clicking on overlay
-      mobileOverlay.addEventListener('click', closeMenu);
-
-      // Close menu when clicking on nav links
-      navLinks.forEach(link => {
-          link.addEventListener('click', closeMenu);
-      });
-
-      // Close menu when clicking outside
-      document.addEventListener('click', function(event) {
-          if (!navMenu.contains(event.target) && !menuButton.contains(event.target)) {
-              closeMenu();
-          }
-      });
-
-      // Close menu on escape key
-      document.addEventListener('keydown', function(event) {
-          if (event.key === 'Escape') {
-              closeMenu();
-          }
-      });
-
-      // Close menu on window resize (if resizing to desktop)
-      window.addEventListener('resize', function() {
-          if (window.innerWidth > 991) {
-              closeMenu();
-          }
-      });
-
-      const scrollElements = document.querySelectorAll('.scroll-animate');
-
-      const elementInView = (el, dividend = 1) => {
-        const elementTop = el.getBoundingClientRect().top;
-        return (
-          elementTop <=
-          (window.innerHeight || document.documentElement.clientHeight) / dividend
-        );
-      };
-
-      const displayScrollElement = (element) => {
-        element.classList.add('animated');
-      };
-
-      const handleScrollAnimation = () => {
-        scrollElements.forEach((el) => {
-          if (elementInView(el, 1.2)) {
-            displayScrollElement(el);
-          }
-        });
-      };
-
-      handleScrollAnimation();
-      window.addEventListener('scroll', () => {
-        handleScrollAnimation();
-      });
-
-      // Add ripple effect to buttons
-      const buttons = document.querySelectorAll('.button-primary, .button-secondary');
-      buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-          const ripple = document.createElement('span');
-          ripple.classList.add('ripple');
-          this.appendChild(ripple);
-
-          const x = e.clientX - e.target.offsetLeft;
-          const y = e.clientY - e.target.offsetTop;
-
-          ripple.style.left = `${x}px`;
-          ripple.style.top = `${y}px`;
-
-          setTimeout(() => {
-            ripple.remove();
-          }, 600);
-        });
-      });
-
-      // Add shake animation to buttons on hover
-      const primaryButtons = document.querySelectorAll('.button-primary');
-      primaryButtons.forEach(button => {
-        button.addEventListener('mouseenter', function() {
-          this.classList.add('animate-shake');
-        });
-
-        button.addEventListener('animationend', function() {
-          this.classList.remove('animate-shake');
-        });
-      });
-
-      // Simple navigation handling
-      document.querySelectorAll('.dashboard-nav-link').forEach(link => {
-        link.addEventListener('click', function(e) {
-          if (this.getAttribute('onclick')) return;
-          document.querySelectorAll('.dashboard-nav-link').forEach(l => l.classList.remove('active'));
-          this.classList.add('active');
-        });
-      });
-
-      // Load dashboard stats
-      loadDashboardStats();
-    });
-
-    // Load dashboard statistics
-    function loadDashboardStats() {
-        fetch('/api/doctor/dashboard-stats', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        fetch(`/toggleAttended?id=${bookingId}&attended=${attended}`, {
+            method: "PUT",
         })
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch dashboard stats');
-            }
-            return response.json();
+            if (!response.ok) throw new Error("Network error");
+            return response.text();
         })
         .then(data => {
-            // Update the stats with the fetched data
-            document.getElementById('totalPatients').innerHTML = data.totalPatients || '0';
-            document.getElementById('upcomingAppointments').innerHTML = data.upcomingAppointments || '0';
-            document.getElementById('completedToday').innerHTML = data.completedToday || '0';
+            console.log("Attendance updated:", data);
+            const statusBadge = checkbox.closest("td").querySelector(".status-badge");
+            if (statusBadge) {
+                if (attended) {
+                    statusBadge.classList.remove("status-pending");
+                    statusBadge.classList.add("status-attended");
+                    statusBadge.textContent = "✓ Attended";
+                } else {
+                    statusBadge.classList.remove("status-attended");
+                    statusBadge.classList.add("status-pending");
+                    statusBadge.textContent = "⏳ Pending";
+                }
+            }
         })
-        .catch(error => {
-            console.error('Error loading dashboard stats:', error);
-            // Set default values if API call fails
-            document.getElementById('totalPatients').innerHTML = '0';
-            document.getElementById('upcomingAppointments').innerHTML = '0';
-            document.getElementById('completedToday').innerHTML = '0';
-
-            // Show error message to user
-            Swal.fire({
-                icon: 'warning',
-                title: 'Stats Unavailable',
-                text: 'Could not load dashboard statistics. Using default values.',
-                timer: 3000,
-                showConfirmButton: false
-            });
+        .catch(err => {
+            console.error("Error updating attendance:", err);
+            alert("Failed to update attendance!");
+            checkbox.checked = !attended;
         });
     }
 
-    // Handle logout
-    function handleLogout(event) {
-        event.preventDefault();
+    function getLocalDateString(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You will be logged out of your account!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#2c5aa0",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, logout!",
-            cancelButtonText: "Cancel"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Clear session storage
-                sessionStorage.removeItem('doctorLoggedIn');
-                sessionStorage.removeItem('doctorNum');
-                sessionStorage.removeItem('patientName');
+    document.addEventListener('DOMContentLoaded', function() {
+        const doctorName = sessionStorage.getItem('patientName');
+        if (doctorName) {
+            const doctorNameEl = document.getElementById('doctorName');
+            if (doctorNameEl) {
+                doctorNameEl.textContent = doctorName;
+            }
+        }
 
-                // Show success message and redirect immediately after
-                Swal.fire({
-                    title: "Logout Successful",
-                    icon: "success",
-                    draggable: true,
-                    timer: 1500,
-                    showConfirmButton: false
-                }).then(() => {
-                    window.location.href = 'login';
-                });
+        const tbody = document.getElementById('historyTableBody');
+        if (tbody) {
+            allRows = Array.from(tbody.querySelectorAll('tr'));
+            populateBranchFilter();
+
+            const weekBtn = document.querySelectorAll('.quick-filter-btn')[1];
+            filterByPeriod(null, 'week', weekBtn);
+        }
+
+        document.getElementById('searchPhone').addEventListener('input', applyFilters);
+        document.getElementById('searchName').addEventListener('input', applyFilters);
+    });
+
+    function populateBranchFilter() {
+        const branches = new Set();
+        allRows.forEach(row => {
+            const branch = row.getAttribute('data-branch');
+            if (branch && branch !== 'null' && branch !== '-') {
+                branches.add(branch);
             }
         });
+
+        const branchSelect = document.getElementById('searchBranch');
+        branches.forEach(branch => {
+            const option = document.createElement('option');
+            option.value = branch;
+            option.textContent = branch;
+            branchSelect.appendChild(option);
+        });
     }
 
-    // Auto-refresh stats every 5 minutes
-    setInterval(loadDashboardStats, 5 * 60 * 1000);
+    function filterByPeriod(event, period, buttonElement) {
+        currentPeriod = period;
+
+        document.querySelectorAll('.quick-filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        if (event && event.target) {
+            event.target.classList.add('active');
+        } else if (buttonElement) {
+            buttonElement.classList.add('active');
+        }
+
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        let fromDate;
+        switch(period) {
+            case 'today':
+                fromDate = new Date(today);
+                break;
+            case 'week':
+                fromDate = new Date(today);
+                fromDate.setDate(today.getDate() - 7);
+                break;
+            case 'month':
+                fromDate = new Date(today);
+                fromDate.setDate(today.getDate() - 30);
+                break;
+            case 'all':
+                fromDate = null;
+                break;
+        }
+
+        if (fromDate) {
+            document.getElementById('dateFrom').value = getLocalDateString(fromDate);
+            document.getElementById('dateTo').value = getLocalDateString(today);
+        } else {
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+        }
+
+        applyFilters();
+    }
+
+    function applyFilters() {
+        const phoneSearch = document.getElementById('searchPhone').value.toLowerCase().trim();
+        const nameSearch = document.getElementById('searchName').value.toLowerCase().trim();
+        const branchFilter = document.getElementById('searchBranch').value;
+        const dateFrom = document.getElementById('dateFrom').value;
+        const dateTo = document.getElementById('dateTo').value;
+        const sortBy = document.getElementById('sortBy').value;
+
+        let visibleCount = 0;
+
+        allRows.forEach(row => {
+            const patientName = (row.getAttribute('data-patient-name') || '').toLowerCase();
+            const phone = (row.getAttribute('data-phone') || '').toLowerCase();
+            const branch = row.getAttribute('data-branch') || '';
+            const dateStr = row.getAttribute('data-date') || '';
+
+            let show = true;
+
+            if (phoneSearch && !phone.includes(phoneSearch)) {
+                show = false;
+            }
+
+            if (nameSearch && !patientName.includes(nameSearch)) {
+                show = false;
+            }
+
+            if (branchFilter && branch !== branchFilter) {
+                show = false;
+            }
+
+            if (dateStr && dateStr !== '-' && dateStr !== 'null') {
+                const rowDate = parseDate(dateStr);
+                if (dateFrom) {
+                    const fromDateObj = new Date(dateFrom);
+                    fromDateObj.setHours(0, 0, 0, 0);
+                    if (rowDate < fromDateObj) {
+                        show = false;
+                    }
+                }
+                if (dateTo) {
+                    const toDateObj = new Date(dateTo);
+                    toDateObj.setHours(23, 59, 59, 999);
+                    if (rowDate > toDateObj) {
+                        show = false;
+                    }
+                }
+            }
+
+            row.style.display = show ? '' : 'none';
+            if (show) visibleCount++;
+        });
+
+        sortTableData(sortBy);
+        updateSerialNumbers();
+
+        document.getElementById('resultsCount').textContent = `${visibleCount} Result${visibleCount !== 1 ? 's' : ''}`;
+    }
+
+    function parseDate(dateStr) {
+        const parts = dateStr.split(/[-/]/);
+        if (parts.length === 3) {
+            const formats = [
+                new Date(parts[0], parts[1] - 1, parts[2]),
+                new Date(parts[2], parts[1] - 1, parts[0]),
+                new Date(parts[1] + '/' + parts[2] + '/' + parts[0])
+            ];
+            for (let format of formats) {
+                if (!isNaN(format.getTime())) {
+                    format.setHours(0, 0, 0, 0);
+                    return format;
+                }
+            }
+        }
+        const d = new Date(dateStr);
+        d.setHours(0, 0, 0, 0);
+        return d;
+    }
+
+    function sortTableData(sortBy) {
+        const tbody = document.getElementById('historyTableBody');
+        const visibleRows = Array.from(allRows).filter(row => row.style.display !== 'none');
+
+        visibleRows.sort((a, b) => {
+            switch(sortBy) {
+                case 'date-desc':
+                    return parseDate(b.getAttribute('data-date')) - parseDate(a.getAttribute('data-date'));
+                case 'date-asc':
+                    return parseDate(a.getAttribute('data-date')) - parseDate(b.getAttribute('data-date'));
+                case 'name-asc':
+                    return (a.getAttribute('data-patient-name') || '').localeCompare(b.getAttribute('data-patient-name') || '');
+                case 'name-desc':
+                    return (b.getAttribute('data-patient-name') || '').localeCompare(a.getAttribute('data-patient-name') || '');
+            }
+        });
+
+        visibleRows.forEach(row => tbody.appendChild(row));
+    }
+
+    function clearFilters() {
+        document.getElementById('searchPhone').value = '';
+        document.getElementById('searchName').value = '';
+        document.getElementById('searchBranch').value = '';
+        document.getElementById('dateFrom').value = '';
+        document.getElementById('dateTo').value = '';
+        document.getElementById('sortBy').value = 'date-desc';
+
+        document.querySelectorAll('.quick-filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        allRows.forEach(row => row.style.display = '');
+        updateSerialNumbers();
+        document.getElementById('resultsCount').textContent = `${allRows.length} Result${allRows.length !== 1 ? 's' : ''}`;
+    }
+
+    function handleLogout(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            sessionStorage.removeItem('doctorLoggedIn');
+            sessionStorage.removeItem('doctorNum');
+            sessionStorage.removeItem('patientName');
+            sessionStorage.removeItem('phone');
+            window.location.replace('/login');
+        }
+    }
+
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted || (performance.navigation && performance.navigation.type === 2)) {
+            const doctorLoggedIn = sessionStorage.getItem('doctorLoggedIn');
+            if (doctorLoggedIn !== 'true') {
+                window.location.replace('/login');
+            }
+        }
+    });
+
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            const doctorLoggedIn = sessionStorage.getItem('doctorLoggedIn');
+            if (doctorLoggedIn !== 'true') {
+                window.location.replace('/login');
+            }
+        }
+    });
 </script>
 </body>
 </html>
