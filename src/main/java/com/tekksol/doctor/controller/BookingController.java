@@ -20,8 +20,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.concurrent.CompletableFuture;
 
-
-
 @RestController
 @RequestMapping("/api/bookings")
 @CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
@@ -43,14 +41,29 @@ public class BookingController {
     @PostMapping
     public ResponseEntity<?> createBooking(@RequestBody Booking booking, HttpServletRequest request) {
         try {
+            System.out.println("========== BOOKING REQUEST RECEIVED ==========");
+
             // Get logged-in user's phone from session
             HttpSession session = request.getSession(false);
-            if (session == null || session.getAttribute("phone") == null) {
+
+            if (session == null) {
+                System.err.println("❌ ERROR: No session found!");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(Map.of("error", "Unauthorized: Please login first"));
             }
 
             String patientMobileNumber = (String) session.getAttribute("phone");
+            System.out.println("📱 Mobile from session: " + patientMobileNumber);
+
+            if (patientMobileNumber == null) {
+                System.err.println("❌ ERROR: No phone attribute in session!");
+                System.out.println("Available session attributes:");
+                session.getAttributeNames().asIterator().forEachRemaining(attr ->
+                        System.out.println("  - " + attr + " = " + session.getAttribute(attr))
+                );
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "Unauthorized: Please login first"));
+            }
 
             // Check if slot is already booked
             boolean alreadyBooked = bookingRepository
@@ -59,32 +72,38 @@ public class BookingController {
                     .anyMatch(b -> b.getAppointmentTime().equals(booking.getAppointmentTime()));
 
             if (alreadyBooked) {
+                System.out.println("⚠️ Time slot already booked!");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(Map.of("error", "This time slot is already booked for the selected branch!"));
             }
 
             // Save booking first
+            System.out.println("💾 Saving booking to database...");
             Booking savedBooking = bookingRepository.save(booking);
+            System.out.println("✅ Booking saved with ID: " + savedBooking.getId());
 
             // Send confirmation email asynchronously (non-blocking)
-            // Send confirmation email asynchronously (non-blocking)
+            System.out.println("📧 Attempting to send confirmation email...");
             CompletableFuture.runAsync(() -> {
                 try {
                     sendConfirmationEmail(patientMobileNumber, savedBooking);
                 } catch (Exception e) {
-                    System.err.println("Failed to send email: " + e.getMessage());
+                    System.err.println("❌ Failed to send email: " + e.getMessage());
+                    e.printStackTrace();
                 }
             });
 
-// Return success response immediately
+            // Return success response immediately
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("message", "Booking created successfully");
             response.put("bookingId", savedBooking.getId());
 
+            System.out.println("========== BOOKING COMPLETED ==========");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
         } catch (Exception e) {
+            System.err.println("❌ ERROR in createBooking: " + e.getMessage());
             e.printStackTrace();
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Error booking appointment: " + e.getMessage());
@@ -92,56 +111,49 @@ public class BookingController {
         }
     }
 
-    // Async method to send email (non-blocking)
-    @Async
-    private void sendConfirmationEmailAsync(String patientMobileNumber, Booking booking) {
-        try {
-            sendConfirmationEmail(patientMobileNumber, booking);
-        } catch (Exception e) {
-            System.err.println("Failed to send email asynchronously: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    // New endpoint to send email for existing booking
-    @PostMapping("/sendConfirmation")
-    public ResponseEntity<Map<String, String>> sendConfirmationEmailEndpoint(
-            @RequestParam String patientMobileNumber,
-            @RequestParam String bookingId) {
-        try {
-            Optional<Booking> bookingOpt = bookingRepository.findById(bookingId);
-            if (bookingOpt.isPresent()) {
-                sendConfirmationEmail(patientMobileNumber, bookingOpt.get());
-                return ResponseEntity.ok(Map.of("message", "Confirmation email sent successfully!"));
-            }
-            return ResponseEntity.badRequest()
-                    .body(Map.of("error", "Booking not found!"));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("error", "Failed to send email: " + e.getMessage()));
-        }
-    }
-
     // Private method to send confirmation email
     private void sendConfirmationEmail(String patientMobileNumber, Booking booking) {
+        System.out.println("\n========== EMAIL SENDING PROCESS ==========");
+        System.out.println("📱 Looking for patient with mobile: " + patientMobileNumber);
+
         // Find patient by mobile number
         Patient patient = patientRepository.findByMobileNumber(patientMobileNumber);
 
-        if (patient != null) {
-            String patientEmail = patient.getEmail();
-
-            if (patientEmail != null && !patientEmail.trim().isEmpty()) {
-                String subject = "Appointment Confirmation - Dr. P.R. Durai";
-                String body = createEmailBody(patient, booking);
-
-                emailService.sendEmail(patientEmail, subject, body);
-                System.out.println("Confirmation email sent to: " + patientEmail);
-            } else {
-                System.out.println("Patient email not found for mobile: " + patientMobileNumber);
-            }
-        } else {
-            System.out.println("Patient not found with mobile: " + patientMobileNumber);
+        if (patient == null) {
+            System.err.println("❌ ERROR: Patient not found with mobile: " + patientMobileNumber);
+            System.out.println("🔍 Checking all patients in database...");
+            List<Patient> allPatients = patientRepository.findAll();
+            System.out.println("Total patients in DB: " + allPatients.size());
+            allPatients.forEach(p ->
+                    System.out.println("  - Name: " + p.getPatientName() + ", Mobile: " + p.getMobileNumber() + ", Email: " + p.getEmail())
+            );
+            return;
         }
+
+        System.out.println("✅ Patient found: " + patient.getPatientName());
+        String patientEmail = patient.getEmail();
+        System.out.println("📧 Patient email: " + patientEmail);
+
+        if (patientEmail == null || patientEmail.trim().isEmpty()) {
+            System.err.println("❌ ERROR: Patient email is null or empty!");
+            return;
+        }
+
+        try {
+            String subject = "Appointment Confirmation - Dr. P.R. Durai";
+            String body = createEmailBody(patient, booking);
+
+            System.out.println("📤 Sending email to: " + patientEmail);
+            System.out.println("📝 Subject: " + subject);
+
+            emailService.sendEmail(patientEmail, subject, body);
+
+            System.out.println("✅ Confirmation email sent successfully to: " + patientEmail);
+        } catch (Exception e) {
+            System.err.println("❌ ERROR sending email: " + e.getMessage());
+            e.printStackTrace();
+        }
+        System.out.println("========== EMAIL PROCESS COMPLETED ==========\n");
     }
 
     // Create email body
@@ -150,11 +162,14 @@ public class BookingController {
                 "Dear %s,\n\n" +
                         "Your appointment has been confirmed with Dr. P.R. Durai\n\n" +
                         "Appointment Details:\n" +
+                        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
                         "Patient Name: %s\n" +
                         "Date: %s\n" +
                         "Time: %s\n" +
                         "Branch: %s\n" +
-                        "Address: %s\n\n" +
+                        "Address: %s\n" +
+                        "Phone: %s\n" +
+                        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n" +
                         "Please arrive 15 minutes before your scheduled time.\n\n" +
                         "Thank you for choosing our service!\n\n" +
                         "Best regards,\n" +
@@ -164,7 +179,8 @@ public class BookingController {
                 booking.getAppointmentDate(),
                 booking.getAppointmentTime(),
                 booking.getBranch(),
-                booking.getAddress()
+                booking.getAddress(),
+                booking.getPhoneNumber()
         );
     }
 
@@ -186,5 +202,34 @@ public class BookingController {
     @GetMapping("/dummy")
     public ResponseEntity<List<Booking>> check() {
         return ResponseEntity.ok(bookingRepository.findAll());
+    }
+
+    // Test endpoint to check session and patient
+    @GetMapping("/test-session")
+    public ResponseEntity<?> testSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Map<String, Object> result = new HashMap<>();
+
+        if (session == null) {
+            result.put("session", "No session found");
+        } else {
+            String phone = (String) session.getAttribute("phone");
+            result.put("phone", phone);
+
+            if (phone != null) {
+                Patient patient = patientRepository.findByMobileNumber(phone);
+                if (patient != null) {
+                    result.put("patient", Map.of(
+                            "name", patient.getPatientName(),
+                            "email", patient.getEmail(),
+                            "mobile", patient.getMobileNumber()
+                    ));
+                } else {
+                    result.put("patient", "Not found");
+                }
+            }
+        }
+
+        return ResponseEntity.ok(result);
     }
 }
