@@ -1396,136 +1396,150 @@
     });
 
     // Load dashboard statistics from the same endpoint as DoctorHistory
-    function loadDashboardStats() {
-        // Show loading states
-        document.getElementById('totalPatients').innerHTML = '<div class="stat-loading"></div>';
-        document.getElementById('upcomingAppointments').innerHTML = '<div class="stat-loading"></div>';
-        document.getElementById('completedToday').innerHTML = '<div class="stat-loading"></div>';
+    // Load dashboard statistics
+function loadDashboardStats() {
+    console.log('Loading dashboard stats...');
 
-        // Fetch appointment data from the same endpoint used in DoctorHistory
-        fetch('/DoctorHistory', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch appointment data');
-            }
-            return response.text();
-        })
-        .then(html => {
-            // Parse the HTML response to extract appointment data
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
+    // Show loading states
+    document.getElementById('totalPatients').innerHTML = '<div class="stat-loading"></div>';
+    document.getElementById('upcomingAppointments').innerHTML = '<div class="stat-loading"></div>';
+    document.getElementById('completedToday').innerHTML = '<div class="stat-loading"></div>';
 
-            // Extract appointment data from the table (similar to DoctorHistory)
-            const appointmentRows = doc.querySelectorAll('tbody tr');
-            const appointments = Array.from(appointmentRows).map(row => {
-                const cells = row.querySelectorAll('td');
-                return {
-                    patientName: cells[1]?.textContent?.trim() || '',
-                    phoneNumber: cells[2]?.textContent?.trim() || '',
-                    branch: cells[3]?.textContent?.trim() || '',
-                    address: cells[4]?.textContent?.trim() || '',
-                    appointmentDate: cells[5]?.textContent?.trim() || '',
-                    appointmentTime: cells[6]?.textContent?.trim() || '',
-                    message: cells[7]?.textContent?.trim() || '',
-                    attended: row.querySelector('input[type="checkbox"]')?.checked || false
-                };
-            });
-
-            // Calculate stats from the data
-            const stats = calculateStatsFromData(appointments);
-
-            // Update the dashboard with calculated stats
-            document.getElementById('totalPatients').innerHTML = stats.totalPatients;
-            document.getElementById('upcomingAppointments').innerHTML = stats.upcomingAppointments;
-            document.getElementById('completedToday').innerHTML = stats.completedToday;
-        })
-        .catch(error => {
-            console.error('Error loading dashboard stats:', error);
-            handleStatsError();
-        });
-    }
-
-    // Calculate statistics from appointment data
-    function calculateStatsFromData(appointments) {
-        const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-
-        let stats = {
-            totalPatients: 0,
-            upcomingAppointments: 0,
-            completedToday: 0
-        };
-
-        // Use Set to track unique patients (by phone number)
-        const uniquePatients = new Set();
-
-        appointments.forEach(appointment => {
-            // Count unique patients (based on phone number)
-            if (appointment.phoneNumber && appointment.phoneNumber !== '-') {
-                uniquePatients.add(appointment.phoneNumber);
-            }
-
-            // Count upcoming appointments (not attended)
-            if (!appointment.attended) {
-                stats.upcomingAppointments++;
-            }
-
-            // Count completed today (attended and today's date)
-            const appointmentDate = formatDateForComparison(appointment.appointmentDate);
-            if (appointment.attended && appointmentDate === today) {
-                stats.completedToday++;
-            }
-        });
-
-        stats.totalPatients = uniquePatients.size;
-
-        return stats;
-    }
-
-    // Helper function to format date for comparison
-    function formatDateForComparison(dateString) {
-        if (!dateString || dateString === '-') return '';
-
-        try {
-            // Try different date formats that might be in your data
-            const formats = [
-                dateString, // Original format
-                dateString.split('/').reverse().join('-'), // DD/MM/YYYY to YYYY-MM-DD
-                dateString.split('-').reverse().join('-') // DD-MM-YYYY to YYYY-MM-DD
-            ];
-
-            for (let format of formats) {
-                const date = new Date(format);
-                if (!isNaN(date.getTime())) {
-                    return date.toISOString().split('T')[0];
-                }
-            }
-
-            return '';
-        } catch (e) {
-            console.error('Error parsing date:', dateString, e);
-            return '';
+    // Fetch data from DoctorHistory endpoint
+    fetch('/DoctorHistory', {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch DoctorHistory data');
         }
-    }
+        return response.text();
+    })
+    .then(html => {
+        // Parse the HTML to extract appointment data
+        const appointments = parseAppointmentsFromHTML(html);
+        const stats = calculateStatsFromData(appointments);
+        updateStatsDisplay(stats);
+    })
+    .catch(error => {
+        console.error('Error loading dashboard stats:', error);
+        handleStatsError();
+    });
+}
 
-    function handleStatsError() {
-        document.getElementById('totalPatients').innerHTML = '0';
-        document.getElementById('upcomingAppointments').innerHTML = '0';
-        document.getElementById('completedToday').innerHTML = '0';
+// Parse appointments from DoctorHistory HTML
+function parseAppointmentsFromHTML(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const appointmentRows = doc.querySelectorAll('tbody tr');
 
-        Swal.fire({
-            icon: 'warning',
-            title: 'Stats Unavailable',
-            text: 'Could not load dashboard statistics.',
-            timer: 3000,
-            showConfirmButton: false
-        });
+    const appointments = Array.from(appointmentRows).map(row => {
+        const cells = row.querySelectorAll('td');
+        const checkbox = row.querySelector('input[type="checkbox"]');
+
+        return {
+            patientName: cells[1]?.textContent?.trim() || '',
+            phoneNumber: cells[2]?.textContent?.trim() || '',
+            branch: cells[3]?.textContent?.trim() || '',
+            address: cells[4]?.textContent?.trim() || '',
+            appointmentDate: cells[5]?.textContent?.trim() || '',
+            appointmentTime: cells[6]?.textContent?.trim() || '',
+            message: cells[7]?.textContent?.trim() || '',
+            attended: checkbox ? checkbox.checked : false
+        };
+    });
+
+    console.log('Parsed appointments:', appointments.length, 'records found');
+    return appointments;
+}
+
+// Calculate statistics from appointment data
+function calculateStatsFromData(appointments) {
+    const today = new Date().toISOString().split('T')[0];
+
+    let stats = {
+        totalPatients: 0,
+        upcomingAppointments: 0,
+        completedToday: 0
+    };
+
+    // Use Set to track unique patients (by phone number)
+    const uniquePatients = new Set();
+
+    appointments.forEach(appointment => {
+        // Count unique patients (based on phone number)
+        if (appointment.phoneNumber && appointment.phoneNumber !== '-' && appointment.phoneNumber !== 'null') {
+            uniquePatients.add(appointment.phoneNumber);
+        }
+
+        // Count upcoming appointments (not attended)
+        if (!appointment.attended) {
+            stats.upcomingAppointments++;
+        }
+
+        // Count completed today (attended and today's date)
+        const appointmentDate = formatDateForComparison(appointment.appointmentDate);
+        if (appointment.attended && appointmentDate === today) {
+            stats.completedToday++;
+        }
+    });
+
+    stats.totalPatients = uniquePatients.size;
+
+    console.log('Calculated stats:', stats);
+    return stats;
+}
+
+// Helper function to format date for comparison
+function formatDateForComparison(dateString) {
+    if (!dateString || dateString === '-' || dateString === 'null') return '';
+
+    try {
+        // Try different date formats
+        const formats = [
+            dateString, // Original format
+            dateString.split('/').reverse().join('-'), // DD/MM/YYYY to YYYY-MM-DD
+            dateString.split('-').reverse().join('-'), // DD-MM-YYYY to YYYY-MM-DD
+            new Date(dateString).toISOString().split('T')[0] // Try direct Date parsing
+        ];
+
+        for (let format of formats) {
+            const date = new Date(format);
+            if (!isNaN(date.getTime())) {
+                return date.toISOString().split('T')[0];
+            }
+        }
+
+        return '';
+    } catch (e) {
+        console.error('Error parsing date:', dateString, e);
+        return '';
     }
+}
+
+// Update the stats display
+function updateStatsDisplay(stats) {
+    document.getElementById('totalPatients').innerHTML = stats.totalPatients;
+    document.getElementById('upcomingAppointments').innerHTML = stats.upcomingAppointments;
+    document.getElementById('completedToday').innerHTML = stats.completedToday;
+
+    console.log('Stats updated successfully');
+}
+
+function handleStatsError() {
+    document.getElementById('totalPatients').innerHTML = '0';
+    document.getElementById('upcomingAppointments').innerHTML = '0';
+    document.getElementById('completedToday').innerHTML = '0';
+
+    Swal.fire({
+        icon: 'warning',
+        title: 'Stats Unavailable',
+        text: 'Could not load dashboard statistics.',
+        timer: 3000,
+        showConfirmButton: false
+    });
+}
 
     // Handle logout
     function handleLogout(event) {
