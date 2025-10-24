@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.concurrent.CompletableFuture;
+
 
 
 @RestController
@@ -65,14 +67,20 @@ public class BookingController {
             Booking savedBooking = bookingRepository.save(booking);
 
             // Send confirmation email asynchronously (non-blocking)
-            sendConfirmationEmailAsync(patientMobileNumber, savedBooking);
+            // Send confirmation email asynchronously (non-blocking)
+            CompletableFuture.runAsync(() -> {
+                try {
+                    sendConfirmationEmail(patientMobileNumber, savedBooking);
+                } catch (Exception e) {
+                    System.err.println("Failed to send email: " + e.getMessage());
+                }
+            });
 
-            // Return success response immediately
+// Return success response immediately
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("message", "Booking created successfully");
             response.put("bookingId", savedBooking.getId());
-            response.put("booking", savedBooking);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
