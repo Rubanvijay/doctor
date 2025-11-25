@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Book Appointment - Doctor Appointment</title>
+    <meta name="description" content="Book your appointment with Dr. Matthew Anderson"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="logo/logo5.png" type="image/x-icon"/>
+    <style>
+        .booking-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #e8f0fa 0%, #d4e3f5 100%);
+            min-height: 100vh;
+        }
+        .booking-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(44, 90, 160, 0.1);
+        }
+        .booking-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .booking-header h1 {
+            color: #2c5aa0;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+        }
+        .booking-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #2c5aa0;
+            margin-bottom: 0.5rem;
+        }
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #2c5aa0;
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+        }
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .time-slots-container {
+            margin-top: 1rem;
+        }
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.75rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 6px;
+            border: 2px solid #e5e7eb;
+        }
+        .time-slot {
+            padding: 0.75rem;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #2c5aa0;
+        }
+        .time-slot:hover {
+            border-color: #2c5aa0;
+            background: #e8f0fa;
+            transform: translateY(-2px);
+        }
+        .time-slot.selected {
+            background: linear-gradient(135deg, #2c5aa0, #1e4178);
+            color: white;
+            border-color: #2c5aa0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 90, 160, 0.3);
+        }
+        .time-slot.disabled {
+            background: #f1f5f9;
+            color: #cbd5e1;
+            cursor: not-allowed;
+            border-color: #f1f5f9;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            margin-top: 2rem;
+            background: linear-gradient(135deg, #2c5aa0, #1e4178);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 90, 160, 0.4);
+            background: linear-gradient(135deg, #1e4178, #2c5aa0);
+        }
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .success-message {
+            display: none;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            text-align: center;
+            border: 1px solid #93c5fd;
+        }
+
+        .error-message {
+            display: none;
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            text-align: center;
+            border: 1px solid #fecaca;
+        }
+
+        .required::after {
+            content: " *";
+            color: #dc2626;
+        }
+
+        /* Back button styling */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #2c5aa0, #1e4178);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(44, 90, 160, 0.4);
+            background: linear-gradient(135deg, #1e4178, #2c5aa0);
+        }
+
+        /* Loading animation */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Enhanced animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .booking-container {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .booking-container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .booking-header h1 {
+                font-size: 2rem;
+            }
+            .back-button {
+                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<section class="booking-section">
+    <div class="booking-container">
+        <a href="/dashboard" class="back-button">
+            ← Back to Dashboard
+        </a>
+
+        <div class="booking-header">
+            <h1>Book an Appointment</h1>
+            <p>Schedule your visit with Dr.P.R Durai</p>
+        </div>
+
+        <form id="bookingForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label required" for="patientName">Patient Name</label>
+                    <input type="text" id="patientName" class="form-input" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label required" for="phoneNumber">Phone Number</label>
+                    <input type="tel" id="phoneNumber" class="form-input" required placeholder="Enter your phone number">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required" for="branch">Branch</label>
+                <select id="branch" class="form-select" required>
+                    <option value="">Select a branch</option>
+                    <option value="Branch 1">Branch 1</option>
+                    <option value="Branch 2">Branch 2</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required" for="address">Address</label>
+                <input type="text" id="address" class="form-input" required placeholder="Enter your complete address">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label required" for="appointmentDate">Select Date</label>
+                    <input type="date" id="appointmentDate" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Selected Time</label>
+                    <input type="text" id="selectedTimeDisplay" class="form-input" placeholder="Select a time slot" readonly>
+                    <input type="hidden" id="selectedTime" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required">Available Time Slots</label>
+                <div class="time-slots-container">
+                    <div class="time-slots" id="timeSlots"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="message">Message (Optional)</label>
+                <textarea id="message" class="form-textarea" placeholder="Any specific concerns or notes for the doctor..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Book Appointment</button>
+
+            <div id="successMessage" class="success-message">
+                Appointment booked successfully! Confirmation email has been sent to your registered email address.
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+    </div>
+</section>
+
+<script>
+    const dateInput = document.getElementById('appointmentDate');
+    const branchSelect = document.getElementById('branch');
+    const timeSlotsContainer = document.getElementById('timeSlots');
+    const selectedTimeInput = document.getElementById('selectedTime');
+    const selectedTimeDisplay = document.getElementById('selectedTimeDisplay');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Set date constraints (20 days from today)
+    const today = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + 20);
+    dateInput.min = today.toISOString().split('T')[0];
+    dateInput.max = maxDate.toISOString().split('T')[0];
+
+    // Function to disable Sundays in date picker
+    dateInput.addEventListener('input', function(e) {
+        const selectedDate = new Date(this.value);
+        if (selectedDate.getDay() === 0) {
+            alert('Sundays are not available for appointments. Please select another date.');
+            this.value = '';
+            timeSlotsContainer.innerHTML = '';
+            selectedTimeInput.value = '';
+            selectedTimeDisplay.value = '';
+        }
+    });
+
+    // Generate all possible slots
+    function generateAllSlots() {
+        const slots = [];
+        // Afternoon: 3:00 PM - 6:00 PM
+        for (let hour = 15; hour < 19; hour++) {
+            for (let min = 0; min < 60; min += 60) {
+                const time24 = `${hour.toString().padStart(2,'0')}:${min.toString().padStart(2,'0')}`;
+                const hour12 = hour > 12 ? hour-12 : hour;
+                slots.push({time24, time12: `${hour12}:${min.toString().padStart(2,'0')} PM`});
+            }
+        }
+        return slots;
+    }
+
+    function renderTimeSlots(bookedSlots = []) {
+        timeSlotsContainer.innerHTML = '';
+        const allSlots = generateAllSlots();
+
+        const now = new Date();
+        const currentHours = now.getHours();
+        const currentMinutes = now.getMinutes();
+        const currentTimeInMinutes = currentHours * 60 + currentMinutes;
+
+        const selectedDate = new Date(dateInput.value);
+        const todayDate = new Date();
+
+        const isToday =
+            selectedDate.getFullYear() === todayDate.getFullYear() &&
+            selectedDate.getMonth() === todayDate.getMonth() &&
+            selectedDate.getDate() === todayDate.getDate();
+
+        allSlots.forEach(slot => {
+            const div = document.createElement('div');
+            div.className = 'time-slot';
+            div.textContent = slot.time12;
+            div.dataset.time = slot.time24;
+
+            const [hours, minutes] = slot.time24.split(':').map(Number);
+            const slotTimeInMinutes = hours * 60 + minutes;
+
+            if (
+                bookedSlots.includes(slot.time24) ||
+                (isToday && slotTimeInMinutes <= currentTimeInMinutes)
+            ) {
+                div.classList.add('disabled');
+            }
+
+            div.addEventListener('click', () => {
+                if (div.classList.contains('disabled')) return;
+                document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                div.classList.add('selected');
+                selectedTimeInput.value = slot.time24;
+                selectedTimeDisplay.value = slot.time12;
+            });
+
+            timeSlotsContainer.appendChild(div);
+        });
+    }
+
+    // Fetch booked slots for selected date & branch
+    async function fetchBookedSlots() {
+        const date = dateInput.value;
+        const branch = branchSelect.value;
+
+        if (!date || !branch) return renderTimeSlots();
+
+        try {
+            const res = await fetch(`http://localhost:8080/api/bookings/timeslots?date=${date}&branch=${branch}`, {
+                credentials: 'include'
+            });
+            const bookedSlots = await res.json();
+            renderTimeSlots(bookedSlots);
+        } catch(err) {
+            console.error('Error fetching slots', err);
+            renderTimeSlots();
+        }
+    }
+
+    // Submit booking
+    document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Hide previous messages
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+
+        if (!selectedTimeInput.value) {
+            errorMessage.textContent = 'Please select a time slot';
+            errorMessage.style.display = 'block';
+            return;
+        }
+
+        // Disable button and show loading
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="loading"></span> Booking...';
+
+        const data = {
+            patientName: document.getElementById('patientName').value,
+            phoneNumber: document.getElementById('phoneNumber').value,
+            branch: branchSelect.value,
+            address: document.getElementById('address').value,
+            appointmentDate: dateInput.value,
+            appointmentTime: selectedTimeInput.value,
+            message: document.getElementById('message').value
+        };
+
+        try {
+            const res = await fetch('http://localhost:8080/api/bookings', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                credentials: 'include', // Important: This sends session cookies
+                body: JSON.stringify(data)
+            });
+
+            if (res.status === 401) {
+                errorMessage.textContent = 'Please login first to book an appointment';
+                errorMessage.style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+                return;
+            }
+
+            if (!res.ok) {
+                const errorText = await res.text();
+                throw new Error(errorText);
+            }
+
+            // Show success message
+            successMessage.style.display = 'block';
+            submitBtn.innerHTML = '✓ Booked Successfully!';
+
+            // Redirect to dashboard after 3 seconds
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 3000);
+
+        } catch(err) {
+            console.error(err);
+            errorMessage.textContent = err.message || 'Error booking appointment. Please try again.';
+            errorMessage.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Book Appointment';
+        }
+    });
+
+    // Update slots when date or branch changes
+    dateInput.addEventListener('change', fetchBookedSlots);
+    branchSelect.addEventListener('change', fetchBookedSlots);
+
+    // Initial render
+    renderTimeSlots();
+</script>
+</body>
+</html>

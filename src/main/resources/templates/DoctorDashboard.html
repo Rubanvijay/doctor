@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Dashboard - Doctor Appointment</title>
+    <meta name="description" content="Doctor Dashboard - Manage your appointments and health records"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="logo/logo3.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Authentication Check
+        function checkAuthentication() {
+            const doctorLoggedIn = sessionStorage.getItem('doctorLoggedIn');
+
+            if (doctorLoggedIn !== 'true') {
+                window.location.href = 'login';
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* Apply fonts globally */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6, .title, .subtitle {
+            font-family: 'Poppins', 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        body, p, .paragraph, .paragraph-small, .nav-link {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .button-primary, .button-secondary {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        /* Enhanced Animation Keyframes */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeInRight {
+          from {
+            opacity: 0;
+            transform: translateX(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+          100% {
+            transform: translateY(0px);
+          }
+        }
+
+        @keyframes slideInFromLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slideInFromRight {
+          from {
+            opacity: 0;
+            transform: translateX(100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes bounceIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.3);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.05);
+          }
+          70% {
+            transform: scale(0.9);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes shake {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          10%, 30%, 50%, 70%, 90% {
+            transform: translateX(-5px);
+          }
+          20%, 40%, 60%, 80% {
+            transform: translateX(5px);
+          }
+        }
+
+        @keyframes rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes gradientShift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        @keyframes wave {
+          0% {
+            transform: translateX(0);
+          }
+          50% {
+            transform: translateX(-10px);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes ripple {
+          0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+          }
+          100% {
+            transform: scale(20, 20);
+            opacity: 0;
+          }
+        }
+
+        @keyframes dropdownFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* Animation Classes */
+        .animate-fadeInUp {
+          animation: fadeInUp 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-fadeInLeft {
+          animation: fadeInLeft 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-fadeInRight {
+          animation: fadeInRight 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-pulse {
+          animation: pulse 2s infinite;
+        }
+
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-slideInLeft {
+          animation: slideInFromLeft 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-slideInRight {
+          animation: slideInFromRight 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-bounceIn {
+          animation: bounceIn 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-shake {
+          animation: shake 0.5s ease-in-out;
+        }
+
+        .animate-rotate {
+          animation: rotate 8s linear infinite;
+        }
+
+        .animate-dropdown {
+          animation: dropdownFadeIn 0.3s ease-out forwards;
+        }
+
+        /* Staggered Animations for Dashboard */
+        .dashboard-welcome > * {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .dashboard-welcome h1 {
+          animation-delay: 0.2s;
+        }
+
+        .dashboard-welcome p {
+          animation-delay: 0.4s;
+        }
+
+        .dashboard-cards .dashboard-card {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .dashboard-cards .dashboard-card:nth-child(1) {
+          animation-delay: 0.2s;
+        }
+
+        .dashboard-cards .dashboard-card:nth-child(2) {
+          animation-delay: 0.4s;
+        }
+
+        .dashboard-cards .dashboard-card:nth-child(3) {
+          animation-delay: 0.6s;
+        }
+
+        /* Quick Stats Animation */
+        .stats-container > div {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .stats-container > div:nth-child(1) {
+          animation-delay: 0.8s;
+        }
+
+        .stats-container > div:nth-child(2) {
+          animation-delay: 1.0s;
+        }
+
+        .stats-container > div:nth-child(3) {
+          animation-delay: 1.2s;
+        }
+
+        /* Navigation Spacing Styles */
+        .header-navigation {
+          display: flex;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          gap: 32px;
+        }
+
+        .nav-link {
+          position: relative;
+          transition: color 0.3s ease;
+          padding: 8px 0;
+          margin-left: 75px;
+        }
+
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background: linear-gradient(90deg, #ffffff, #a8c5e8);
+          transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+          width: 100%;
+        }
+
+        /* Enhanced Hover Effects */
+        .card, .dashboard-card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .card::before, .dashboard-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+          transition: left 0.5s;
+        }
+
+        .card:hover::before, .dashboard-card:hover::before {
+          left: 100%;
+        }
+
+        .card:hover, .dashboard-card:hover {
+          transform: translateY(-5px) scale(1.02);
+          box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .button-primary, .button-secondary {
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .button-primary::after, .button-secondary::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 5px;
+          height: 5px;
+          background: rgba(255, 255, 255, 0.5);
+          opacity: 0;
+          border-radius: 100%;
+          transform: scale(1, 1) translate(-50%);
+          transform-origin: 50% 50%;
+        }
+
+        .button-primary:hover::after, .button-secondary:hover::after {
+          animation: ripple 1s ease-out;
+        }
+
+        .button-primary:hover, .button-secondary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Background Animation */
+        .bg.home-hero-right {
+          animation: float 6s ease-in-out infinite, rotate 30s linear infinite;
+        }
+
+        .bg.cta {
+          animation: float 8s ease-in-out infinite;
+        }
+
+        /* Animated gradient background for welcome section - BLUE */
+        .dashboard-welcome {
+          background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #1a3461);
+          background-size: 400% 400%;
+          animation: gradientShift 10s ease infinite;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .dashboard-welcome::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          right: -50%;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+          animation: float 8s ease-in-out infinite;
+        }
+
+        /* Scroll Animations */
+        .scroll-animate {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .scroll-animate.animated {
+          opacity: 1;
+          transform: translateY(0);
+          margin-left: 75px;
+        }
+
+        /* Animated icons */
+        .image.card-home-feature, .image.card-service {
+          transition: transform 0.5s ease;
+        }
+
+        .card:hover .image.card-home-feature,
+        .card:hover .image.card-service,
+        .dashboard-card:hover .image.card-home-feature {
+          transform: scale(1.2) rotate(5deg);
+        }
+
+        /* Loading animation for page */
+        .page-loader {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+          transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .page-loader.hidden {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .loader {
+          width: 50px;
+          height: 50px;
+          border: 5px solid #f3f3f3;
+          border-top: 5px solid #2c5aa0;
+          border-radius: 50%;
+          animation: rotate 1s linear infinite;
+        }
+
+        /* Text highlight animation */
+        .highlight-text {
+          position: relative;
+          display: inline-block;
+        }
+
+        .highlight-text::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 30%;
+          background-color: rgba(44, 90, 160, 0.2);
+          z-index: -1;
+          transform: scaleX(0);
+          transform-origin: bottom left;
+          transition: transform 0.3s ease;
+        }
+
+        .highlight-text:hover::after {
+          transform: scaleX(1);
+        }
+
+        /* Animated footer links */
+        .footer-nav-link {
+          position: relative;
+          transition: color 0.3s ease;
+          display: inline-block;
+        }
+
+        .footer-nav-link::before {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 0;
+          height: 1px;
+          background-color: white;
+          transition: width 0.3s ease;
+        }
+
+        .footer-nav-link:hover::before {
+          width: 100%;
+        }
+
+        /* HEADER STYLING - BLUE */
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            box-shadow: 0 2px 10px rgba(30, 60, 114, 0.15);
+            position: relative;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-contact-wrapper {
+            display: flex;
+            gap: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-contact-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .header-contact-link:hover {
+            color: #a8c5e8;
+        }
+
+        .header-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .header .nav-link {
+            color: white;
+        }
+
+        .header .nav-link:hover {
+            color: #a8c5e8;
+        }
+
+        /* Dashboard Specific Styles */
+        .dashboard-nav {
+          background: #fff;
+          border-bottom: 1px solid #e5e7eb;
+          padding: 1rem 0;
+          margin-bottom: 2rem;
+        }
+
+        .dashboard-nav-wrapper {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .dashboard-nav-links {
+          display: flex;
+          gap: 2rem;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        .dashboard-nav-link {
+          color: #1e293b;
+          text-decoration: none;
+          font-weight: 500;
+          padding: 0.5rem 1rem;
+          border-radius: 6px;
+          transition: all 0.3s ease;
+          position: relative;
+        }
+
+        .dashboard-nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: -5px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 0;
+          height: 2px;
+          background: linear-gradient(90deg, #2c5aa0, #1e4178);
+          transition: width 0.3s ease;
+        }
+
+        .dashboard-nav-link:hover::after {
+          width: 80%;
+        }
+
+        .dashboard-nav-link:hover,
+        .dashboard-nav-link.active {
+          background: #e8f0fa;
+          color: #2c5aa0;
+        }
+
+        .dashboard-content {
+          min-height: 60vh;
+        }
+
+        .dashboard-welcome {
+          color: white;
+          padding: 3rem 2rem;
+          border-radius: 12px;
+          margin-bottom: 2rem;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .dashboard-welcome h1 {
+          margin: 0 0 0.5rem 0;
+          font-size: 2rem;
+          position: relative;
+          z-index: 1;
+        }
+
+        .dashboard-welcome p {
+          margin: 0;
+          opacity: 0.9;
+          position: relative;
+          z-index: 1;
+        }
+
+        .dashboard-cards {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          margin-top: 2rem;
+        }
+
+        .dashboard-card {
+          background: white;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          padding: 2rem;
+        }
+
+        .dashboard-card h3 {
+          margin: 0 0 1rem 0;
+          color: #1e293b;
+        }
+
+        .dashboard-card p {
+          margin: 0 0 1.5rem 0;
+          color: #64748b;
+        }
+
+        /* User Info Styles - BLUE */
+        .user-info {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          position: relative;
+        }
+
+        .user-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #2c5aa0, #1e4178);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: 600;
+          font-size: 1.2rem;
+          transition: transform 0.3s ease;
+          animation: pulse 2s infinite;
+        }
+
+        .user-info:hover .user-avatar {
+          transform: scale(1.1);
+          animation: none;
+        }
+
+        #username {
+          font-weight: 500;
+          color: #fff;
+          font-size: 16px;
+          transition: color 0.3s ease;
+        }
+
+        /* FOOTER STYLING - BLUE */
+        .footer {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-title {
+            color: white;
+        }
+
+        .footer-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .footer-nav-link:hover {
+            color: white;
+        }
+
+        .footer-address {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .divider.footer-divider-1,
+        .divider.footer-divider-2 {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .small-print {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Quick Stats - BLUE */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: #e8f0fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #d4e3f5;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c5aa0;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #64748b;
+        }
+
+        /* MOBILE RESPONSIVE STYLES */
+        @media (max-width: 991px) {
+            .header-contact-wrapper {
+                flex-direction: column;
+                gap: 8px;
+                padding: 12px 0;
+                text-align: center;
+            }
+
+            .header-contact-link {
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .header-wrapper {
+                padding: 12px 0;
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+
+            .split-content.header-right {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .header-logo {
+                height: 40px;
+                width: auto;
+                max-width: 120px;
+            }
+
+            /* Improved Mobile Navigation */
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 280px;
+                height: 100vh;
+                background: linear-gradient(180deg, #1e3c72, #2a5298);
+                padding: 80px 30px 30px;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+                z-index: 1001;
+            }
+
+            .nav-menu.w--open {
+                left: 0;
+            }
+
+            .header-navigation {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+            }
+
+            .header-navigation li {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                width: 100%;
+            }
+
+            .nav-link {
+                display: block;
+                padding: 18px 0;
+                font-size: 18px;
+                margin-left: 0 !important;
+                width: 100%;
+                text-align: left;
+                color: white;
+            }
+
+            .nav-link:hover {
+                color: #a8c5e8;
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            /* Improved Menu Button */
+            .menu-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 8px;
+                z-index: 1002;
+                order: 2;
+            }
+
+            .menu-button-icon-wrapper {
+                width: 30px;
+                height: 24px;
+                position: relative;
+            }
+
+            .menu-line-top,
+            .menu-line-middle,
+            .menu-line-bottom {
+                width: 100%;
+                height: 3px;
+                background: white;
+                position: absolute;
+                left: 0;
+                transition: all 0.3s ease;
+                border-radius: 2px;
+            }
+
+            .menu-line-top {
+                top: 0;
+            }
+
+            .menu-line-middle {
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .menu-line-bottom {
+                bottom: 0;
+            }
+
+            .menu-button.w--open .menu-line-top {
+                top: 50%;
+                transform: translateY(-50%) rotate(45deg);
+            }
+
+            .menu-button.w--open .menu-line-middle {
+                opacity: 0;
+            }
+
+            .menu-button.w--open .menu-line-bottom {
+                bottom: 50%;
+                transform: translateY(50%) rotate(-45deg);
+            }
+
+            /* User Info Positioning for Mobile */
+            .user-info {
+                order: 1;
+                position: absolute;
+                right: 60px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            #username {
+                display: none;
+            }
+
+            /* Brand/Logo Positioning */
+            .brand {
+                order: 0;
+                margin-right: auto;
+            }
+
+            /* Mobile Overlay */
+            .mobile-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1000;
+            }
+
+            .mobile-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            /* Dashboard Navigation Mobile Adjustments */
+            .dashboard-nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .dashboard-nav-link {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .dashboard-welcome h1 {
+                font-size: 1.5rem;
+            }
+
+            .scroll-animate.animated {
+                margin-left: 0;
+            }
+
+            /* Dashboard Cards Mobile Adjustments */
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 479px) {
+            .header-contact-link {
+                font-size: 12px;
+            }
+
+            .header-logo {
+                height: 35px;
+                max-width: 100px;
+            }
+
+            .nav-menu {
+                width: 260px;
+                padding: 70px 25px 25px;
+            }
+
+            .nav-link {
+                padding: 15px 0;
+                font-size: 16px;
+            }
+
+            .user-info {
+                right: 50px;
+            }
+
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+            }
+
+            .menu-button {
+                padding: 6px;
+            }
+
+            .menu-button-icon-wrapper {
+                width: 25px;
+                height: 20px;
+            }
+
+            /* Dashboard Navigation for Extra Small Screens */
+            .dashboard-nav-links {
+                gap: 0.5rem;
+            }
+
+            .dashboard-nav-link {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Extra Small Devices */
+        @media (max-width: 360px) {
+            .split-content.header-right {
+                gap: 10px;
+            }
+
+            .header-logo {
+                height: 30px;
+                max-width: 90px;
+            }
+
+            .user-info {
+                right: 45px;
+            }
+
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+
+            /* Dashboard Navigation for Very Small Screens */
+            .dashboard-nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .dashboard-nav-link {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Mobile Overlay -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="page-loader">
+    <div class="loader"></div>
+</div>
+
+<div class="page-wrapper">
+    <!-- Header -->
+    <header class="header w-nav" role="banner">
+        <div class="container-default w-container">
+
+            <div class="header-wrapper">
+                <div class="split-content header-right">
+                    <a class="brand w-nav-brand" href="/" aria-label="Home">
+                        <img class="header-logo" src="logo/logo3.png" alt="Sakthi Homeo Clinic Logo" height="50px" width="120px"/>
+                    </a>
+                    <nav class="nav-menu w-nav-menu" role="navigation">
+                        <ul class="header-navigation" role="list">
+                            <li><a class="nav-link" href="/">Home</a></li>
+                            <li><a class="nav-link" href="/about">About</a></li>
+                            <li><a class="nav-link" href="/service">Services</a></li>
+                            <li><a class="nav-link" href="/contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">👨‍⚕️</div>
+                    <span id="username">Dr.P.R.Durai</span>
+                </div>
+                <div class="menu-button w-nav-button">
+                    <div class="menu-button-icon-wrapper">
+                        <div class="menu-button-icon">
+                            <div class="menu-line-top"></div>
+                            <div class="menu-line-middle"></div>
+                            <div class="menu-line-bottom"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Navigation -->
+    <section class="dashboard-nav">
+        <div class="container-default w-container">
+            <div class="dashboard-nav-wrapper">
+                <ul class="dashboard-nav-links" role="list">
+                    <li><a class="dashboard-nav-link active" href="DoctorDashboard">Dashboard</a></li>
+                    <li><a class="dashboard-nav-link" href="DoctorHistory">View Appointments</a></li>
+                    <li><a class="dashboard-nav-link" href="/about">About</a></li>
+                    <li><a class="dashboard-nav-link" href="/logout" onclick="handleLogout(event)" style="color: #dc2626;">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <section class="section dashboard-content">
+        <div class="container-default w-container">
+            <!-- Welcome Section with Blue Gradient -->
+            <div class="dashboard-welcome">
+                <h1 style="color:white;">Welcome back, <span id="patientName">Dr.P.R.Durai</span></h1>
+                <p>Manage your appointments and patient records efficiently</p>
+            </div>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <img class="image card-home-feature" src="icon/21.svg" alt="History" style="width: 60px; margin-bottom: 1rem;"/>
+                    <h3>Appointment History</h3>
+                    <p>View your past appointments and medical records</p>
+                    <a class="button-primary w-button" href="/DoctorHistory" style="background-color: #264b8c !important;">View History</a>
+                </div>
+
+                <div class="dashboard-card">
+                    <img class="image card-home-feature" src="icon/22.svg" alt="Book" style="width: 60px; margin-bottom: 1rem;"/>
+                    <h3>Manage Appointments</h3>
+                    <p>View and manage patient appointments</p>
+                    <a class="button-primary w-button" href="/DoctorHistory" style="background-color: #264b8c !important;">Manage Now</a>
+                </div>
+
+                <div class="dashboard-card">
+                    <img class="image card-home-feature" src="icon/23.svg" alt="About" style="width: 60px; margin-bottom: 1rem;"/>
+                    <h3>Patient Records</h3>
+                    <p>Access and update patient medical records</p>
+                    <a class="button-primary w-button" href="/DoctorHistory" style="background-color: #264b8c !important;">View History</a>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div style="margin-top: 3rem;">
+                <h2 style="margin-bottom: 1.5rem; color: #2c5aa0;">Quick Stats</h2>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-number">15</div>
+                        <div class="stat-label">Total Patients</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Upcoming Appointments</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Completed Today</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container-default w-container">
+          <div class="footer-main-content">
+              <div class="footer-left">
+                  <a class="footer-logo-container w-inline-block" href="/">
+                      <img class="footer-logo" src="logo/logo4.png" alt="Sakthi Homeo Clinic Logo" height="50px" width="120px"/>
+                  </a>
+                  <p class="paragraph-small footer-description">Sakthi Homeo Clinic provides expert homeopathic treatment for various ailments using natural remedies with proven results.</p>
+                  
+                  <div class="footer-contact-info">
+                      <div class="contact-item">
+                          <i class="fas fa-phone"></i>
+                          <a href="tel:+919940379979">+91 9940379979</a>
+                      </div>
+                      <div class="contact-item">
+                          <i class="fas fa-envelope"></i>
+                          <a href="mailto:contact@doctor.com">contact@doctor.com</a>
+                      </div>
+                      <div class="contact-item">
+                          <i class="fas fa-map-marker-alt"></i>
+                          <span>No 20,Dhandapani St, T. Nagar, Chennai, Tamil Nadu 600017</span>
+                      </div>
+                  </div>
+              </div>
+  
+              <div class="footer-middle">
+                  <div class="footer-section">
+                      <h3 class="footer-title">Quick Links</h3>
+                      <ul class="footer-nav-links" role="list">
+                          <li><a class="footer-nav-link" href="/">Home</a></li>
+                          <li><a class="footer-nav-link" href="/about">About</a></li>
+                          <li><a class="footer-nav-link" href="/service">Services</a></li>
+                          <li><a class="footer-nav-link" href="/contact">Contact</a></li>
+                          <li><a class="footer-nav-link" href="/login">Book Appointment</a></li>
+                      </ul>
+                  </div>
+  
+                  <div class="footer-section">
+                      <h3 class="footer-title">Clinic Hours</h3>
+                      <ul class="footer-hours" role="list">
+                          <li>
+                              <span class="day">Monday - Saturday</span>
+                              <span class="time">3:00 PM - 7:00 PM</span>
+                          </li>
+                          <li>
+                              <span class="day">Sunday</span>
+                              <span class="time">Holiday</span>
+                          </li>
+                          <li>
+                              <span class="day">Emergency</span>
+                              <span class="time">Available on call</span>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+  
+              <div class="footer-right">
+                  <h3 class="footer-title">Our Location</h3>
+                  <div class="map-container">
+                      <iframe 
+                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.994744194944!2d80.23101587359025!3d13.036006313465954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266553850a82d%3A0x46817ff76567feff!2s20%2C%20Dhandapani%20St%2C%20T.%20Nagar%2C%20Chennai%2C%20Tamil%20Nadu%20600017!5e0!3m2!1sen!2sin!4v1763122019651!5m2!1sen!2sin" 
+                          width="100%" 
+                          height="200" 
+                          style="border:0; border-radius: 8px;" 
+                          allowfullscreen="" 
+                          loading="lazy" 
+                          referrerpolicy="no-referrer-when-downgrade">
+                      </iframe>
+                  </div>
+                  <div class="location-info">
+                      <p class="paragraph-small">Visit our clinic for personalized homeopathic consultation and treatment.</p>
+                  </div>
+              </div>
+          </div>
+  
+          <div class="divider footer-divider"></div>
+          <center>
+          <div class="footer-bottom">
+              <div class="small-print-wrapper">
+                 <div class="paragraph-small small-print">
+                  Copyright © 2025 Tekksol Innovations  | All Rights Reserved
+                  </div>  
+              </div>
+          </div>
+        </center> 
+      </div>
+  </footer>
+  
+  <style>
+      .footer-main-content {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 3rem;
+          padding: 3rem 0;
+      }
+  
+      .footer-left {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+      }
+  
+      .footer-description {
+          line-height: 1.6;
+          opacity: 0.9;
+      }
+  
+      .footer-contact-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+      }
+  
+      .contact-item {
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+          font-size: 14px;
+      }
+  
+      .contact-item i {
+          width: 16px;
+          color: rgba(255, 255, 255, 0.8);
+      }
+  
+      .contact-item a,
+      .contact-item span {
+          color: rgba(255, 255, 255, 0.9);
+          text-decoration: none;
+          transition: color 0.3s ease;
+      }
+  
+      .contact-item a:hover {
+          color: white;
+      }
+  
+      .footer-middle {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+      }
+  
+      .footer-section {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+      }
+  
+      .footer-title {
+          color: white;
+          font-size: 1.2rem;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+      }
+  
+      .footer-nav-links {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+      }
+  
+      .footer-nav-link {
+          color: rgba(255, 255, 255, 0.9);
+          text-decoration: none;
+          transition: color 0.3s ease;
+          font-size: 14px;
+          position: relative;
+          padding-left: 0;
+      }
+  
+      .footer-nav-link:hover {
+          color: white;
+          padding-left: 8px;
+      }
+  
+      .footer-nav-link::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 0;
+          height: 2px;
+          background: white;
+          transition: width 0.3s ease;
+      }
+  
+      .footer-nav-link:hover::before {
+          width: 4px;
+      }
+  
+      .footer-hours {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+      }
+  
+      .footer-hours li {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+      }
+  
+      .day {
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 14px;
+      }
+  
+      .time {
+          color: white;
+          font-weight: 500;
+          font-size: 14px;
+      }
+  
+      .footer-right {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+      }
+  
+      .map-container {
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+  
+      .location-info {
+          margin-top: 0.5rem;
+      }
+  
+      .footer-divider {
+          background: rgba(255, 255, 255, 0.1);
+          margin: 1rem 0;
+      }
+  
+      .footer-bottom {
+          text-align: center;
+          padding: 1.5rem 0 0;
+      }
+  
+      /* Mobile Responsive */
+      @media (max-width: 991px) {
+          .footer-main-content {
+              grid-template-columns: 1fr;
+              gap: 2rem;
+              padding: 2rem 0;
+          }
+  
+          .footer-middle {
+              grid-template-columns: 1fr;
+              gap: 1.5rem;
+          }
+  
+          .footer-left {
+              text-align: center;
+          }
+  
+          .footer-contact-info {
+              align-items: center;
+          }
+  
+          .map-container iframe {
+              height: 180px;
+          }
+      }
+  
+      @media (max-width: 768px) {
+          .footer-main-content {
+              gap: 1.5rem;
+          }
+  
+          .footer-hours li {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 0.3rem;
+          }
+  
+          .map-container iframe {
+              height: 160px;
+          }
+      }
+  
+      @media (max-width: 479px) {
+          .footer-main-content {
+              padding: 1.5rem 0;
+          }
+  
+          .map-container iframe {
+              height: 140px;
+          }
+      }
+  </style>
+</div>
+
+<script>
+    // Check authentication immediately when page loads
+    if (!checkAuthentication()) {
+        throw new Error('Not authenticated');
+    }
+
+    // Enhanced page initialization
+    document.addEventListener('DOMContentLoaded', function() {
+      // Page loader
+      window.addEventListener('load', function() {
+        const loader = document.querySelector('.page-loader');
+        loader.classList.add('hidden');
+      });
+
+      // Mobile Navigation
+      const menuButton = document.querySelector(".menu-button");
+      const navMenu = document.querySelector(".nav-menu");
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      function openMenu() {
+          menuButton.classList.add("w--open");
+          navMenu.classList.add("w--open");
+          mobileOverlay.classList.add('active');
+          document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+          menuButton.classList.remove("w--open");
+          navMenu.classList.remove("w--open");
+          mobileOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+      }
+
+      menuButton.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (menuButton.classList.contains("w--open")) {
+              closeMenu();
+          } else {
+              openMenu();
+          }
+      });
+
+      // Close menu when clicking on overlay
+      mobileOverlay.addEventListener('click', closeMenu);
+
+      // Close menu when clicking on nav links
+      navLinks.forEach(link => {
+          link.addEventListener('click', closeMenu);
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', function(event) {
+          if (!navMenu.contains(event.target) && !menuButton.contains(event.target)) {
+              closeMenu();
+          }
+      });
+
+      // Close menu on escape key
+      document.addEventListener('keydown', function(event) {
+          if (event.key === 'Escape') {
+              closeMenu();
+          }
+      });
+
+      // Close menu on window resize (if resizing to desktop)
+      window.addEventListener('resize', function() {
+          if (window.innerWidth > 991) {
+              closeMenu();
+          }
+      });
+
+      const scrollElements = document.querySelectorAll('.scroll-animate');
+
+      const elementInView = (el, dividend = 1) => {
+        const elementTop = el.getBoundingClientRect().top;
+        return (
+          elementTop <=
+          (window.innerHeight || document.documentElement.clientHeight) / dividend
+        );
+      };
+
+      const displayScrollElement = (element) => {
+        element.classList.add('animated');
+      };
+
+      const handleScrollAnimation = () => {
+        scrollElements.forEach((el) => {
+          if (elementInView(el, 1.2)) {
+            displayScrollElement(el);
+          }
+        });
+      };
+
+      handleScrollAnimation();
+      window.addEventListener('scroll', () => {
+        handleScrollAnimation();
+      });
+
+      // Add ripple effect to buttons
+      const buttons = document.querySelectorAll('.button-primary, .button-secondary');
+      buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          const ripple = document.createElement('span');
+          ripple.classList.add('ripple');
+          this.appendChild(ripple);
+
+          const x = e.clientX - e.target.offsetLeft;
+          const y = e.clientY - e.target.offsetTop;
+
+          ripple.style.left = `${x}px`;
+          ripple.style.top = `${y}px`;
+
+          setTimeout(() => {
+            ripple.remove();
+          }, 600);
+        });
+      });
+
+      // Add shake animation to buttons on hover
+      const primaryButtons = document.querySelectorAll('.button-primary');
+      primaryButtons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+          this.classList.add('animate-shake');
+        });
+
+        button.addEventListener('animationend', function() {
+          this.classList.remove('animate-shake');
+        });
+      });
+
+      // Simple navigation handling
+      document.querySelectorAll('.dashboard-nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          if (this.getAttribute('onclick')) return;
+          document.querySelectorAll('.dashboard-nav-link').forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    });
+
+    // Handle logout
+    function handleLogout(event) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#2c5aa0",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, logout!",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Clear session storage
+                sessionStorage.removeItem('doctorLoggedIn');
+                sessionStorage.removeItem('doctorNum');
+                sessionStorage.removeItem('patientName');
+
+                // Show success message and redirect immediately after
+                Swal.fire({
+                    title: "Logout Successful",
+                    icon: "success",
+                    draggable: true,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = '/';
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Dr. P.R. Durai - Homeopathic Consultant</title>
+    <meta name="description" content="Dr. P.R. Durai, B.H.M.S., (DELHI), M.D.(ACU) is a dedicated Homeopathic Consultant with years of experience in treating various ailments using natural remedies."/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="logo/logo5.png" type="image/x-icon"/>
+    <link rel="apple-touch-icon" href="logo/logo5.png"/>
+
+    <!-- Dialogflow Messenger script -->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* Apply fonts globally */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        /* Headings with Poppins */
+        h1, h2, h3, h4, h5, h6, .title, .subtitle {
+            font-family: 'Poppins', 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Body text with Inter */
+        body, p, .paragraph, .paragraph-small, .nav-link {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Buttons */
+        .button-primary, .button-secondary {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        /* Enhanced Animation Keyframes */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeInRight {
+          from {
+            opacity: 0;
+            transform: translateX(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+          100% {
+            transform: translateY(0px);
+          }
+        }
+
+        @keyframes slideInFromLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slideInFromRight {
+          from {
+            opacity: 0;
+            transform: translateX(100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes bounceIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.3);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.05);
+          }
+          70% {
+            transform: scale(0.9);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes shake {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          10%, 30%, 50%, 70%, 90% {
+            transform: translateX(-5px);
+          }
+          20%, 40%, 60%, 80% {
+            transform: translateX(5px);
+          }
+        }
+
+        @keyframes rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes gradientShift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        @keyframes ripple {
+          0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+          }
+          100% {
+            transform: scale(20, 20);
+            opacity: 0;
+          }
+        }
+
+        /* Animation Classes */
+        .animate-fadeInUp {
+          animation: fadeInUp 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-bounceIn {
+          animation: bounceIn 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animate-shake {
+          animation: shake 0.5s ease-in-out;
+        }
+
+        .subtitle.animate-bounceIn {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c5aa0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            margin-left:30px;
+        }
+
+        /* Enhanced Hover Effects */
+        .card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+          transition: left 0.5s;
+        }
+
+        .card:hover::before {
+          left: 100%;
+        }
+
+        .card:hover {
+          transform: translateY(-5px) scale(1.02);
+          box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .button-primary, .button-secondary {
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .button-primary:hover, .button-secondary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Navigation Font Styles */
+        .header-navigation {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 32px;
+            font-family: 'Inter', 'DM Sans', Arial, sans-serif;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+            padding: 8px 0;
+            margin-left: 75px;
+            font-family: 'Inter', 'DM Sans', Arial, sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background: linear-gradient(90deg, #ffffff, #a8c5e8);
+          transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+          width: 100%;
+        }
+
+        /* Loading animation for page */
+        .page-loader {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+          transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .page-loader.hidden {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .loader {
+          width: 50px;
+          height: 50px;
+          border: 5px solid #f3f3f3;
+          border-top: 5px solid #2c5aa0;
+          border-radius: 50%;
+          animation: rotate 1s linear infinite;
+        }
+
+        /* Text highlight animation */
+        .highlight-text {
+          position: relative;
+          display: inline-block;
+        }
+
+        .highlight-text::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 30%;
+          background-color: rgba(44, 90, 160, 0.2);
+          z-index: -1;
+          transform: scaleX(0);
+          transform-origin: bottom left;
+          transition: transform 0.3s ease;
+        }
+
+        .highlight-text:hover::after {
+          transform: scaleX(1);
+        }
+
+        /* HEADER STYLING - BLUE */
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            box-shadow: 0 2px 10px rgba(30, 60, 114, 0.15);
+            position: relative;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-contact-wrapper {
+            display: flex;
+            gap: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-contact-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .header-contact-link:hover {
+            color: #a8c5e8;
+        }
+
+        .header-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .header .nav-link {
+            color: white;
+        }
+
+        .header .nav-link:hover {
+            color: #a8c5e8;
+        }
+
+        .header-button {
+            background: white !important;
+            color: #2c5aa0 !important;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .header-button:hover {
+            background: #f0f4f8 !important;
+        }
+
+        /* FOOTER STYLING - BLUE */
+        .footer {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-title {
+            color: white;
+        }
+
+        .footer-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            transition: color 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .footer-nav-link::before {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 0;
+          height: 1px;
+          background-color: white;
+          transition: width 0.3s ease;
+        }
+
+        .footer-nav-link:hover {
+            color: white;
+        }
+
+        .footer-nav-link:hover::before {
+          width: 100%;
+        }
+
+        .footer-address {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .divider.footer-divider-1,
+        .divider.footer-divider-2 {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .small-print {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* MOBILE OVERLAY */
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1002;
+        }
+
+        .split-content.header-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-button {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .menu-button-icon-wrapper {
+            width: 30px;
+            height: 24px;
+            position: relative;
+        }
+
+        .menu-line-top,
+        .menu-line-middle,
+        .menu-line-bottom {
+            width: 100%;
+            height: 3px;
+            background: white;
+            position: absolute;
+            left: 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .menu-line-top {
+            top: 0;
+        }
+
+        .menu-line-middle {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .menu-line-bottom {
+            bottom: 0;
+        }
+
+        .menu-button.active .menu-line-top {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .menu-button.active .menu-line-middle {
+            opacity: 0;
+        }
+
+        .menu-button.active .menu-line-bottom {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+        }
+
+        /* MOBILE RESPONSIVE STYLES */
+        @media (max-width: 991px) {
+            .header-contact-wrapper {
+                flex-direction: column;
+                gap: 8px;
+                padding: 12px 0;
+            }
+
+            .header-contact-link {
+                font-size: 13px;
+            }
+
+            .header-wrapper {
+                padding: 12px 0;
+            }
+
+            .split-content.header-right {
+                gap: 20px;
+                flex: 1;
+            }
+
+            .header-logo {
+                height: 40px;
+                width: auto;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 280px;
+                height: 100vh;
+                background: linear-gradient(180deg, #1e3c72, #2a5298);
+                padding: 80px 30px 30px;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+                z-index: 1001;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .header-navigation {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .header-navigation li {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-link {
+                display: block;
+                padding: 18px 0;
+                font-size: 18px;
+                margin-left: 0 !important;
+            }
+
+            .menu-button {
+                display: block;
+                z-index: 1002;
+            }
+
+            .header-button {
+                padding: 10px 18px;
+                font-size: 14px;
+                white-space: nowrap;
+            }
+
+            .mobile-close {
+                display: flex;
+            }
+
+            .subtitle.animate-bounceIn {
+                margin-left: 0;
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 479px) {
+            .header-contact-link {
+                font-size: 12px;
+            }
+
+            .header-logo {
+                height: 35px;
+            }
+
+            .header-button {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            .nav-menu {
+                width: 260px;
+                padding: 70px 25px 25px;
+            }
+
+            .nav-link {
+                padding: 15px 0;
+                font-size: 16px;
+            }
+
+            .subtitle.animate-bounceIn {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Mobile Overlay -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="page-loader">
+    <div class="loader"></div>
+</div>
+
+<div class="page-wrapper">
+    <!-- Header -->
+    <header class="header w-nav" role="banner">
+        <div class="container-default w-container">
+            <div class="header-wrapper">
+                <div class="split-content header-right">
+                    <a class="brand w-nav-brand" href="/" aria-label="Home">
+                        <img class="header-logo" src="logo/logo4.png" alt="Doctor Logo" height="70px" width="120px"/>
+                    </a>
+                    <nav class="nav-menu w-nav-menu" role="navigation" id="navMenu">
+                        <button class="mobile-close" id="mobileClose" aria-label="Close menu">&times;</button>
+                        <ul class="header-navigation" role="list">
+                            <li><a class="nav-link" href="/">Home</a></li>
+                            <li><a class="nav-link" href="/about">About</a></li>
+                            <li><a class="nav-link" href="/service">Services</a></li>
+                            <li><a class="nav-link w--current" href="/contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <a class="button-primary bg-secondary-1 header-button w-button" href="/login">Book Appointment</a>
+                <div class="menu-button w-nav-button" id="menuButton">
+                    <div class="menu-button-icon-wrapper">
+                        <div class="menu-button-icon">
+                            <div class="menu-line-top"></div>
+                            <div class="menu-line-middle"></div>
+                            <div class="menu-line-bottom"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contact Section -->
+    <section class="section contact">
+        <div class="container-default w-container">
+            <div class="contact-title-wrapper">
+                <div class="subtitle animate-bounceIn">Contact Me</div>
+                <h1 class="title contact highlight-text" style="color:black">Get in touch today</h1>
+            </div>
+            <div class="card bg-neutral-200 contact">
+                <div class="split-content card-contact-left">
+                    <div class="card-contact-title-wrapper">
+                        <h2 class="title card-contact highlight-text">Have questions about homeopathic treatment? <br/>We're here to guide your healing journey</h2>
+                        <p class="paragraph card-contact">Dr. P.R. Durai specializes in personalized homeopathic care for chronic conditions, skin diseases, respiratory issues, and digestive disorders. Whether you're seeking treatment for a specific health concern or exploring natural healing options, we provide compassionate consultation and effective homeopathic solutions.</p>
+                    </div>
+                    <div class="w-layout-grid card-contact-grid">
+                        <a class="card-contact-link w-inline-block" href="tel:+91 9940379979" title="Call +91 9940379979">
+                            <svg width="32" height="32" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg" style="background-color: #264b8c; padding: 8px; border-radius: 4px;">
+                                <path d="M12.6205 18.5862L12.6305 18.5932C13.4946 19.1433 14.5205 19.3822 15.5387 19.2704C16.5569 19.1586 17.5065 18.7027 18.2305 17.9782L18.8595 17.3492C18.9989 17.2099 19.1095 17.0445 19.1849 16.8624C19.2604 16.6804 19.2992 16.4852 19.2992 16.2882C19.2992 16.0911 19.2604 15.896 19.1849 15.7139C19.1095 15.5319 18.9989 15.3665 18.8595 15.2272L16.2065 12.5762C16.0672 12.4368 15.9018 12.3262 15.7198 12.2508C15.5377 12.1753 15.3426 12.1365 15.1455 12.1365C14.9485 12.1365 14.7533 12.1753 14.5713 12.2508C14.3892 12.3262 14.2238 12.4368 14.0845 12.5762C13.8032 12.8574 13.4218 13.0154 13.024 13.0154C12.6263 13.0154 12.2448 12.8574 11.9635 12.5762L7.72153 8.33318C7.44033 8.05189 7.28235 7.67043 7.28235 7.27268C7.28235 6.87493 7.44033 6.49347 7.72153 6.21218C7.86092 6.07288 7.9715 5.90748 8.04694 5.72543C8.12238 5.54338 8.16121 5.34824 8.16121 5.15118C8.16121 4.95412 8.12238 4.75898 8.04694 4.57693C7.9715 4.39488 7.86092 4.22948 7.72153 4.09018L5.06953 1.43918C4.78824 1.15797 4.40678 1 4.00903 1C3.61129 1 3.22982 1.15797 2.94853 1.43918L2.31853 2.06818C1.59412 2.79236 1.13845 3.74201 1.02681 4.76021C0.915175 5.77842 1.15425 6.80424 1.70453 7.66818L1.71053 7.67818C4.61671 11.978 8.32021 15.6808 12.6205 18.5862V18.5862Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <div>+91 9940379979</div>
+                        </a>
+                        <a class="card-contact-link w-inline-block" href="mailto:contact@doctors.com" title="Email contact@doctors.com">
+                            <svg width="32" height="32" viewBox="0 0 23 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="background-color: #264b8c; padding: 8px; border-radius: 4px;">
+                                <path d="M20.5 1.61865H2.5C1.67157 1.61865 1 2.29023 1 3.11865V15.1187C1 15.9471 1.67157 16.6187 2.5 16.6187H20.5C21.3284 16.6187 22 15.9471 22 15.1187V3.11865C22 2.29023 21.3284 1.61865 20.5 1.61865Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M21.6609 2.1687L13.5169 8.4327C12.9386 8.87756 12.2295 9.11876 11.4999 9.11876C10.7703 9.11876 10.0611 8.87756 9.48287 8.4327L1.33887 2.1687" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <div>contact@doctors.com</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="split-content card-contact-right">
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section">
+        <div class="container-default w-container">
+            <div class="faqs-columns w-row">
+                <div class="faqs-column-1 w-col w-col-6 w-col-stack">
+                    <div class="faqs-wrapper">
+                        <div class="card bg-neutral-200 faq">
+                            <div class="faq-top-content">
+                                <h3 class="title faq-title">What is Dr. P.R. Durai's experience?</h3>
+                            </div>
+                            <div class="faq-content">
+                                <p class="paragraph faq-paragraph">Dr. P.R. Durai is a qualified Homeopathic Consultant with a B.H.M.S. from Delhi and M.D. in Acupuncture. With years of dedicated practice, Dr. Durai specializes in treating various chronic and acute conditions using natural homeopathic remedies.</p>
+                            </div>
+                        </div>
+                        <div class="card bg-neutral-200 faq">
+                            <div class="faq-top-content">
+                                <h3 class="title faq-title">What conditions do you treat?</h3>
+                            </div>
+                            <div class="faq-content">
+                                <p class="paragraph faq-paragraph">We treat a wide range of conditions including chronic diseases (arthritis, asthma, allergies, migraines), skin conditions (eczema, psoriasis, acne), respiratory issues (asthma, bronchitis, sinusitis), and digestive disorders (IBS, constipation, gastritis).</p>
+                            </div>
+                        </div>
+                        <div class="card bg-neutral-200 faq last">
+                            <div class="faq-top-content">
+                                <h3 class="title faq-title">Are homeopathic remedies safe?</h3>
+                            </div>
+                            <div class="faq-content">
+                                <p class="paragraph faq-paragraph">Yes, homeopathic remedies are completely safe, gentle, and effective with no side effects. They work in harmony with your body's natural healing mechanisms to provide lasting wellness.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="faqs-column-2 w-col w-col-6 w-col-stack">
+                    <div class="faqs-wrapper">
+                        <div class="card bg-neutral-200 faq">
+                            <div class="faq-top-content">
+                                <h3 class="title faq-title">Do you offer virtual/remote appointments?</h3>
+                            </div>
+                            <div class="faq-content">
+                                <p class="paragraph faq-paragraph">Yes, we offer teleconsultation services for patients who cannot visit the clinic in person. Please contact us to schedule a virtual appointment.</p>
+                            </div>
+                        </div>
+                        <div class="card bg-neutral-200 faq">
+                            <div class="faq-top-content">
+                                <h3 class="title faq-title">What are your consultation hours?</h3>
+                            </div>
+                            <div class="faq-content">
+                                <p class="paragraph faq-paragraph">Monday to Saturday: 3:00 PM to 7:00 PM<br>Sunday: Holiday<br>Emergency consultations are available on call.</p>
+                            </div>
+                        </div>
+                        <div class="card bg-neutral-200 faq last">
+                            <div class="faq-top-content">
+                                <h3 class="title faq-title">What is the cost for an appointment?</h3>
+                            </div>
+                            <div class="faq-content">
+                                <p class="paragraph faq-paragraph">Consultation fees vary based on the type of consultation and treatment required. Please contact us directly for detailed information about our fee structure.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+     <!-- Footer -->
+     <footer class="footer">
+        <div class="container-default w-container">
+            <div class="footer-main-content">
+                <div class="footer-left">
+                    <a class="footer-logo-container w-inline-block" href="/">
+                        <img class="footer-logo" src="logo/logo4.png" alt="Sakthi Homeo Clinic Logo" height="70px" width="120px"/>
+                    </a>
+                    <p class="paragraph-small footer-description">Sakthi Homeo Clinic provides expert homeopathic treatment for various ailments using natural remedies with proven results.</p>
+                    
+                    <div class="footer-contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+919940379979">+91 9940379979</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:contact@doctor.com">contact@doctor.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>No 20,Dhandapani St, T. Nagar, Chennai, Tamil Nadu 600017</span>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="footer-middle">
+                    <div class="footer-section">
+                        <h3 class="footer-title">Quick Links</h3>
+                        <ul class="footer-nav-links" role="list">
+                            <li><a class="footer-nav-link" href="/">Home</a></li>
+                            <li><a class="footer-nav-link" href="/about">About</a></li>
+                            <li><a class="footer-nav-link" href="/service">Services</a></li>
+                            <li><a class="footer-nav-link" href="/contact">Contact</a></li>
+                            <li><a class="footer-nav-link" href="/login">Book Appointment</a></li>
+                        </ul>
+                    </div>
+    
+                    <div class="footer-section">
+                        <h3 class="footer-title">Clinic Hours</h3>
+                        <ul class="footer-hours" role="list">
+                            <li>
+                                <span class="day">Monday - Saturday</span>
+                                <span class="time">3:00 PM - 7:00 PM</span>
+                            </li>
+                            <li>
+                                <span class="day">Sunday</span>
+                                <span class="time">Holiday</span>
+                            </li>
+                            <li>
+                                <span class="day">Emergency</span>
+                                <span class="time">Available on call</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+    
+                <div class="footer-right">
+                    <h3 class="footer-title">Our Location</h3>
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.994744194944!2d80.23101587359025!3d13.036006313465954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266553850a82d%3A0x46817ff76567feff!2s20%2C%20Dhandapani%20St%2C%20T.%20Nagar%2C%20Chennai%2C%20Tamil%20Nadu%20600017!5e0!3m2!1sen!2sin!4v1763122019651!5m2!1sen!2sin" 
+                            width="100%" 
+                            height="200" 
+                            style="border:0; border-radius: 8px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <div class="location-info">
+                        <p class="paragraph-small">Visit our clinic for personalized homeopathic consultation and treatment.</p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="divider footer-divider"></div>
+            <center>
+            <div class="footer-bottom">
+                <div class="small-print-wrapper">
+                   <div class="paragraph-small small-print">
+                    Copyright © 2025 Tekksol Innovations  | All Rights Reserved
+                    </div>  
+                </div>
+            </div>
+          </center> 
+        </div>
+    </footer>
+    
+    <style>
+        .footer-main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 3rem;
+            padding: 3rem 0;
+        }
+    
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+    
+        .footer-description {
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+    
+        .footer-contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+    
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 14px;
+        }
+    
+        .contact-item i {
+            width: 16px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+    
+        .contact-item a,
+        .contact-item span {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+    
+        .contact-item a:hover {
+            color: white;
+        }
+    
+        .footer-middle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+    
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    
+        .footer-title {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+    
+        .footer-nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+    
+        .footer-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+            position: relative;
+            padding-left: 0;
+        }
+    
+        .footer-nav-link:hover {
+            color: white;
+            padding-left: 8px;
+        }
+    
+        .footer-nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+    
+        .footer-nav-link:hover::before {
+            width: 4px;
+        }
+    
+        .footer-hours {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+    
+        .footer-hours li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+    
+        .day {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+    
+        .time {
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+        }
+    
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    
+        .map-container {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+    
+        .location-info {
+            margin-top: 0.5rem;
+        }
+    
+        .footer-divider {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 1rem 0;
+        }
+    
+        .footer-bottom {
+            text-align: center;
+            padding: 1.5rem 0 0;
+        }
+    
+        /* Mobile Responsive */
+        @media (max-width: 991px) {
+            .footer-main-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2rem 0;
+            }
+    
+            .footer-middle {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+    
+            .footer-left {
+                text-align: center;
+            }
+    
+            .footer-contact-info {
+                align-items: center;
+            }
+    
+            .map-container iframe {
+                height: 180px;
+            }
+        }
+    
+        @media (max-width: 768px) {
+            .footer-main-content {
+                gap: 1.5rem;
+            }
+    
+            .footer-hours li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+    
+            .map-container iframe {
+                height: 160px;
+            }
+        }
+    
+        @media (max-width: 479px) {
+            .footer-main-content {
+                padding: 1.5rem 0;
+            }
+    
+            .map-container iframe {
+                height: 140px;
+            }
+        }
+    </style>
+</div>
+
+<script>
+    // Page loader
+    window.addEventListener('load', function() {
+        const loader = document.querySelector('.page-loader');
+        if (loader) {
+            loader.classList.add('hidden');
+        }
+    });
+
+    // Mobile Navigation Toggle
+    const menuButton = document.getElementById('menuButton');
+    const mobileClose = document.getElementById('mobileClose');
+    const navMenu = document.getElementById('navMenu');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    function openMenu() {
+        navMenu.classList.add('active');
+        mobileOverlay.classList.add('active');
+        menuButton.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        navMenu.classList.remove('active');
+        mobileOverlay.classList.remove('active');
+        menuButton.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    if (menuButton) {
+        menuButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (navMenu.classList.contains('active')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+    }
+
+    if (mobileClose) {
+        mobileClose.addEventListener('click', closeMenu);
+    }
+
+    if (mobileOverlay) {
+        mobileOverlay.addEventListener('click', closeMenu);
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 991 && navMenu && navMenu.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+
+    // Enhanced scroll animation implementation
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <=
+                (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('animated');
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.2)) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        handleScrollAnimation();
+
+        window.addEventListener('scroll', () => {
+            handleScrollAnimation();
+        });
+
+        // Add ripple effect to buttons
+        const buttons = document.querySelectorAll('.button-primary, .button-secondary');
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+
+                const x = e.clientX - e.target.offsetLeft;
+                const y = e.clientY - e.target.offsetTop;
+
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add shake animation to form submit button on hover
+        const submitButton = document.querySelector('.button-send-message');
+        if (submitButton) {
+            submitButton.addEventListener('mouseenter', function() {
+                this.classList.add('animate-shake');
+            });
+
+            submitButton.addEventListener('animationend', function() {
+                this.classList.remove('animate-shake');
+            });
+        }
+
+        // FAQ toggle functionality
+        const faqTitles = document.querySelectorAll('.faq-top-content');
+        faqTitles.forEach(title => {
+            title.addEventListener('click', function() {
+                const faqContent = this.nextElementSibling;
+                if (faqContent) {
+                    faqContent.style.display = faqContent.style.display === 'block' ? 'none' : 'block';
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

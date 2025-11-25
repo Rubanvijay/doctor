@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Our Services - Dr. P.R. Durai | Homeopathic Consultant</title>
+        <meta name="description" content="Expert homeopathic services for chronic diseases, skin conditions, respiratory issues, digestive disorders and more. Natural healing with proven results."/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="shortcut icon" href="logo/logo5.png" type="image/x-icon"/>
+        <link rel="apple-touch-icon" href="logo/logo5.png"/>
+    
+        <style>
+            /* Import Google Fonts */
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+            /* Apply fonts globally */
+            * {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            }
+    
+            /* Headings with Poppins */
+            h1, h2, h3, h4, h5, h6, .title, .subtitle {
+                font-family: 'Poppins', 'Inter', sans-serif;
+                font-weight: 600;
+            }
+    
+            /* Body text with Inter */
+            body, p, .paragraph, .paragraph-small, .nav-link {
+                font-family: 'Inter', sans-serif;
+            }
+    
+            /* Buttons */
+            .button-primary, .button-secondary {
+                font-family: 'Inter', sans-serif;
+                font-weight: 500;
+            }
+    
+            /* HEADER STYLING - BLUE */
+            .header {
+                background: linear-gradient(135deg, #1e3c72, #2a5298);
+                box-shadow: 0 2px 10px rgba(30, 60, 114, 0.15);
+                position: relative;
+                z-index: 1000;
+            }
+    
+            /* Navigation Menu Spacing Fix - Match index.html exactly */
+            .header-navigation {
+                display: flex;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                gap: 32px;
+                font-family: 'Inter', 'DM Sans', Arial, sans-serif;
+            }
+    
+            .nav-link {
+                position: relative;
+                transition: color 0.3s ease;
+                padding: 8px 0;
+                margin-left: 75px;
+                font-family: 'Inter', 'DM Sans', Arial, sans-serif;
+                font-weight: 500;
+                font-size: 16px;
+                letter-spacing: 0.5px;
+            }
+    
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: 0;
+                left: 0;
+                background: linear-gradient(90deg, #ffffff, #a8c5e8);
+                transition: width 0.3s ease;
+            }
+    
+            .nav-link:hover::after {
+                width: 100%;
+            }
+    
+            .header-contact-wrapper {
+                display: flex;
+                gap: 20px;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+    
+            .header-contact-link {
+                color: white;
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.3s ease;
+            }
+    
+            .header-contact-link:hover {
+                color: #a8c5e8;
+            }
+    
+            .header-wrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px 0;
+            }
+    
+            .header .nav-link {
+                color: white;
+            }
+    
+            .header .nav-link:hover {
+                color: #a8c5e8;
+            }
+    
+            .header-button {
+                background: white !important;
+                color: #2c5aa0 !important;
+            }
+    
+            .header-button:hover {
+                background: #f0f4f8 !important;
+            }
+    
+            /* Mobile responsive for services page */
+            @media (max-width: 991px) {
+                .header-navigation {
+                    flex-direction: column;
+                    gap: 0;
+                    width: 100%;
+                }
+                
+                .header-navigation li {
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                    width: 100%;
+                }
+                
+                .nav-link {
+                    display: block;
+                    padding: 18px 0;
+                    font-size: 18px;
+                    margin-left: 0 !important;
+                    width: 100%;
+                    text-align: left;
+                    color: white;
+                }
+                
+                .nav-link:hover {
+                    color: #a8c5e8;
+                    background: rgba(255, 255, 255, 0.1);
+                }
+            }
+    
+            /* Services Section Styling */
+            .services-hero {
+                background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+                color: white;
+                padding: 80px 0;
+                text-align: center;
+            }
+    
+            .services-hero .subtitle {
+                color: #a8c5e8;
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+    
+            .services-hero .title {
+                font-size: 3rem;
+                margin-bottom: 1.5rem;
+            }
+    
+            .services-hero .paragraph {
+                font-size: 1.2rem;
+                max-width: 600px;
+                margin: 0 auto;
+                opacity: 0.9;
+            }
+    
+            /* Services Grid */
+            .services-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 2rem;
+                padding: 4rem 0;
+            }
+    
+            .service-card {
+                background: white;
+                border-radius: 12px;
+                padding: 2.5rem;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                border: 1px solid #e5e7eb;
+            }
+    
+            .service-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            }
+    
+            .service-icon {
+                width: 80px;
+                height: 80px;
+                background: linear-gradient(135deg, #2c5aa0, #1e4178);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 1.5rem;
+            }
+    
+            .service-icon i {
+                font-size: 2rem;
+                color: white;
+            }
+    
+            .service-card h3 {
+                color: #1e293b;
+                margin-bottom: 1rem;
+                font-size: 1.5rem;
+            }
+    
+            .service-card p {
+                color: #64748b;
+                line-height: 1.6;
+                margin-bottom: 1.5rem;
+            }
+    
+            .service-features {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+    
+            .service-features li {
+                padding: 0.5rem 0;
+                color: #475569;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+    
+            .service-features li:before {
+                content: "✓";
+                color: #10b981;
+                font-weight: bold;
+            }
+    
+            /* Treatment Approach Section */
+            .approach-section {
+                background: #f8fafc;
+                padding: 4rem 0;
+            }
+    
+            .approach-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+    
+            .approach-card {
+                text-align: center;
+                padding: 2rem;
+            }
+    
+            .approach-card h3 {
+                color: #1e293b;
+                margin: 1rem 0;
+            }
+    
+            .approach-card p {
+                color: #64748b;
+                line-height: 1.6;
+            }
+    
+            /* CTA Section */
+            .cta-section {
+                background: linear-gradient(135deg, #2c5aa0, #1e4178);
+                color: white;
+                padding: 4rem 0;
+                text-align: center;
+            }
+    
+            .cta-section .title {
+                margin-bottom: 1rem;
+            }
+    
+            .cta-section .paragraph {
+                margin-bottom: 2rem;
+                opacity: 0.9;
+            }
+    
+            /* FOOTER STYLING - BLUE */
+            .footer {
+                background: linear-gradient(135deg, #1e3c72, #2a5298);
+                color: white;
+                padding: 60px 0 20px;
+            }
+    
+            .footer-title {
+                color: white;
+            }
+    
+            .footer-nav-link {
+                color: rgba(255, 255, 255, 0.9);
+                position: relative;
+                transition: color 0.3s ease;
+                display: inline-block;
+            }
+    
+            .footer-nav-link:hover {
+                color: white;
+            }
+    
+            .footer-address {
+                color: rgba(255, 255, 255, 0.9);
+            }
+    
+            .divider.footer-divider-1,
+            .divider.footer-divider-2 {
+                background: rgba(255, 255, 255, 0.1);
+            }
+    
+            .small-print {
+                color: rgba(255, 255, 255, 0.8);
+            }
+    
+            /* Mobile Responsive */
+            @media (max-width: 768px) {
+                .services-hero {
+                    padding: 60px 0;
+                }
+    
+                .services-hero .title {
+                    font-size: 2rem;
+                }
+    
+                .services-hero .paragraph {
+                    font-size: 1rem;
+                }
+    
+                .services-grid {
+                    grid-template-columns: 1fr;
+                    padding: 2rem 0;
+                }
+    
+                .service-card {
+                    padding: 2rem;
+                }
+            }
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+
+<body>
+<div class="page-wrapper">
+    <!-- Header -->
+    <header class="header w-nav" role="banner">
+        <div class="container-default w-container">
+            <div class="header-wrapper">
+                <div class="split-content header-right">
+                    <a class="brand w-nav-brand" href="/" aria-label="Home">
+                        <img class="header-logo" src="logo/logo4.png" alt="Sakthi Homeo Clinic Logo" height="70px" width="120px"/>
+                    </a>
+                    <nav class="nav-menu w-nav-menu" role="navigation" id="navMenu">
+                        <ul class="header-navigation" role="list">
+                            <li><a class="nav-link" href="/">Home</a></li>
+                            <li><a class="nav-link" href="/about">About</a></li>
+                            <li><a class="nav-link w--current" href="/service">Services</a></li>
+                            <li><a class="nav-link" href="/contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <a class="button-primary bg-secondary-1 header-button w-button" href="/login">Book Appointment</a>
+            </div>
+        </div>
+    </header>
+<br><br>
+    <!-- Services Hero Section -->
+    <section class="services-hero">
+        <div class="container-default w-container">
+            <div class="subtitle">Our Specialized Services</div>
+            <h1 class="title" style="color:white;">Comprehensive Homeopathic Treatment</h1>
+            <p class="paragraph">Dr. P.R. Durai provides expert homeopathic care for a wide range of health conditions using natural, safe, and effective remedies.</p>
+        </div>
+    </section>
+
+    <!-- Main Services Section -->
+    <section class="section">
+        <div class="container-default w-container">
+            <div class="services-grid">
+                <!-- Chronic Disease Treatment -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Chronic Disease Management</h3>
+                    <p>Comprehensive treatment for long-standing health conditions with personalized homeopathic remedies.</p>
+                    <ul class="service-features">
+                        <li>Arthritis & Joint Pains</li>
+                        <li>Hypertension & Heart Conditions</li>
+                        <li>Diabetes Management</li>
+                        <li>Thyroid Disorders</li>
+                        <li>Autoimmune Diseases</li>
+                    </ul>
+                </div>
+
+                <!-- Skin Disease Treatment -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-allergies"></i>
+                    </div>
+                    <h3>Skin & Allergy Treatment</h3>
+                    <p>Effective solutions for various skin conditions and allergic disorders without side effects.</p>
+                    <ul class="service-features">
+                        <li>Eczema & Psoriasis</li>
+                        <li>Acne & Pimples</li>
+                        <li>Allergic Dermatitis</li>
+                        <li>Urticaria & Rashes</li>
+                        <li>Fungal Infections</li>
+                    </ul>
+                </div>
+
+                <!-- Respiratory Treatment -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-lungs"></i>
+                    </div>
+                    <h3>Respiratory Care</h3>
+                    <p>Natural treatment for respiratory conditions to improve breathing and lung function.</p>
+                    <ul class="service-features">
+                        <li>Asthma & Bronchitis</li>
+                        <li>Chronic Cough</li>
+                        <li>Sinusitis & Allergic Rhinitis</li>
+                        <li>Tonsillitis</li>
+                        <li>Recurrent Cold & Flu</li>
+                    </ul>
+                </div>
+
+                <!-- Digestive Health -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-stomach"></i>
+                    </div>
+                    <h3>Digestive Health</h3>
+                    <p>Treatment for various gastrointestinal disorders to restore digestive balance.</p>
+                    <ul class="service-features">
+                        <li>Acidity & GERD</li>
+                        <li>Irritable Bowel Syndrome</li>
+                        <li>Constipation & Piles</li>
+                        <li>Liver Disorders</li>
+                        <li>Food Allergies</li>
+                    </ul>
+                </div>
+
+                <!-- Women's Health -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-female"></i>
+                    </div>
+                    <h3>Women's Health</h3>
+                    <p>Specialized care for women's health issues across different life stages.</p>
+                    <ul class="service-features">
+                        <li>PCOS & Menstrual Disorders</li>
+                        <li>Menopausal Symptoms</li>
+                        <li>Hormonal Imbalance</li>
+                        <li>Infertility Issues</li>
+                        <li>Pregnancy Care</li>
+                    </ul>
+                </div>
+
+                <!-- Children's Health -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-baby"></i>
+                    </div>
+                    <h3>Children's Health</h3>
+                    <p>Gentle and safe treatment for common childhood ailments and developmental issues.</p>
+                    <ul class="service-features">
+                        <li>Recurrent Infections</li>
+                        <li>ADHD & Behavioral Issues</li>
+                        <li>Growth & Development</li>
+                        <li>Allergies & Asthma</li>
+                        <li>Bedwetting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Treatment Approach Section -->
+    <section class="approach-section">
+        <div class="container-default w-container">
+            <div class="subtitle" style="text-align: center; color: #2c5aa0; margin-bottom: 1rem;">Our Approach</div>
+            <h2 class="title" style="text-align: center; margin-bottom: 3rem;">Why Choose Homeopathic Treatment?</h2>
+            
+            <div class="approach-grid">
+                <div class="approach-card">
+                    <i class="fas fa-leaf" style="font-size: 3rem; color: #2c5aa0;"></i>
+                    <h3>100% Natural</h3>
+                    <p>All treatments are derived from natural sources with no chemical additives or synthetic ingredients.</p>
+                </div>
+                
+                <div class="approach-card">
+                    <i class="fas fa-shield-alt" style="font-size: 3rem; color: #2c5aa0;"></i>
+                    <h3>No Side Effects</h3>
+                    <p>Homeopathic remedies are extremely safe and can be taken by people of all ages without side effects.</p>
+                </div>
+                
+                <div class="approach-card">
+                    <i class="fas fa-user-md" style="font-size: 3rem; color: #2c5aa0;"></i>
+                    <h3>Personalized Care</h3>
+                    <p>Each treatment plan is customized to your specific symptoms, constitution, and health history.</p>
+                </div>
+                
+                <div class="approach-card">
+                    <i class="fas fa-brain" style="font-size: 3rem; color: #2c5aa0;"></i>
+                    <h3>Holistic Healing</h3>
+                    <p>We treat the whole person - addressing physical, mental, and emotional aspects of health.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container-default w-container">
+            <h2 class="title">Ready to Start Your Healing Journey?</h2>
+            <p class="paragraph">Book a consultation with Dr. P.R. Durai today and experience the benefits of natural homeopathic treatment.</p>
+            <a class="button-primary w-button" href="/login" style="background-color: white; color: #2c5aa0; padding: 15px 30px; font-size: 1.1rem;">
+                Book Your Appointment
+            </a>
+        </div>
+    </section>
+    <br>
+
+    <!-- Footer -->
+     <!-- Footer -->
+    <footer class="footer">
+      <div class="container-default w-container">
+          <div class="footer-main-content">
+              <div class="footer-left">
+                  <a class="footer-logo-container w-inline-block" href="/">
+                      <img class="footer-logo" src="logo/logo4.png" alt="Sakthi Homeo Clinic Logo" height="70px" width="120px"/>
+                  </a>
+                  <p class="paragraph-small footer-description">Sakthi Homeo Clinic provides expert homeopathic treatment for various ailments using natural remedies with proven results.</p>
+                  
+                  <div class="footer-contact-info">
+                      <div class="contact-item">
+                          <i class="fas fa-phone"></i>
+                          <a href="tel:+919940379979">+91 9940379979</a>
+                      </div>
+                      <div class="contact-item">
+                          <i class="fas fa-envelope"></i>
+                          <a href="mailto:contact@doctor.com">contact@doctor.com</a>
+                      </div>
+                      <div class="contact-item">
+                          <i class="fas fa-map-marker-alt"></i>
+                          <span>No 20,Dhandapani St, T. Nagar, Chennai, Tamil Nadu 600017</span>
+                      </div>
+                  </div>
+              </div>
+  
+              <div class="footer-middle">
+                  <div class="footer-section">
+                      <h3 class="footer-title">Quick Links</h3>
+                      <ul class="footer-nav-links" role="list">
+                          <li><a class="footer-nav-link" href="/">Home</a></li>
+                          <li><a class="footer-nav-link" href="/about">About</a></li>
+                          <li><a class="footer-nav-link" href="/service">Services</a></li>
+                          <li><a class="footer-nav-link" href="/contact">Contact</a></li>
+                          <li><a class="footer-nav-link" href="/login">Book Appointment</a></li>
+                      </ul>
+                  </div>
+  
+                  <div class="footer-section">
+                      <h3 class="footer-title">Clinic Hours</h3>
+                      <ul class="footer-hours" role="list">
+                          <li>
+                              <span class="day">Monday - Saturday</span>
+                              <span class="time">3:00 PM - 7:00 PM</span>
+                          </li>
+                          <li>
+                              <span class="day">Sunday</span>
+                              <span class="time">Holiday</span>
+                          </li>
+                          <li>
+                              <span class="day">Emergency</span>
+                              <span class="time">Available on call</span>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+  
+              <div class="footer-right">
+                  <h3 class="footer-title">Our Location</h3>
+                  <div class="map-container">
+                      <iframe 
+                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.994744194944!2d80.23101587359025!3d13.036006313465954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266553850a82d%3A0x46817ff76567feff!2s20%2C%20Dhandapani%20St%2C%20T.%20Nagar%2C%20Chennai%2C%20Tamil%20Nadu%20600017!5e0!3m2!1sen!2sin!4v1763122019651!5m2!1sen!2sin" 
+                          width="100%" 
+                          height="200" 
+                          style="border:0; border-radius: 8px;" 
+                          allowfullscreen="" 
+                          loading="lazy" 
+                          referrerpolicy="no-referrer-when-downgrade">
+                      </iframe>
+                  </div>
+                  <div class="location-info">
+                      <p class="paragraph-small">Visit our clinic for personalized homeopathic consultation and treatment.</p>
+                  </div>
+              </div>
+          </div>
+  
+          <div class="divider footer-divider"></div>
+          <center>
+          <div class="footer-bottom">
+              <div class="small-print-wrapper">
+                 <div class="paragraph-small small-print">
+                    Copyright © 2025 Tekksol Innovations  | All Rights Reserved
+                  </div>  
+              </div>
+          </div>
+        </center> 
+      </div>
+  </footer>
+  
+  <style>
+      .footer-main-content {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 3rem;
+          padding: 3rem 0;
+      }
+  
+      .footer-left {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+      }
+  
+      .footer-description {
+          line-height: 1.6;
+          opacity: 0.9;
+      }
+  
+      .footer-contact-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+      }
+  
+      .contact-item {
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+          font-size: 14px;
+      }
+  
+      .contact-item i {
+          width: 16px;
+          color: rgba(255, 255, 255, 0.8);
+      }
+  
+      .contact-item a,
+      .contact-item span {
+          color: rgba(255, 255, 255, 0.9);
+          text-decoration: none;
+          transition: color 0.3s ease;
+      }
+  
+      .contact-item a:hover {
+          color: white;
+      }
+  
+      .footer-middle {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+      }
+  
+      .footer-section {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+      }
+  
+      .footer-title {
+          color: white;
+          font-size: 1.2rem;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+      }
+  
+      .footer-nav-links {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+      }
+  
+      .footer-nav-link {
+          color: rgba(255, 255, 255, 0.9);
+          text-decoration: none;
+          transition: color 0.3s ease;
+          font-size: 14px;
+          position: relative;
+          padding-left: 0;
+      }
+  
+      .footer-nav-link:hover {
+          color: white;
+          padding-left: 8px;
+      }
+  
+      .footer-nav-link::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 0;
+          height: 2px;
+          background: white;
+          transition: width 0.3s ease;
+      }
+  
+      .footer-nav-link:hover::before {
+          width: 4px;
+      }
+  
+      .footer-hours {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+      }
+  
+      .footer-hours li {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+      }
+  
+      .day {
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 14px;
+      }
+  
+      .time {
+          color: white;
+          font-weight: 500;
+          font-size: 14px;
+      }
+  
+      .footer-right {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+      }
+  
+      .map-container {
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+  
+      .location-info {
+          margin-top: 0.5rem;
+      }
+  
+      .footer-divider {
+          background: rgba(255, 255, 255, 0.1);
+          margin: 1rem 0;
+      }
+  
+      .footer-bottom {
+          text-align: center;
+          padding: 1.5rem 0 0;
+      }
+  
+      /* Mobile Responsive */
+      @media (max-width: 991px) {
+          .footer-main-content {
+              grid-template-columns: 1fr;
+              gap: 2rem;
+              padding: 2rem 0;
+          }
+  
+          .footer-middle {
+              grid-template-columns: 1fr;
+              gap: 1.5rem;
+          }
+  
+          .footer-left {
+              text-align: center;
+          }
+  
+          .footer-contact-info {
+              align-items: center;
+          }
+  
+          .map-container iframe {
+              height: 180px;
+          }
+      }
+  
+      @media (max-width: 768px) {
+          .footer-main-content {
+              gap: 1.5rem;
+          }
+  
+          .footer-hours li {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 0.3rem;
+          }
+  
+          .map-container iframe {
+              height: 160px;
+          }
+      }
+  
+      @media (max-width: 479px) {
+          .footer-main-content {
+              padding: 1.5rem 0;
+          }
+  
+          .map-container iframe {
+              height: 140px;
+          }
+      }
+  </style>
+</div>
+
+<script>
+    // Simple script for any interactive elements
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any interactive functionality here if needed
+        console.log('Services page loaded successfully');
+    });
+</script>
+</body>
+</html>
