@@ -6,7 +6,7 @@
     <meta name="description" content="Dr. P.R. Durai, B.H.M.S., (DELHI), M.D.(ACU) is a dedicated Homeopathic Consultant with years of experience in treating various ailments using natural remedies."/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="shortcut icon" href="logo/logo3.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="logo/logo10.png" type="image/x-icon"/>
     <link rel="apple-touch-icon" href="logo/logo10.png"/>
 
     <link rel="stylesheet"
@@ -739,11 +739,14 @@
             z-index: 1000;
         }
 
+        /* UPDATED: Header contact wrapper - right aligned */
         .header-contact-wrapper {
             display: flex;
             gap: 20px;
             padding: 10px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            justify-content: flex-end; /* Right align the content */
+            align-items: center;
         }
 
         .header-contact-link {
@@ -751,6 +754,9 @@
             text-decoration: none;
             font-size: 14px;
             transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .header-contact-link:hover {
@@ -783,19 +789,22 @@
             color: #2c5aa0 !important;
         }
 
-        /* FOOTER STYLING - BLUE */
+        /* FOOTER STYLING - BLUE with reduced size */
         .footer {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: white;
-            padding: 60px 0 20px;
+            padding: 40px 0 15px; /* Reduced padding */
         }
 
         .footer-title {
             color: white;
+            font-size: 18px; /* Smaller title */
+            margin-bottom: 15px;
         }
 
         .footer-nav-link {
             color: rgba(255, 255, 255, 0.9);
+            font-size: 14px; /* Smaller text */
         }
 
         .footer-nav-link:hover {
@@ -804,15 +813,119 @@
 
         .footer-address {
             color: rgba(255, 255, 255, 0.9);
+            font-size: 14px; /* Smaller text */
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        /* UPDATED: Branch names in white color */
+        .branch-name {
+            color: white !important;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
         }
 
         .divider.footer-divider-1,
         .divider.footer-divider-2 {
             background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0; /* Reduced margin */
         }
 
         .small-print {
             color: rgba(255, 255, 255, 0.8);
+            font-size: 12px; /* Smaller copyright text */
+            text-align: center; /* Centered copyright */
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        /* Centered copyright wrapper */
+        .small-print-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Reduced footer content spacing */
+        .footer-top-content {
+            margin-bottom: 20px;
+        }
+
+        .paragraph-small.footer-top-content {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .footer-grid {
+            margin: 20px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two columns layout */
+            gap: 30px;
+        }
+
+        .footer-nav-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Menu and Clinic Hours in one column */
+            gap: 30px;
+        }
+
+        .footer-nav-box {
+            margin-bottom: 20px;
+        }
+
+        .footer-nav-links {
+            margin-bottom: 10px;
+        }
+
+        .footer-nav-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-logo {
+            height: 40px; /* Smaller logo */
+            width: auto;
+            max-width: 100px;
+        }
+
+        /* Google Maps styling */
+        .footer-maps {
+            grid-column: 2;
+        }
+
+        .maps-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .map-wrapper {
+            margin-bottom: 15px;
+        }
+
+        .map-title {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .footer-map {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .footer-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* BUTTON STYLING - BLUE */
@@ -882,17 +995,18 @@
         /* MOBILE RESPONSIVE STYLES */
         @media (max-width: 991px) {
             .header-contact-wrapper {
-                flex-direction: column;
-                gap: 8px;
+                flex-direction: row;
+                gap: 15px;
                 padding: 12px 0;
-                text-align: center;
+                text-align: right;
+                justify-content: flex-end;
             }
 
             .header-contact-link {
                 font-size: 13px;
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                justify-content: flex-end;
                 gap: 8px;
             }
 
@@ -1079,11 +1193,43 @@
             .scroll-animate.animated {
                 margin-left: 0;
             }
+
+            /* Footer mobile adjustments */
+            .footer {
+                padding: 30px 0 15px;
+            }
+
+            /* Mobile responsive footer grid */
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .footer-nav-wrapper {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .footer-maps {
+                grid-column: 1;
+            }
+
+            .footer-map {
+                height: 180px;
+            }
         }
 
         @media (max-width: 479px) {
+            .header-contact-wrapper {
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-end;
+                text-align: right;
+            }
+
             .header-contact-link {
                 font-size: 12px;
+                justify-content: flex-end;
             }
 
             .header-logo {
@@ -1114,6 +1260,15 @@
                 width: 25px;
                 height: 20px;
             }
+
+            /* Footer mobile adjustments */
+            .footer {
+                padding: 25px 0 10px;
+            }
+
+            .footer-map {
+                height: 150px;
+            }
         }
 
         /* Extra Small Devices */
@@ -1132,6 +1287,88 @@
                 font-size: 12px !important;
             }
         }
+        /* 4-Column Footer Grid */
+.footer-grid-4col {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-column h3 {
+    margin-bottom: 15px;
+}
+
+/* Compact maps for 4-column layout */
+.maps-container-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.map-wrapper-compact {
+    margin-bottom: 15px;
+}
+
+.map-wrapper-compact .map-title {
+    display: block;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.footer-map-compact {
+    width: 100%;
+    height: 150px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+.footer-map-compact iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .footer-grid-4col {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    
+    .footer-map-compact {
+        height: 140px;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-grid-4col {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .footer-map-compact {
+        height: 130px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-grid-4col {
+        gap: 15px;
+    }
+    
+    .footer-map-compact {
+        height: 120px;
+    }
+}
     </style>
 </head>
 <body>
@@ -1146,6 +1383,7 @@
     <!-- Header -->
     <header class="header w-nav" role="banner">
         <div class="container-default w-container">
+            <!-- UPDATED: Header contact links - right aligned -->
             <div class="header-contact-wrapper">
                 <a class="header-contact-link" href="tel:+919940379979">
                     <i class="fa-solid fa-phone"></i> +91 9940379979
@@ -1154,7 +1392,7 @@
                     <i class="fa-solid fa-envelope"></i> contact@doctor.com
                 </a>
             </div>
-       
+           
             <div class="header-wrapper">
                 <div class="split-content header-right">
                     <a class="brand w-nav-brand" href="/" aria-label="Home">
@@ -1189,7 +1427,7 @@
         <div class="container-default w-container">
             <div class="home-hero-wrapper">
                 <div class="split-content home-hero-left">
-                    <div class="subtitle animate-bounceIn">Dr. P.R. Durai</div>
+                    <div class="subtitle animate-bounceIn">Dr. P.R. Durai B.H.M.S. (Delhi), M.D. (ACU)</div>
                     <h1 class="title home-hero highlight-text">A dedicated Homeopathic Consultant you can trust</h1>
                     <p class="paragraph home-hero">B.H.M.S. (Delhi), M.D. (ACU) with years of experience in treating various ailments using natural homeopathic remedies. Committed to providing personalized care for your health and wellness.</p>
                     <a class="button-primary bg-secondary-1 w-button" href="/login">Book an Appointment</a>
@@ -1365,62 +1603,83 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container-default w-container">
-            <div class="top-content footer-top-content">
-                <a class="footer-logo-container w-inline-block" href="/">
-                    <img class="footer-logo" src="logo/log10.png" alt="Sakthi Homeo Clinic Logo" height="50px" width="120px"/>
-                </a>
-                <p class="paragraph-small footer-top-content">Sakthi Homeo Clinic provides expert homeopathic treatment for various ailments using natural remedies with proven results.</p>
+    <!-- Footer with 4-column grid layout -->
+<footer class="footer">
+    <div class="container-default w-container">
+        <div class="top-content footer-top-content">
+            <a class="footer-logo-container w-inline-block" href="/">
+                <img class="footer-logo" src="logo/logo10.png" alt="Sakthi Homeo Clinic Logo" height="40px" width="100px"/>
+            </a>
+            <p class="paragraph-small footer-top-content">Sakthi Homeo Clinic provides expert homeopathic treatment for various ailments using natural remedies with proven results.</p>
+        </div>
+        <div class="divider footer-divider-1"></div>
+        
+        <!-- 4-Column Grid Layout -->
+        <div class="footer-grid-4col">
+            <!-- Column 1: Menu -->
+            <div class="footer-column">
+                <h3 class="title footer-title">Menu</h3>
+                <ul class="footer-nav-links w-list-unstyled" role="list">
+                    <li><a class="footer-nav-link" href="/">Home</a></li>
+                    <li><a class="footer-nav-link" href="/about">About</a></li>
+                    <li><a class="footer-nav-link" href="/service">Services</a></li>
+                    <li><a class="footer-nav-link" href="/contact">Contact</a></li>
+                    <li><a class="footer-nav-link" href="/login">Appointment</a></li>
+                </ul>
             </div>
-            <div class="divider footer-divider-1"></div>
-            <div class="w-layout-grid footer-grid">
-                <div class="footer-nav-wrapper">
-                    <div class="footer-nav-box">
-                        <h2 class="title footer-title">Menu</h2>
-                        <div class="footer-nav-content">
-                            <ul class="footer-nav-links w-list-unstyled" role="list">
-                                <li><a class="footer-nav-link" href="/">Home</a></li>
-                                <li><a class="footer-nav-link" href="/about">About</a></li>
-                                <li><a class="footer-nav-link" href="/service">Services</a></li>
-                                <li><a class="footer-nav-link" href="/contact">Contact</a></li>
-                                <li><a class="footer-nav-link" href="/login">Appointment</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="footer-nav-box">
-                        <h2 class="title footer-title">Clinic Hours</h2>
-                        <div class="footer-nav-content">
-                            <ul class="footer-nav-links last w-list-unstyled" role="list">
-                                <li><p class="paragraph-small footer-address">Monday - Saturday: 3:00 PM - 7:00 PM</p></li>
-                                <li><p class="paragraph-small footer-address">Sunday: Holiday</p></li>
-                                <li><p class="paragraph-small footer-address">Emergency: Available on call</p></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="footer-nav-box last">
-                        <h2 class="title footer-title">Contact</h2>
-                        <div class="footer-nav-content">
-                            <ul class="footer-nav-links last w-list-unstyled" role="list">
-                                <li><p class="paragraph-small footer-address">Dhandapani St, T. Nagar, Chennai, Tamil Nadu 600017</p></li>
-                                <li><a class="footer-nav-link" href="mailto:contact@doctor.com">contact@doctor.com</a></li>
-                                <li><a class="footer-nav-link" href="tel:+919940379979">+91 9940379979</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            
+            <!-- Column 2: Clinic Hours -->
+            <div class="footer-column">
+                <h3 class="title footer-title">Clinic Hours</h3>
+                <ul class="footer-nav-links w-list-unstyled" role="list">
+                    <li><p class="paragraph-small footer-address"><span class="branch-name">T. Nagar Branch:</span> 3:00 PM - 7:00 PM</p></li>
+                    <li><p class="paragraph-small footer-address"><span class="branch-name">West Mambalam Branch:</span> 7:00 PM - 10:00 PM</p></li>
+                    <li><p class="paragraph-small footer-address">Monday - Saturday (Both Branches)</p></li>
+                    <li><p class="paragraph-small footer-address">Sunday: Holiday</p></li>
+                </ul>
             </div>
-            <div class="divider footer-divider-2"></div>
-            <div class="container-default w-container">
-                <div class="small-print-wrapper">
-                    <div class="paragraph-small small-print">
-                        Copyright © Tekksol | All Rights Reserved
+            
+            <!-- Column 3: Contact & Address -->
+            <div class="footer-column">
+                <h3 class="title footer-title">Contact & Address</h3>
+                <ul class="footer-nav-links w-list-unstyled" role="list">
+                    <li><p class="paragraph-small footer-address"><span class="branch-name">T. Nagar Branch:</span><br>Dhandapani St, T. Nagar,<br>Chennai, Tamil Nadu 600017</p></li>
+                    <li><p class="paragraph-small footer-address"><span class="branch-name">West Mambalam Branch:</span><br>9/5, Murthy St, SM Nagar,<br>Vivekanandapuram, West Mambalam,<br>Chennai, Tamil Nadu 600033</p></li>
+                    <li><a class="footer-nav-link" href="mailto:contact@doctor.com">contact@doctor.com</a></li>
+                    <li><a class="footer-nav-link" href="tel:+919940379979">+91 9940379979</a></li>
+                </ul>
+            </div>
+            
+            <!-- Column 4: Locations (Maps) -->
+            <div class="footer-column">
+                <h3 class="title footer-title">Our Locations</h3>
+                <div class="maps-container-compact">
+                    <div class="map-wrapper-compact">
+                        <span class="map-title">T. Nagar Branch</span>
+                        <div class="footer-map-compact">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.987347950761!2d80.22919977489416!3d13.036477187284895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266555fb5ee13%3A0x729d912af434e65b!2sSakthi%20Homeo%20Clinic!5e0!3m2!1sen!2sin!4v1766052979967!5m2!1sen!2sin" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                    <div class="map-wrapper-compact">
+                        <span class="map-title">West Mambalam Branch</span>
+                        <div class="footer-map-compact">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15547.796521582502!2d80.2014010871582!3d13.038910000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266e340b626af%3A0x308e014485f14031!2sSakthi%20Homeo%20Clinic!5e0!3m2!1sen!2sin!4v1766053046263!5m2!1sen!2sin" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </footer>
+        
+        <div class="divider footer-divider-2"></div>
+        <div class="container-default w-container">
+            <div class="small-print-wrapper">
+                <div class="paragraph-small small-print">
+                    Copyright © Tekksol | All Rights Reserved
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 </div>
 
 <!-- Chatbot Integration -->
